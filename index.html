@@ -2194,40 +2194,146 @@ STORY: [story slide idea]
 }
 
 const WC=['var(--pink)','var(--orange)','var(--yellow)','var(--green)'];
+// Intent labels — what each day MEANS in plain English
+const DAY_INTENT=[,'Start a conversation','Say something people feel','Prove you know your lane',
+  'Get people talking','Shift toward money','Show your story','Go behind the scenes',
+  'Build real connection','Bust a myth','Share what actually works','Name the real pain',
+  'Make them feel seen','Challenge the old way','Show the cost of staying stuck','This or that',
+  'Show a transformation','Paint a picture of their future','What changed for you','Who do they become',
+  'What if I told you','Handle the time objection','Handle the money objection','Handle the DIY objection',
+  'Handle the not ready objection','Story: what waiting cost','Make your offer clearly','Show real results',
+  'Create urgency naturally','Answer every question','Your most powerful CTA'];
+
+// Color meaning system
+const INTENT_COLOR={
+  'conversation':'#00a8e8',
+  'growth':'#00ff85',
+  'engagement':'#ffd600',
+  'sales':'#ff2d78'
+};
+function getDayColor(day){
+  if(day<=10) return INTENT_COLOR.conversation;
+  if(day<=20) return INTENT_COLOR.growth;
+  if(day<=25) return INTENT_COLOR.engagement;
+  return INTENT_COLOR.sales;
+}
+function getDayColorLabel(day){
+  if(day<=10) return 'Conversation';
+  if(day<=20) return 'Growth';
+  if(day<=25) return 'Engagement';
+  return 'Sales';
+}
+
 function renderCalendar(){
   if(!calendarData.length) return;
   const today=new Date();today.setHours(0,0,0,0);
   const done=calendarData.filter(d=>d.done).length;
   const missed=calendarData.filter(d=>{const dd=new Date(d.date);dd.setHours(0,0,0,0);return dd<today&&!d.done;});
-  const cur=calendarData.find(d=>{const dd=new Date(d.date);dd.setHours(0,0,0,0);return dd.getTime()===today.getTime();});
+  const cur=calendarData.find(d=>{const dd=new Date(d.date);dd.setHours(0,0,0,0);return dd.getTime()===today.getTime();})||calendarData.find(d=>!d.done);
   let html='';
+
+  // ── TODAY MODE ──────────────────────────────────────
   if(cur){
-    const phase=getPhase(cur.day);
-    html+=`<div class="phase-banner"><div class="phase-title" style="color:${phase.color}">📍 ${phase.name} — Day ${cur.day} of 30</div><div style="font-size:0.72rem;color:var(--muted2);margin-bottom:6px;">${phase.desc}</div><div class="phase-bar-bg"><div class="phase-bar" style="width:${((cur.day/30)*100).toFixed(0)}%;"></div></div></div>`;
+    const col=getDayColor(cur.day);
+    const intent=DAY_INTENT[cur.day]||'Keep going';
+    html+=`<div style="background:linear-gradient(135deg,${col}15,${col}05);border:1px solid ${col}44;border-radius:16px;padding:16px;margin-bottom:14px;">
+      <div style="font-size:0.65rem;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:${col};margin-bottom:4px;">TODAY</div>
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:1.5rem;color:var(--text);line-height:1.1;margin-bottom:6px;">${intent}</div>
+      ${cur.hook?`<div style="font-size:0.82rem;color:var(--muted2);margin-bottom:12px;line-height:1.5;">"${cur.hook}"</div>`:''}
+      <div style="display:flex;gap:8px;">
+        <button onclick="justPostThis(${cur.day-1})" style="flex:2;padding:12px;border-radius:10px;background:${col};border:none;color:#0a0a0f;font-family:'Plus Jakarta Sans',sans-serif;font-size:0.85rem;font-weight:700;cursor:pointer;">Just Post This</button>
+        <button onclick="showDay(${cur.day-1})" style="flex:1;padding:12px;border-radius:10px;background:transparent;border:1px solid ${col}55;color:${col};font-family:'Plus Jakarta Sans',sans-serif;font-size:0.8rem;cursor:pointer;">See Full Post</button>
+      </div>
+    </div>`;
   }
-  html+=`<div class="card"><div style="display:flex;justify-content:space-between;margin-bottom:8px"><span style="font-size:0.72rem;font-weight:700;color:var(--green)">✅ ${done}/30 posted</span><span style="font-size:0.72rem;color:var(--muted2)">${30-done} days remaining</span></div><div style="background:var(--card2);border-radius:4px;height:6px;overflow:hidden"><div style="height:100%;background:linear-gradient(90deg,var(--green),var(--cyan));border-radius:4px;width:${((done/30)*100).toFixed(0)}%;transition:width 0.5s"></div></div></div>`;
-  if(missed.length) html+=`<div style="background:rgba(255,92,92,0.08);border:1px solid rgba(255,92,92,0.25);border-radius:12px;padding:12px;margin-bottom:12px;"><span style="font-size:0.8rem;color:#ff5c5c">🚨 ${missed.length} missed day${missed.length>1?'s':''} — catch up when you can</span></div>`;
-  html+=`<div style="display:flex;gap:8px;margin-bottom:12px"><button onclick="setCalView('grid')" style="flex:1;padding:8px;border-radius:10px;border:1px solid rgba(255,45,120,0.3);background:rgba(255,45,120,0.1);color:var(--pink);font-family:'Plus Jakarta Sans',sans-serif;font-size:0.75rem;font-weight:700;cursor:pointer">📅 Grid</button><button onclick="setCalView('list')" style="flex:1;padding:8px;border-radius:10px;border:1px solid var(--border2);background:transparent;color:var(--muted2);font-family:'Plus Jakarta Sans',sans-serif;font-size:0.75rem;font-weight:700;cursor:pointer">📋 List</button></div>`;
+
+  // ── IDENTITY MOMENTUM BAR ────────────────────────────
+  const momentumMsg=done===0?'Ready when you are':(done===1?'You showed up. That matters.':done<5?`${done} strong posts done. Keep going.`:done<15?`Building real momentum.`:done<25?`You are in the zone.`:'Almost there. Finish strong.');
+  html+=`<div class="card" style="margin-bottom:12px;">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+      <span style="font-size:0.78rem;font-weight:700;color:var(--green);">${momentumMsg}</span>
+      <span style="font-size:0.7rem;color:var(--muted2);">${done} posted</span>
+    </div>
+    <div style="background:var(--card2);border-radius:4px;height:5px;overflow:hidden;">
+      <div style="height:100%;background:linear-gradient(90deg,var(--cyan),var(--green));border-radius:4px;width:${((done/30)*100).toFixed(0)}%;transition:width 0.6s;"></div>
+    </div>
+  </div>`;
+
+  // ── CATCH UP MODE ────────────────────────────────────
+  if(missed.length>=2){
+    html+=`<div style="background:rgba(255,214,0,0.06);border:1px solid rgba(255,214,0,0.25);border-radius:12px;padding:14px;margin-bottom:12px;display:flex;align-items:center;justify-content:space-between;gap:10px;">
+      <div style="font-size:0.8rem;color:var(--yellow);line-height:1.4;">Fell off? No guilt.<br><span style="color:var(--muted2);font-size:0.72rem;">Pick up right where you are.</span></div>
+      <button onclick="catchUpMode()" style="white-space:nowrap;padding:10px 14px;border-radius:10px;background:rgba(255,214,0,0.15);border:1px solid rgba(255,214,0,0.4);color:var(--yellow);font-family:'Plus Jakarta Sans',sans-serif;font-size:0.78rem;font-weight:700;cursor:pointer;">I fell off. Fix it. →</button>
+    </div>`;
+  }
+
+  // ── COLOR LEGEND ─────────────────────────────────────
+  html+=`<div style="display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap;">
+    <span style="font-size:0.65rem;color:#00a8e8;background:rgba(0,168,232,0.1);border:1px solid rgba(0,168,232,0.25);padding:3px 8px;border-radius:6px;">● Conversation</span>
+    <span style="font-size:0.65rem;color:#00ff85;background:rgba(0,255,133,0.1);border:1px solid rgba(0,255,133,0.25);padding:3px 8px;border-radius:6px;">● Growth</span>
+    <span style="font-size:0.65rem;color:#ffd600;background:rgba(255,214,0,0.1);border:1px solid rgba(255,214,0,0.25);padding:3px 8px;border-radius:6px;">● Engagement</span>
+    <span style="font-size:0.65rem;color:#ff2d78;background:rgba(255,45,120,0.1);border:1px solid rgba(255,45,120,0.25);padding:3px 8px;border-radius:6px;">● Sales</span>
+  </div>`;
+
+  // ── VIEW TOGGLE ──────────────────────────────────────
+  html+=`<div style="display:flex;gap:8px;margin-bottom:12px;">
+    <button onclick="setCalView('grid')" style="flex:1;padding:8px;border-radius:10px;border:1px solid rgba(255,45,120,0.3);background:rgba(255,45,120,0.1);color:var(--pink);font-family:'Plus Jakarta Sans',sans-serif;font-size:0.75rem;font-weight:700;cursor:pointer;">📅 Grid</button>
+    <button onclick="setCalView('list')" style="flex:1;padding:8px;border-radius:10px;border:1px solid var(--border2);background:transparent;color:var(--muted2);font-family:'Plus Jakarta Sans',sans-serif;font-size:0.75rem;font-weight:700;cursor:pointer;">📋 List</button>
+  </div>`;
+
   if(calView==='grid') html+=renderGrid();
   else calendarData.forEach(d=>html+=renderDayCard(d));
-  html+=`<div style="display:flex;gap:8px;margin-top:8px"><button onclick="copyAll30()" style="flex:1;padding:12px;border-radius:10px;border:1px solid var(--border2);background:transparent;color:var(--muted2);font-family:'Plus Jakarta Sans',sans-serif;font-size:0.8rem;cursor:pointer">📋 Copy All 30</button><button onclick="document.getElementById('cal-setup').style.display='block'" style="flex:1;padding:12px;border-radius:10px;border:1px solid rgba(255,214,0,0.3);background:rgba(255,214,0,0.06);color:var(--yellow);font-family:'Plus Jakarta Sans',sans-serif;font-size:0.8rem;cursor:pointer">🔄 New Calendar</button></div>`;
+
+  html+=`<div style="display:flex;gap:8px;margin-top:8px;">
+    <button onclick="copyAll30()" style="flex:1;padding:12px;border-radius:10px;border:1px solid var(--border2);background:transparent;color:var(--muted2);font-family:'Plus Jakarta Sans',sans-serif;font-size:0.8rem;cursor:pointer;">📋 Copy All 30</button>
+    <button onclick="document.getElementById('cal-setup').style.display='block'" style="flex:1;padding:12px;border-radius:10px;border:1px solid rgba(255,214,0,0.3);background:rgba(255,214,0,0.06);color:var(--yellow);font-family:'Plus Jakarta Sans',sans-serif;font-size:0.8rem;cursor:pointer;">🔄 New Calendar</button>
+  </div>`;
+
   document.getElementById('cal-out').innerHTML=html;
+}
+
+function justPostThis(idx){
+  const d=calendarData[idx];if(!d)return;
+  const txt=`${d.hook}\n\n${d.caption}\n\n${d.cta}`;
+  navigator.clipboard.writeText(txt).catch(()=>{});
+  toggleDone(idx);
+  const btn=document.querySelector('[onclick="justPostThis('+idx+')"]');
+  if(btn){btn.textContent='✅ Copied & Marked Posted';btn.style.background='var(--green)';btn.style.color='#0a0a0f';}
+}
+
+function catchUpMode(){
+  const today=new Date();today.setHours(0,0,0,0);
+  const next=calendarData.find(d=>!d.done);
+  if(!next){alert('You are all caught up!');return;}
+  const detail=document.getElementById('day-detail');
+  if(detail){
+    detail.innerHTML=`<div style="background:rgba(255,214,0,0.06);border:1px solid rgba(255,214,0,0.25);border-radius:12px;padding:14px;margin-bottom:10px;">
+      <div style="font-size:0.75rem;font-weight:700;color:var(--yellow);margin-bottom:8px;">🔥 Your comeback post — Day ${next.day}</div>
+      ${renderDayCard(next)}
+    </div>`;
+    detail.scrollIntoView({behavior:'smooth',block:'start'});
+  }
 }
 function renderGrid(){
   const today=new Date();today.setHours(0,0,0,0);
-  let html=`<div><div style="display:grid;grid-template-columns:repeat(7,1fr);gap:3px;margin-bottom:4px">`;
-  ['S','M','T','W','T','F','S'].forEach(d=>html+=`<div style="text-align:center;font-size:0.6rem;font-weight:700;color:var(--muted);padding:3px">${d}</div>`);
+  let html=`<div><div style="display:grid;grid-template-columns:repeat(7,1fr);gap:3px;margin-bottom:4px;">`;
+  ['S','M','T','W','T','F','S'].forEach(d=>html+=`<div style="text-align:center;font-size:0.6rem;font-weight:700;color:var(--muted);padding:3px;">${d}</div>`);
   html+=`</div><div class="cal-grid">`;
   const offset=calStartDate.getDay();
   for(let i=0;i<offset;i++) html+=`<div></div>`;
   calendarData.forEach(d=>{
     const dd=new Date(d.date);dd.setHours(0,0,0,0);
-    const isPast=dd<today;const isToday=dd.getTime()===today.getTime();
-    const cls=d.done?'done':(isPast&&!d.done?'missed':(isToday?'today':''));
-    const col=d.done?'var(--green)':(isPast?'#ff5c5c':d.phaseColor||WC[d.week-1]);
-    html+=`<div class="cal-day-cell ${cls}" onclick="showDay(${d.day-1})" style="border-color:${col}33"><div class="cal-day-num" style="color:${col}">${d.day}</div>${d.done?'<div style="font-size:0.55rem">✅</div>':''}</div>`;
+    const isPast=dd<today;
+    const isToday=dd.getTime()===today.getTime();
+    const col=d.done?'var(--green)':(isPast&&!d.done?'#ff5c5c':getDayColor(d.day));
+    const intent=DAY_INTENT[d.day]||'';
+    const shortIntent=intent.split(' ').slice(0,2).join(' ');
+    html+=`<div class="cal-day-cell ${d.done?'done':(isPast&&!d.done?'missed':(isToday?'today':''))}" onclick="showDay(${d.day-1})" style="border-color:${col}55;background:${col}0a;min-height:52px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;">
+      <div style="font-size:0.72rem;font-weight:700;color:${col};">${d.day}</div>
+      <div style="font-size:0.48rem;color:${col}cc;text-align:center;line-height:1.2;padding:0 2px;">${d.done?'✅':shortIntent}</div>
+    </div>`;
   });
-  html+=`</div><div style="display:flex;gap:12px;font-size:0.68rem;color:var(--muted2);margin:8px 0"><span>🟢 Done</span><span>🔴 Missed</span><span style="color:var(--cyan)">Today</span></div><div id="day-detail"></div></div>`;
+  html+=`</div><div id="day-detail" style="margin-top:12px;"></div></div>`;
   return html;
 }
 function showDay(idx){
@@ -2236,25 +2342,44 @@ function showDay(idx){
   if(panel){panel.innerHTML=renderDayCard(d);panel.scrollIntoView({behavior:'smooth',block:'start'});}
 }
 function renderDayCard(d){
-  const wc=d.phaseColor||WC[d.week-1];
+  const col=getDayColor(d.day);
+  const intent=DAY_INTENT[d.day]||d.phase;
+  const label=getDayColorLabel(d.day);
   const cleanTxt=makeClean([d.hook,d.caption,d.cta]);
   const fullId=st(cleanTxt);
   const kitTxt=`HOOK:\n${d.hook}\n\nCAPTION:\n${d.caption}\n\nCTA:\n${d.cta}\n\nREEL IDEA:\n${d.reelIdea}\n\nSTORY IDEA:\n${d.storyIdea}`;
   const kitId=st(kitTxt);
-  let html=`<div class="res-card fade-in" style="margin-bottom:10px;border-left:3px solid ${d.done?'var(--green)':wc}">`;
-  html+=`<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;"><div><span style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;color:${wc}">Day ${d.day}</span><span style="font-size:0.65rem;background:${wc}22;border:1px solid ${wc}44;border-radius:6px;padding:2px 8px;margin-left:8px;color:${wc};font-weight:700;">${d.phase}</span></div><button onclick="toggleDone(${d.day-1})" style="background:${d.done?'rgba(0,255,133,0.15)':'var(--card2)'};border:1px solid ${d.done?'rgba(0,255,133,0.4)':'var(--border2)'};border-radius:8px;padding:5px 10px;color:${d.done?'var(--green)':'var(--muted2)'};font-family:'Plus Jakarta Sans',sans-serif;font-size:0.72rem;font-weight:700;cursor:pointer;">${d.done?'✅ Posted':'Mark Posted'}</button></div>`;
-  if(d.hook) html+=`<div class="res-section"><div class="res-section-lbl" style="color:var(--pink)">🎣 Hook</div><div class="res-section-text" style="font-weight:600;color:var(--text)">${d.hook}</div></div>`;
+  let html=`<div class="res-card fade-in" style="margin-bottom:10px;border-left:3px solid ${d.done?'var(--green)':col};">`;
+
+  // Day header
+  html+=`<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+    <div>
+      <span style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;color:${col};">Day ${d.day}</span>
+      <span style="font-size:0.62rem;background:${col}18;border:1px solid ${col}33;border-radius:6px;padding:2px 8px;margin-left:8px;color:${col};font-weight:700;">${label}</span>
+    </div>
+    <button onclick="toggleDone(${d.day-1})" style="background:${d.done?'rgba(0,255,133,0.15)':'var(--card2)'};border:1px solid ${d.done?'rgba(0,255,133,0.4)':'var(--border2)'};border-radius:8px;padding:5px 10px;color:${d.done?'var(--green)':'var(--muted2)'};font-family:'Plus Jakarta Sans',sans-serif;font-size:0.72rem;font-weight:700;cursor:pointer;">${d.done?'✅ Posted':'Mark Posted'}</button>
+  </div>`;
+
+  // Intent label
+  html+=`<div style="font-size:0.78rem;font-weight:600;color:${col};margin-bottom:10px;line-height:1.3;">${intent}</div>`;
+
+  // The post
+  if(d.hook) html+=`<div class="res-section"><div class="res-section-lbl" style="color:var(--pink);">🎣 Hook</div><div class="res-section-text" style="font-weight:600;color:var(--text);">${d.hook}</div></div>`;
   if(d.caption) html+=`<div class="res-section"><div class="res-section-lbl">✍️ Caption</div><div class="res-section-text">${d.caption.replace(/\n/g,'<br>')}</div></div>`;
-  if(d.cta) html+=`<div class="res-section"><div class="res-section-lbl" style="color:var(--orange)">📣 CTA</div><div class="res-section-text">${d.cta}</div></div>`;
+  if(d.cta) html+=`<div class="res-section"><div class="res-section-lbl" style="color:var(--orange);">📣 CTA</div><div class="res-section-text">${d.cta}</div></div>`;
+
+  // Reel + Story
   if(d.reelIdea||d.storyIdea){
-    html+=`<div style="background:rgba(255,214,0,0.04);border:1px solid rgba(255,214,0,0.15);border-radius:10px;padding:10px;margin-top:8px;">`;
-    html+=`<div style="font-size:0.6rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--yellow);margin-bottom:6px;">★ CONTENT KIT</div>`;
+    html+=`<div style="background:rgba(255,214,0,0.04);border:1px solid rgba(255,214,0,0.15);border-radius:10px;padding:10px;margin-top:8px;">
+      <div style="font-size:0.6rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--yellow);margin-bottom:6px;">★ CONTENT KIT</div>`;
     if(d.reelIdea) html+=`<div style="font-size:0.78rem;color:var(--muted2);margin-bottom:4px;"><span style="color:var(--yellow);font-weight:600;">📹 Reel:</span> ${d.reelIdea}</div>`;
     if(d.storyIdea) html+=`<div style="font-size:0.78rem;color:var(--muted2);"><span style="color:var(--orange);font-weight:600;">📖 Story:</span> ${d.storyIdea}</div>`;
-    html+='</div>';
+    html+=`</div>`;
   }
+
+  // Actions — clean and simple
   html+=`<div class="res-actions">
-    <button class="btn-sm" style="background:var(--grad);color:#fff;border:none;" onclick="doCopy(this,'${fullId}')">📋 Copy Post</button>
+    <button class="btn-sm" style="background:var(--grad);color:#fff;border:none;" onclick="justPostThis(${d.day-1})">📋 Copy Post</button>
     <button class="btn-sm" onclick="doCopy(this,'${kitId}')">📋 Full Kit</button>
     <button class="btn-sm" onclick="doSave('${fullId}','Day ${d.day}')">⭐ Save</button>
   </div></div>`;
