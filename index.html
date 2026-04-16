@@ -1650,15 +1650,17 @@ ${ht?'HASHTAGS: [8-10 hashtags]':''}
     let html='';
     (blocks.length?blocks:[txt]).slice(0,3).forEach((block,i)=>{
       const lines=block.split('\n');
-     const gf=(key)=>{const l=lines.find(x=>x.toUpperCase().startsWith(key.toUpperCase()+':'));return l?l.substring(l.indexOf(':')+1).trim():'';};
-const gml=(key)=>{
-  const m=block.match(new RegExp(key+'[:\\s]*\\n?([\\s\\S]*?)(?=\\n(?:HOOK|CAPTION|CTA|HASHTAGS|ITEM|---|$)|$)','i'));
-  if(m&&m[1].trim()) return m[1].trim();
-  return gf(key);
-};
-const hook=gf('HOOK');const cap=gf('CAPTION');const cta=gf('CTA');const htags=gml('HASHTAGS');
-const cleanTxt=makeClean([hook,cap,cta,htags]);
-const fullId=st(cleanTxt);const hookId=st(hook);const capId=st(cap);const ctaId=st(cta);const htId=st(htags);
+      // Single-line fields
+      const gf=(key)=>{const l=lines.find(x=>x.toUpperCase().startsWith(key.toUpperCase()+':'));return l?l.substring(l.indexOf(':')+1).trim():'';};
+      // Multi-line field — grabs everything after the label until next label or end
+      const gml=(key)=>{
+        const m=block.match(new RegExp(key+'[:\\s]*\\n?([\\s\\S]*?)(?=\\n(?:HOOK|CAPTION|CTA|HASHTAGS|ITEM|---|$)|$)','i'));
+        if(m&&m[1].trim()) return m[1].trim();
+        // fallback: same line after colon
+        return gf(key);
+      };
+      const hook=gf('HOOK');const cap=gf('CAPTION');const cta=gf('CTA');const htags=gml('HASHTAGS');
+      const cleanTxt=makeClean([hook,cap,cta,htags]);
       const fullId=st(cleanTxt);const hookId=st(hook);const capId=st(cap);const ctaId=st(cta);const htId=st(htags);
       html+=`<div class="res-card fade-in"><div class="res-tag">✦ Option ${i+1} · ${p}</div>`;
       if(hook) html+=`<div class="res-section"><div class="res-section-lbl" style="color:var(--pink)">🎣 Hook</div><div class="res-section-text" style="font-weight:600;color:var(--text)">${hook}</div></div>`;
