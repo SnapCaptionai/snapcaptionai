@@ -214,10 +214,15 @@ select option{background:var(--card2);}
         <div class="chip" onclick="tc(this)">Motivational</div>
         <div class="chip" onclick="tc(this)">Educational</div>
         <div class="chip" onclick="tc(this)">Casual</div>
+        <div class="chip" onclick="tc(this)">Conversational</div>
         <div class="chip" onclick="tc(this)">Professional</div>
         <div class="chip" onclick="tc(this)">Storytelling</div>
         <div class="chip" onclick="tc(this)">Blunt</div>
         <div class="chip" onclick="tc(this)">Warm</div>
+        <div class="chip" onclick="tc(this)">Deep</div>
+        <div class="chip" onclick="tc(this)">Inspiring</div>
+        <div class="chip" onclick="tc(this)">Energetic</div>
+        <div class="chip" onclick="tc(this)">Calm</div>
       </div>
     </div>
     <div class="ob-field"><span class="ob-label">Your content goal right now:</span>
@@ -401,9 +406,22 @@ select option{background:var(--card2);}
       <div class="chip" onclick="tc(this)">Motivational</div>
       <div class="chip" onclick="tc(this)">Educational</div>
       <div class="chip" onclick="tc(this)">Casual</div>
+      <div class="chip" onclick="tc(this)">Conversational</div>
       <div class="chip" onclick="tc(this)">Storytelling</div>
       <div class="chip" onclick="tc(this)">Bold</div>
       <div class="chip" onclick="tc(this)">Professional</div>
+      <div class="chip" onclick="tc(this)">Deep</div>
+      <div class="chip" onclick="tc(this)">Inspiring</div>
+      <div class="chip" onclick="tc(this)">Energetic</div>
+      <div class="chip" onclick="tc(this)">Calm</div>
+    </div>
+    <div class="field" style="margin-top:10px;">
+      <span class="sl">🛍️ Product or Offer to Mention (optional)</span>
+      <input type="text" id="cap-product" placeholder="e.g. My 30-day coaching program, Garden to Skin soap..." />
+    </div>
+    <div class="field">
+      <span class="sl">🔗 Link to Include (optional)</span>
+      <input type="text" id="cap-link" placeholder="e.g. snapcaptionai.com, linkinbio..." />
     </div>
     <button class="btn-gen" id="cap-btn" onclick="genCaption()" style="margin-top:12px;"><span>✍️</span> Build My Post</button>
     <div id="cap-out"></div>
@@ -492,6 +510,11 @@ select option{background:var(--card2);}
       <div class="chip" onclick="tc(this)">Motivational</div>
       <div class="chip" onclick="tc(this)">Educational</div>
       <div class="chip" onclick="tc(this)">Storytelling</div>
+      <div class="chip" onclick="tc(this)">Conversational</div>
+      <div class="chip" onclick="tc(this)">Deep</div>
+      <div class="chip" onclick="tc(this)">Inspiring</div>
+      <div class="chip" onclick="tc(this)">Energetic</div>
+      <div class="chip" onclick="tc(this)">Calm</div>
     </div>
     <button class="btn-gen" id="scr-btn" onclick="genScript()" style="margin-top:12px;"><span>🎬</span> Write My Script</button>
     <div id="scr-out"></div>
@@ -515,7 +538,20 @@ select option{background:var(--card2);}
       <div class="chip" onclick="tc(this)">Tips Format</div>
       <div class="chip" onclick="tc(this)">Before After</div>
       <div class="chip" onclick="tc(this)">React Style</div>
+      <div class="chip" onclick="tc(this)">Conversational</div>
+      <div class="chip" onclick="tc(this)">Deep</div>
+      <div class="chip" onclick="tc(this)">Inspiring</div>
+      <div class="chip" onclick="tc(this)">Energetic</div>
+      <div class="chip" onclick="tc(this)">Calm</div>
     </div>
+      <div class="field">
+        <span class="sl">🛍️ Product to Feature (optional)</span>
+        <input type="text" id="sho-product" placeholder="e.g. My soap collection, coaching program..." />
+      </div>
+      <div class="field">
+        <span class="sl">🔗 Link (optional)</span>
+        <input type="text" id="sho-link" placeholder="e.g. snapcaptionai.com" />
+      </div>
     <button class="btn-gen" id="sho-btn" onclick="genShorts()" style="margin-top:12px;"><span>📱</span> Write My Short</button>
     <div id="sho-out"></div>
   </div>
@@ -625,6 +661,13 @@ select option{background:var(--card2);}
   <div class="sp">
     <div class="pt">LinkedIn Pro</div>
     <div class="ps">Thought leadership posts that build authority and win contracts.</div>
+    <div id="li-pro-gate" style="display:none;background:rgba(0,119,181,0.06);border:1px solid rgba(0,119,181,0.25);border-radius:14px;padding:16px;margin-bottom:14px;text-align:center;">
+      <div style="font-size:1.4rem;margin-bottom:6px;">🔒</div>
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;color:var(--cyan);margin-bottom:6px;">Pro Feature</div>
+      <div style="font-size:0.78rem;color:var(--muted2);margin-bottom:12px;">LinkedIn thought leadership posts that build authority, attract clients, and win contracts. Unlock with Pro.</div>
+      <button class="btn-gen" onclick="openUpgrade()" style="padding:12px 24px;font-size:0.85rem;background:linear-gradient(135deg,#0077b5,#00a0dc);">Unlock Pro — $7.99/mo</button>
+    </div>
+    <div id="li-content">
     <div class="li-badge">💼 LINKEDIN OPTIMIZED</div>
     <div class="field">
       <span class="sl">Topic or Insight</span>
@@ -644,6 +687,7 @@ select option{background:var(--card2);}
     </div>
     <button class="btn-gen" id="li-btn" onclick="genLinkedIn()" style="margin-top:12px;"><span>💼</span> Write LinkedIn Post</button>
     <div id="li-out"></div>
+    </div><!-- end li-content -->
   </div>
 </div>
 
@@ -652,6 +696,12 @@ select option{background:var(--card2);}
   <div class="sp">
     <div class="pt">30-Day Calendar</div>
     <div class="ps">A 30-day content path built around YOUR business, voice, and sales goal. Not random ideas — a full sales sequence disguised as content.</div>
+    <div id="cal-pro-gate" style="display:none;background:rgba(255,214,0,0.06);border:1px solid rgba(255,214,0,0.25);border-radius:14px;padding:16px;margin-bottom:14px;text-align:center;">
+      <div style="font-size:1.4rem;margin-bottom:6px;">🔒</div>
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;color:var(--yellow);margin-bottom:6px;">Pro Feature</div>
+      <div style="font-size:0.78rem;color:var(--muted2);margin-bottom:12px;">Upgrade to Pro to unlock your personalized 30-day content sales path.</div>
+      <button class="btn-gen" onclick="openUpgrade()" style="padding:12px 24px;font-size:0.85rem;">Unlock Pro — $7.99/mo</button>
+    </div>
     <div id="cal-setup">
       <div class="card" style="border-color:rgba(255,214,0,0.2);background:rgba(255,214,0,0.04);">
         <div style="font-size:0.75rem;font-weight:700;color:var(--yellow);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:10px;">★ Pro Feature — Build Your Personalized Calendar</div>
@@ -756,17 +806,77 @@ select option{background:var(--card2);}
 
     <!-- AGENCY MODE -->
     <div class="card" style="border-color:rgba(0,212,255,0.2);margin-bottom:12px;">
-      <span class="sl">💼 AGENCY MODE (PRO)</span>
-      <div style="font-size:0.76rem;color:var(--muted2);margin-bottom:10px;">Manage multiple client voices. Each client gets their own voice profile.</div>
+      <span class="sl">💼 AGENCY MODE <span style="background:var(--grad);color:#fff;font-size:0.6rem;padding:2px 7px;border-radius:8px;font-weight:700;margin-left:4px;">PRO</span></span>
+      <div style="font-size:0.76rem;color:var(--muted2);margin-bottom:10px;">Manage multiple client voices. Each client gets their own tone, brand, and content style.</div>
       <div id="client-list" style="margin-bottom:10px;"></div>
-      <div style="display:flex;gap:8px;">
+      <div id="agency-gate-msg" style="display:none;background:rgba(255,45,120,0.06);border:1px solid rgba(255,45,120,0.2);border-radius:10px;padding:12px;text-align:center;margin-bottom:8px;">
+        <div style="font-size:0.78rem;color:var(--muted2);margin-bottom:10px;">🔒 Upgrade to Pro to add and manage client profiles.</div>
+        <button class="btn-gen" onclick="openUpgrade()" style="padding:10px 20px;font-size:0.8rem;">Unlock Pro — $7.99/mo</button>
+      </div>
+      <div id="agency-add-row" style="display:flex;gap:8px;">
         <input type="text" id="new-client-name" placeholder="Client name or brand" style="flex:1;" />
         <button class="btn-sm" onclick="addClient()" style="white-space:nowrap;">+ Add Client</button>
       </div>
-      <div style="font-size:0.68rem;color:var(--muted);margin-top:8px;">Upgrade to Pro to unlock unlimited client profiles</div>
     </div>
 
     <!-- VOICE PROFILE -->
+    <div class="card">
+      <span class="sl">🎙️ YOUR VOICE PROFILE</span>
+      <div class="field"><span class="sl">Your Name / Brand</span><input type="text" id="prof-name" placeholder="e.g. Tanya / FitLife Co." onchange="saveProfile()" /></div>
+      <div class="field"><span class="sl">What You Offer</span><input type="text" id="prof-brand" placeholder="e.g. fitness coaching, soaps, real estate" onchange="saveProfile()" /></div>
+      <div class="field"><span class="sl">Your Niche</span><input type="text" id="prof-niche" placeholder="e.g. women over 40, small business owners" onchange="saveProfile()" /></div>
+    </div>
+    <div class="card">
+      <span class="sl">🎙️ CONTENT VOICE</span>
+      <span class="sl" style="margin-top:8px;">Tone</span>
+      <div class="chips" id="voice-tone-chips">
+        <div class="chip" onclick="tc(this)">Short</div>
+        <div class="chip" onclick="tc(this)">Long-form</div>
+        <div class="chip" onclick="tc(this)">Blunt</div>
+        <div class="chip" onclick="tc(this)">Soft</div>
+        <div class="chip" onclick="tc(this)">Polished</div>
+        <div class="chip" onclick="tc(this)">Raw</div>
+        <div class="chip" onclick="tc(this)">No Emoji</div>
+        <div class="chip" onclick="tc(this)">Emoji OK</div>
+        <div class="chip" onclick="tc(this)">Casual</div>
+        <div class="chip" onclick="tc(this)">Expert</div>
+      </div>
+      <div class="field" style="margin-top:10px;">
+        <span class="sl">Describe Your Voice in Your Own Words</span>
+        <textarea id="voice-desc" rows="3" placeholder="e.g. I talk like I'm speaking to a friend over coffee — direct, no fluff, real examples, sometimes funny, never fake inspirational"></textarea>
+      </div>
+      <button class="btn-gen" onclick="saveVoiceProfile()" style="margin-top:4px;">Save My Voice</button>
+      <div id="voice-saved-msg" style="text-align:center;margin-top:8px;font-size:0.78rem;color:var(--green);"></div>
+    </div>
+
+    <!-- CONTENT BANK -->
+    <div class="card">
+      <span class="sl">📚 YOUR CONTENT BANK</span>
+      <div style="font-size:0.76rem;color:var(--muted2);margin-bottom:10px;">The more you add here, the more personal your content becomes. This is your secret weapon.</div>
+      <div class="field"><span class="sl">Your Best Customer Result</span><textarea id="bank-result" rows="2" placeholder="e.g. Helped a client go from 200 to 5,000 followers in 90 days"></textarea></div>
+      <div class="field"><span class="sl">Your Customer's Biggest Pain</span><textarea id="bank-pain" rows="2" placeholder="e.g. They never know what to post and waste hours staring at blank screens"></textarea></div>
+      <div class="field"><span class="sl">Most Common Objection</span><input type="text" id="bank-objection" placeholder="e.g. Too expensive, no time, can do it myself" /></div>
+      <div class="field"><span class="sl">Your Unique Belief or Method</span><textarea id="bank-belief" rows="2" placeholder="e.g. I believe you don't need to be perfect to post — you need to be present"></textarea></div>
+      <button class="btn-gen" onclick="saveContentBank()" style="margin-top:4px;">Save Content Bank</button>
+      <div id="bank-saved-msg" style="text-align:center;margin-top:8px;font-size:0.78rem;color:var(--green);"></div>
+    </div>
+
+    <!-- AI ENGINE -->
+    <div class="card">
+      <span class="sl">🤖 AI ENGINE</span>
+      <div style="font-size:0.76rem;color:var(--green);margin-bottom:10px;padding:8px;background:rgba(0,255,133,0.07);border-radius:8px;border:1px solid rgba(0,255,133,0.2);">✅ Powered by server — no API keys needed in your app</div>
+      <div class="eng-card active-eng" id="eng-gemini" onclick="selectEngine('gemini')">
+        <div style="display:flex;justify-content:space-between;align-items:center;"><span style="font-weight:700;font-size:0.88rem;">Google Gemini 2.5</span><span class="eng-badge" id="badge-gemini" style="background:rgba(0,255,133,0.15);color:var(--green);border-color:rgba(0,255,133,0.3);">ACTIVE</span></div>
+        <div style="font-size:0.75rem;color:var(--muted2);margin-top:4px;">Fast, affordable, great for creators</div>
+      </div>
+      <div style="margin-top:8px;"></div>
+      <div class="eng-card" id="eng-openai" onclick="selectEngine('openai')">
+        <div style="display:flex;justify-content:space-between;align-items:center;"><span style="font-weight:700;font-size:0.88rem;">OpenAI GPT-4o</span><span class="eng-badge" id="badge-openai" style="background:rgba(0,255,133,0.15);color:var(--green);border-color:rgba(0,255,133,0.3);">ACTIVE</span></div>
+        <div style="font-size:0.75rem;color:var(--muted2);margin-top:4px;">Premium output quality</div>
+      </div>
+    </div>
+
+        <!-- VOICE PROFILE -->
     <div class="card">
       <span class="sl">🎙️ YOUR VOICE PROFILE</span>
       <div class="field"><span class="sl">Your Name / Brand</span><input type="text" id="prof-name" placeholder="e.g. Tanya / FitLife Co." onchange="saveProfile()" /></div>
@@ -1136,7 +1246,7 @@ select option{background:var(--card2);}
 
 <script>
 // ═══ OWNER KEY — paste your Gemini key here to power all users ═══
-const OWNER_KEY = ''; // e.g. 'AIzaSy...' — users never need to add their own key
+// API keys are stored in Vercel env vars only (GEMINI_API_KEY, OPENAI_API_KEY)
 
 // ═══ TEXT STORE — fixes button bugs with special characters ═══
 const TS = {}; let TC = 0;
@@ -1161,6 +1271,7 @@ let lastDay = localStorage.getItem('sc2-lastday') || '';
 let saved = JSON.parse(localStorage.getItem('sc2-saved') || '[]');
 let creatorMode = localStorage.getItem('sc2-creator') === 'true';
 let activeEngine = localStorage.getItem('sc2-engine') || 'gemini';
+// engineKeys removed — keys now live in Vercel environment variables only
 let voiceProfile = JSON.parse(localStorage.getItem('sc2-voice') || '{}');
 let profile = JSON.parse(localStorage.getItem('sc2-profile') || '{}');
 let contentBank = JSON.parse(localStorage.getItem('sc2-bank') || '{}');
@@ -1172,10 +1283,7 @@ let calStartDate = new Date();
 let calWeekFilter = 0;
 let calView = 'grid';
 let wtpState = {step:1,type:'',creator:'',tone:''};
-const engineKeys = {
-  openai: localStorage.getItem('sc2-key-openai') || '',
-  gemini: localStorage.getItem('sc2-key-gemini') || ''
-};
+// API keys are server-side only (Vercel env vars)
 
 // ═══ INIT ═══
 const today = new Date().toDateString();
@@ -1277,6 +1385,22 @@ function go(id){
   if(id==='saved') rSaved();
   if(id==='settings') initSettings();
   if(id==='home'){rHome();rLim();}
+  if(id==='calendar'){
+    const gate=document.getElementById('cal-pro-gate');
+    const setup=document.getElementById('cal-setup');
+    if(gate&&setup){
+      if(creatorMode){gate.style.display='none';setup.style.display='block';}
+      else{gate.style.display='block';setup.style.display='none';}
+    }
+  }
+  if(id==='linkedin'){
+    const gate=document.getElementById('li-pro-gate');
+    const content=document.getElementById('li-content');
+    if(gate&&content){
+      if(creatorMode){gate.style.display='none';content.style.display='block';}
+      else{gate.style.display='block';content.style.display='none';}
+    }
+  }
 }
 
 // ═══ UI HELPERS ═══
@@ -1310,31 +1434,31 @@ function getVoiceContext(){
   return ctx;
 }
 
-// ═══ AI ENGINE — backend powers all users ═══
+// ═══ AI ENGINE — all calls go through Vercel backend ═══
+// Keys live in Vercel env vars: GEMINI_API_KEY and/or OPENAI_API_KEY
 async function ai(prompt){
-  const vc = getVoiceContext();
-  const fullPrompt = (vc ? vc + '\n\n' : '') + ANTI_GENERIC + '\n\n' + prompt;
-
-  const engine = activeEngine === 'openai' ? 'openai' : 'gemini';
-
-  const r = await fetch('/api/generate', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      prompt: fullPrompt,
-      engine
-    })
-  });
-
-  const data = await r.json();
-
-  if (!r.ok) {
-    throw new Error(data?.error || 'Request failed');
+  const vc=getVoiceContext();
+  const fullPrompt=(vc?vc+'\n\n':'')+ANTI_GENERIC+'\n\n'+prompt;
+  try{
+    const r=await fetch('/api/generate',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({prompt:fullPrompt,engine:activeEngine})
+    });
+    if(!r.ok){
+      const err=await r.json().catch(()=>({error:'Server error '+r.status}));
+      throw new Error(err.error||'Server error');
+    }
+    const d=await r.json();
+    if(!d.text) throw new Error('No response from server');
+    return clean(d.text);
+  }catch(e){
+    // If running locally without backend, show helpful message
+    if(e.message.includes('Failed to fetch')||e.message.includes('NetworkError')){
+      throw new Error('Cannot reach server. Make sure you have deployed to Vercel with your API keys set.');
+    }
+    throw e;
   }
-
-  return clean(data.text || '');
 }
 
 // ═══ AI HOOK SCORING ═══
@@ -1446,12 +1570,8 @@ HASHTAGS
     document.getElementById('quick-out').innerHTML=html;
     rec();
   }catch(e){
-   document.getElementById('quick-out').innerHTML = `
-  <div class="res-card" style="color:#ff5c5c">
-    ❌ ${e.message}<br><br>
-    <small>Something went wrong. Please try again.</small>
-  </div>
-`;
+    document.getElementById('quick-out').innerHTML=`<div class="res-card" style="color:#ff5c5c">❌ ${e.message}<br><br><small>Make sure your Vercel deployment has GEMINI_API_KEY set in environment variables.</small></div>`;
+  }
   setBtn('quick-btn',false,'<span>⚡</span> Create Standout Content');
 }
 
@@ -1512,8 +1632,11 @@ async function genCaption(){
   const ht=document.getElementById('cap-ht').value==='yes';
   setBtn('cap-btn',true,'<span>✍️</span> Build My Post');
   document.getElementById('cap-out').innerHTML='';
+  const product=document.getElementById('cap-product')?.value.trim()||'';
+  const link=document.getElementById('cap-link')?.value.trim()||'';
+  const prodNote=product?`\nNaturally weave in a mention of: "${product}"${link?' — link: '+link:''}. Sound like a friend recommending it, not an ad.`:'';
   const prompt=`Write 3 complete ${p} post packages for: "${d}"
-Goal: ${goal} | Tone: ${tone}
+Goal: ${goal} | Tone: ${tone}${prodNote}
 For each write EXACTLY:
 ITEM[number]
 HOOK: [scroll-stopping opener]
@@ -1558,7 +1681,10 @@ async function genHooks(){
   const d=document.getElementById('hook-in').value.trim()||'a helpful tip for creators';
   setBtn('hook-btn',true,'<span>🎣</span> Write My Hooks');
   document.getElementById('hook-out').innerHTML='<div class="res-card" style="text-align:center;padding:20px"><div class="spin" style="margin:0 auto"></div><div style="margin-top:10px;font-size:0.8rem;color:var(--muted2)">Writing and scoring hooks...</div></div>';
-  const prompt=`Write 6 scroll-stopping ${p} hooks for: "${d}"
+  const product=document.getElementById('hook-product')?.value.trim()||'';
+  const link=document.getElementById('hook-link')?.value.trim()||'';
+  const prodNote=product?' Subtly hint at: "'+product+'"'+(link?' ('+link+')':'')+'.':'';
+  const prompt=`Write 6 scroll-stopping ${p} hooks for: "${d}" ${prodNote}
 Style: ${style}
 Each must stop the scroll. No clichés. Each distinct.
 Format EXACTLY:
@@ -1668,7 +1794,10 @@ async function genShorts(){
   const vibe=gtones('sho-vibe');
   setBtn('sho-btn',true,'<span>📱</span> Write My Short');
   document.getElementById('sho-out').innerHTML='';
-  const prompt=`Write a punchy 60-second ${vibe} script for: "${topic}"
+  const product=document.getElementById('sho-product')?.value.trim()||'';
+  const link=document.getElementById('sho-link')?.value.trim()||'';
+  const prodNote=product?`\n\nNaturally include a mention of: "${product}"${link?' — link: '+link:''}. Make it feel organic.`:'';
+  const prompt=`Write a punchy 60-second ${vibe} script for: "${topic}"${prodNote}
 Format EXACTLY:
 VISUAL CUE
 [what they see first]
@@ -1813,6 +1942,7 @@ Format as BIO1, BIO2, BIO3 with a line break between each.`;
 
 // ═══ LINKEDIN PRO ═══
 async function genLinkedIn(){
+  if(!creatorMode){openUpgrade();return;}
   if(!canGen()) return;
   const topic=document.getElementById('li-in').value.trim()||'a business lesson I learned';
   const type=gplat('li-type');
@@ -1861,7 +1991,23 @@ const PHASE_CONFIG=[
 function getPhase(dayNum){return PHASE_CONFIG.find(p=>p.days.includes(dayNum))||PHASE_CONFIG[0];}
 
 async function genCalendar(){
-  if(!canGen()) return;
+  // 30-Day Calendar is a Pro-only feature
+  if(!creatorMode){
+    openUpgrade();
+    // Show a teaser so they know what they are unlocking
+    document.getElementById('cal-out').innerHTML=`
+      <div class="res-card" style="text-align:center;padding:24px;border-color:rgba(255,214,0,0.3);background:rgba(255,214,0,0.04);">
+        <div style="font-size:2rem;margin-bottom:10px;">🗓️</div>
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:1.3rem;color:var(--yellow);margin-bottom:8px;">30-Day Conversion Calendar</div>
+        <div style="font-size:0.82rem;color:var(--muted2);line-height:1.7;margin-bottom:16px;">
+          A fully personalized 30-day sales funnel disguised as content.<br>
+          Hook → Authority → Pain → Desire → Objection → Conversion.<br>
+          Built around your business, your voice, your offer.
+        </div>
+        <div style="font-size:0.75rem;color:var(--yellow);font-weight:700;">Unlock with Pro — $7.99/mo</div>
+      </div>`;
+    return;
+  }
   const niche=document.getElementById('cal-niche').value.trim()||'content creator';
   const brand=document.getElementById('cal-brand').value.trim()||'Creator';
   const plat=gplat('cal-prow');
@@ -2043,10 +2189,10 @@ function deleteSaved(i){saved.splice(i,1);sv();rSaved();rHome();}
 
 // ═══ SETTINGS ═══
 function initSettings(){
+  // Engine selection only — no API keys needed in browser
   ['gemini','openai'].forEach(e=>{
-    const k=engineKeys[e];const b=document.getElementById('badge-'+e);const inp=document.getElementById('key-'+e);
-    if(inp&&k) inp.value=k;
-    if(b&&k){b.textContent='READY';b.classList.remove('off');}
+    const b=document.getElementById('badge-'+e);
+    if(b){b.textContent='ACTIVE';b.style.color='var(--green)';}
   });
   const vd=document.getElementById('voice-desc');if(vd&&voiceProfile.desc) vd.value=voiceProfile.desc;
   if(voiceProfile.tone){document.querySelectorAll('#voice-tone-chips .chip').forEach(c=>{if(voiceProfile.tone.includes(c.textContent)) c.classList.add('on');});}
@@ -2059,20 +2205,25 @@ function initSettings(){
   if(contentBank.belief) document.getElementById('bank-belief').value=contentBank.belief;
   if(creatorMode){const sc=document.getElementById('set-creator');if(sc){sc.textContent='Unlocked ✅';sc.style.color='var(--green)';}}
   if(document.getElementById('watermark-toggle')) document.getElementById('watermark-toggle').checked=watermarkOn;
-  if(OWNER_KEY){
-    const engCard=document.getElementById('eng-gemini');
-    if(engCard) engCard.querySelector('.eng-badge').textContent='ACTIVE';
-  }
+  // All engines active via server-side keys
+  const engCard=document.getElementById('eng-gemini');
+  if(engCard){const b=engCard.querySelector('.eng-badge');if(b) b.textContent='ACTIVE';}
   renderClients();rHome();
+  // Show/hide agency gate based on plan
+  const agencyGate=document.getElementById('agency-gate-msg');
+  const agencyAdd=document.getElementById('agency-add-row');
+  if(agencyGate&&agencyAdd){
+    if(creatorMode){agencyGate.style.display='none';agencyAdd.style.display='flex';}
+    else{agencyGate.style.display='block';agencyAdd.style.display='none';}
+  }
   document.querySelectorAll('.eng-card').forEach(c=>c.classList.remove('active-eng'));
   const ae=document.getElementById('eng-'+activeEngine);if(ae) ae.classList.add('active-eng');
 }
 function saveKey(engine){
-  const k=document.getElementById('key-'+engine)?.value.trim();
-  if(k){engineKeys[engine]=k;localStorage.setItem('sc2-key-'+engine,k);const b=document.getElementById('badge-'+engine);if(b){b.textContent='READY';b.classList.remove('off');}}
+  // Keys are now managed in Vercel environment variables, not in the browser
+  alert('API keys are managed securely on the server. No action needed.');
 }
 function selectEngine(engine){
-  // removed key check - backend handles API key now }
   activeEngine=engine;localStorage.setItem('sc2-engine',engine);
   document.querySelectorAll('.eng-card').forEach(c=>c.classList.remove('active-eng'));
   document.getElementById('eng-'+engine)?.classList.add('active-eng');
@@ -2109,6 +2260,7 @@ function renderClients(){
   html+='</div>';cl.innerHTML=html;
 }
 function addClient(){
+  if(!creatorMode){openUpgrade();return;}
   const name=document.getElementById('new-client-name').value.trim();
   if(!name)return;
   clients.push({name,voice:{},profile:{}});
@@ -2200,7 +2352,7 @@ function goToStripe(){
 
 // ═══ CLEAR DATA ═══
 function clearAllData(){
-  if(confirm('Clear all saved data?')){
+  if(confirm('Clear all saved data? (API keys will NOT be deleted)')){
     ['sc2-uses','sc2-usesdate','sc2-gen','sc2-streak','sc2-lastday','sc2-saved','sc2-creator','sc2-voice','sc2-profile','sc2-bank','sc2-onboarded','sc2-clients','sc2-watermark'].forEach(k=>localStorage.removeItem(k));
     location.reload();
   }
