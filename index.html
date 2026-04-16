@@ -261,7 +261,7 @@ select option{background:var(--card2);}
     <div class="ob-sub">Your AI content studio that learns your voice. Let's set you up in 60 seconds so every piece of content sounds like YOU — not like a robot.</div>
     <div class="ob-field"><span class="ob-label">What is your name or brand?</span><input type="text" id="ob-name" placeholder="e.g. Sarah / FitWithSarah" /></div>
     <div class="ob-field"><span class="ob-label">What do you sell or offer?</span><input type="text" id="ob-offer" placeholder="e.g. fitness coaching, handmade soaps, real estate" /></div>
-    <div class="ob-field"><span class="ob-label">Who is your ideal customer?</span><input type="text" id="ob-customer" placeholder="e.g. busy moms who want to free time" /></div>
+    <div class="ob-field"><span class="ob-label">Who is your ideal customer?</span><input type="text" id="ob-customer" placeholder="e.g. busy moms who want to lose weight" /></div>
     <button class="ob-btn" onclick="obNext(2)">Next — Set Your Voice →</button>
     <span class="ob-skip" onclick="skipOnboard()">Skip setup for now</span>
   </div>
@@ -488,7 +488,7 @@ select option{background:var(--card2);}
     </div>
     <div class="field" style="margin-top:10px;">
       <span class="sl">🛍️ Product or Offer to Mention (optional)</span>
-      <input type="text" id="cap-product" placeholder="e.g. My 30-day coaching program, beauty salon..." />
+      <input type="text" id="cap-product" placeholder="e.g. My 30-day coaching program, Garden to Skin soap..." />
     </div>
     <div class="field">
       <span class="sl">🔗 Link to Include (optional)</span>
@@ -815,7 +815,7 @@ select option{background:var(--card2);}
         <div id="cal-goal-tag" style="display:inline-block;font-size:0.7rem;font-weight:700;padding:4px 12px;border-radius:8px;margin-bottom:14px;"></div>
         <div class="field">
           <span class="sl">Your name or brand</span>
-          <input type="text" id="cal-brand" placeholder="e.g. Gloria / Cake or Pies" />
+          <input type="text" id="cal-brand" placeholder="e.g. Shatica / Infinite Storefront" />
         </div>
         <div class="field">
           <span class="sl">What do you post about?</span>
@@ -1603,6 +1603,23 @@ function makeClean(parts){
   return watermarkText(parts.filter(Boolean).join('\n\n'));
 }
 
+// Ensure hashtags always have # prefix
+function cleanHashtags(text){
+  if(!text) return '';
+  // Split by spaces, newlines, commas
+  return text.split(/[\s,\n]+/)
+    .filter(Boolean)
+    .map(tag=>{
+      tag=tag.trim();
+      if(!tag) return '';
+      // Add # if missing
+      if(!tag.startsWith('#')) tag='#'+tag;
+      return tag;
+    })
+    .filter(Boolean)
+    .join(' ');
+}
+
 // ═══ REFINE BUTTONS — uses text store ═══
 function refineHTML(id){
   return `<div class="refine-row">
@@ -1653,7 +1670,7 @@ HASHTAGS
   try{
     const txt=await ai(prompt);
     const get=(key)=>{const m=txt.match(new RegExp(key+'[:\\s]*\\n([\\s\\S]*?)(?=\\n(?:HOOK|CAPTION|CTA|HASHTAGS)|$)','i'));return m?m[1].trim():'';};
-    const hook=get('HOOK');const cap=get('CAPTION');const cta=get('CTA');const ht=get('HASHTAGS');
+    const hook=get('HOOK');const cap=get('CAPTION');const cta=get('CTA');const ht=cleanHashtags(get('HASHTAGS'));
     const cleanTxt=makeClean([hook,cap,cta,ht]);
     const fullId=st(cleanTxt);
     const hookId=st(hook);const capId=st(cap);const ctaId=st(cta);const htId=st(ht);
@@ -1703,7 +1720,7 @@ HASHTAGS
   try{
     const txt=await ai(prompt);
     const get=(key)=>{const m=txt.match(new RegExp(key+'[:\\s]*\\n([\\s\\S]*?)(?=\\n(?:HOOK|CAPTION|CTA|HASHTAGS)|$)','i'));return m?m[1].trim():'';};
-    const hook=get('HOOK');const cap=get('CAPTION');const cta=get('CTA');const ht=get('HASHTAGS');
+    const hook=get('HOOK');const cap=get('CAPTION');const cta=get('CTA');const ht=cleanHashtags(get('HASHTAGS'));
     const cleanTxt=makeClean([hook,cap,cta,ht]);
     const fullId=st(cleanTxt);
     let html=`<div class="res-card fade-in"><div class="res-tag">✦ Your Post</div>`;
@@ -1760,7 +1777,7 @@ ${ht?'HASHTAGS: [8-10 hashtags]':''}
         // fallback: same line after colon
         return gf(key);
       };
-      const hook=gf('HOOK');const cap=gf('CAPTION');const cta=gf('CTA');const htags=gml('HASHTAGS');
+      const hook=gf('HOOK');const cap=gf('CAPTION');const cta=gf('CTA');const htags=cleanHashtags(gml('HASHTAGS'));
       const cleanTxt=makeClean([hook,cap,cta,htags]);
       const fullId=st(cleanTxt);const hookId=st(hook);const capId=st(cap);const ctaId=st(cta);const htId=st(htags);
       html+=`<div class="res-card fade-in"><div class="res-tag">✦ Option ${i+1} · ${p}</div>`;
@@ -2080,7 +2097,7 @@ HASHTAGS
   try{
     const txt=await ai(prompt);
     const get=(key)=>{const m=txt.match(new RegExp(key+'[:\\s]*\\n([\\s\\S]*?)(?=\\n(?:OPENING LINE|BODY|CLOSING|HASHTAGS)|$)','i'));return m?m[1].trim():'';};
-    const open=get('OPENING LINE');const body=get('BODY');const close=get('CLOSING');const ht=get('HASHTAGS');
+    const open=get('OPENING LINE');const body=get('BODY');const close=get('CLOSING');const ht=cleanHashtags(get('HASHTAGS'));
     const cleanTxt=makeClean([open,body,close,ht]);
     const fullId=st(cleanTxt);
     let html=`<div class="res-card fade-in"><div class="li-badge">💼 LINKEDIN</div><div class="res-tag">✦ ${type}</div>`;
