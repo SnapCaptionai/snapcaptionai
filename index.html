@@ -1318,6 +1318,20 @@ function sv(){
 function rec(){ totalGen++; uses++; sv(); rHome(); rLim(); }
 function canGen(){
   if(creatorMode) return true;
+  if(uses > 0 && uses % 5 === 0){
+    showAdPrompt();
+  }
+  if(uses >= FREE_LIMIT){ showEmailCapture(); return false; }
+  return true;
+}
+
+function showAdPrompt(){
+  const toast=document.createElement('div');
+  toast.style.cssText='position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:#1a1a26;border:1px solid rgba(255,45,120,0.4);border-radius:12px;padding:12px 20px;font-size:0.8rem;color:#f0f0f8;z-index:9999;text-align:center;box-shadow:0 4px 20px rgba(0,0,0,0.4);width:85%;max-width:320px;';
+  toast.innerHTML='📺 Ad playing on mobile<br><span style="color:var(--pink);font-weight:700;cursor:pointer;" onclick="openUpgrade()">Skip ads forever — Upgrade to Pro →</span>';
+  document.body.appendChild(toast);
+  setTimeout(()=>toast.remove(), 4000);
+}
   if(uses >= FREE_LIMIT){ showEmailCapture(); return false; }
   return true;
 }
