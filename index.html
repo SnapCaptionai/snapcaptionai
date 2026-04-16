@@ -483,6 +483,10 @@ select option{background:var(--card2);}
           <option value="60-second" selected>60 seconds</option>
           <option value="3-minute">3 minutes</option>
           <option value="5-minute">5 minutes</option>
+          <option value="10-minute">10 minutes</option>
+          <option value="15-minute">15 minutes</option>
+          <option value="20-minute">20 minutes</option>
+          <option value="30-minute">30 minutes</option>
         </select>
       </div>
       <div>
@@ -493,6 +497,9 @@ select option{background:var(--card2);}
           <option value="Tutorial / How-To">Tutorial</option>
           <option value="Realization Series">Realization Series</option>
           <option value="Myth Busting">Myth Busting</option>
+          <option value="Deep Dive / Long Form">Deep Dive</option>
+          <option value="Interview Style">Interview Style</option>
+          <option value="Motivational Talk">Motivational Talk</option>
         </select>
       </div>
     </div>
@@ -1753,28 +1760,36 @@ async function genScript(){
   setBtn('scr-btn',true,'<span>🎬</span> Write My Script');
   document.getElementById('scr-out').innerHTML='';
   const prodSection=product?`\n\nPRODUCT MENTION: Naturally weave in "${product}"${link?' — link: '+link:''}. Sound like a recommendation, not an ad.`:'';
+
+  // Long form gets expanded sections with more depth
+  const isLongForm=['10-minute','15-minute','20-minute','30-minute'].includes(len);
+  const longFormNote=isLongForm?`\n\nThis is a LONG FORM ${len} script. Write it fully — do not summarize or shorten. Expand every section with real depth, stories, examples, and detail. The viewer is watching a full video. Give them real value throughout.`:'';
+
   const prompt=`Write a complete word-for-word ${len} ${p} video script.
-Topic: "${topic}" | Tone: ${tone} | Style: ${style}${prodSection}
+Topic: "${topic}" | Tone: ${tone} | Style: ${style}${prodSection}${longFormNote}
 
 Format EXACTLY:
 HOOK
-[bold opener, no "in this video"]
+[bold opener — no "in this video", no "hey guys"]
 INTRO
-[2-3 sentences]
+[${isLongForm?'4-6 sentences establishing why this matters':'2-3 sentences'}]
 MAIN CONTENT
-[the core content]
+[${isLongForm?'Full deep dive — multiple sub-points, stories, real examples, tangents that add value. Write everything word for word as if speaking':'The core content — real, no filler'}]
+${isLongForm?'SECTION 2\n[Second major point with examples and depth]\nSECTION 3\n[Third major point — go deeper here]':''}
 OUTRO
-[final truth]
+[${isLongForm?'Bring it all together — a final truth that lands':'Final truth that sticks'}]
 CALL TO ACTION
-[natural CTA]
+[Natural CTA — follow, subscribe, link in description]
 
-Write like a real human. Short sentences. Contractions. Mark [PAUSE] where needed.`;
+Write exactly how a real human talks. Contractions. Short sentences mixed with longer ones. Mark [PAUSE] where natural. ${isLongForm?'Do NOT cut corners — this is a full script.':''}`;
   try{
     const txt=await ai(prompt);
     const secs=[
       {k:'HOOK',l:'🎣 HOOK',c:'var(--pink)'},
       {k:'INTRO',l:'👋 INTRO',c:'var(--orange)'},
-      {k:'MAIN CONTENT',l:'🎯 MAIN',c:'var(--cyan)'},
+      {k:'MAIN CONTENT',l:'🎯 MAIN CONTENT',c:'var(--cyan)'},
+      {k:'SECTION 2',l:'📌 SECTION 2',c:'var(--cyan)'},
+      {k:'SECTION 3',l:'📌 SECTION 3',c:'var(--cyan)'},
       {k:'PRODUCT MENTION',l:'🛍️ PRODUCT',c:'#ffb400'},
       {k:'OUTRO',l:'✨ OUTRO',c:'var(--purple)'},
       {k:'CALL TO ACTION',l:'📣 CTA',c:'var(--green)'}
