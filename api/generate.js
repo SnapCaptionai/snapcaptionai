@@ -70,7 +70,7 @@ export default async function handler(req, res) {
         },
         body: JSON.stringify({
           model: 'gpt-4o',
-          max_tokens: 2000,
+          max_tokens: 8000,
           messages: [{ role: 'user', content: prompt }]
         })
       });
