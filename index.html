@@ -1332,11 +1332,7 @@ function showAdPrompt(){
   document.body.appendChild(toast);
   setTimeout(()=>toast.remove(), 4000);
 }
-  if(uses >= FREE_LIMIT){ showEmailCapture(); return false; }
-  return true;
-}
-
-// ═══ ONBOARDING ═══
+ // ═══ ONBOARDING ═══
 function obNext(step){
   document.querySelectorAll('.ob-step').forEach(s=>s.classList.remove('active'));
   document.getElementById('ob'+step).classList.add('active');
