@@ -1310,31 +1310,31 @@ function getVoiceContext(){
   return ctx;
 }
 
-// ═══ AI ENGINE — owner key powers all users ═══
+// ═══ AI ENGINE — backend powers all users ═══
 async function ai(prompt){
-  const vc=getVoiceContext();
-  const fullPrompt=(vc?vc+'\n\n':'')+ANTI_GENERIC+'\n\n'+prompt;
-  const key=OWNER_KEY||engineKeys.gemini||engineKeys.openai;
-  // no key check here anymore;
+  const vc = getVoiceContext();
+  const fullPrompt = (vc ? vc + '\n\n' : '') + ANTI_GENERIC + '\n\n' + prompt;
 
-  if((activeEngine==='openai'&&engineKeys.openai)||(!OWNER_KEY&&!engineKeys.gemini&&engineKeys.openai)){
-    const r=await fetch('https://api.openai.com/v1/chat/completions',{
-      method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+(engineKeys.openai)},
-      body:JSON.stringify({model:'gpt-4o',max_tokens:2000,messages:[{role:'user',content:fullPrompt}]})
-    });
-    const d=await r.json();
-    if(d.error) throw new Error(d.error.message);
-    return clean(d.choices?.[0]?.message?.content||'');
-  } else {
-    const gemKey=OWNER_KEY||engineKeys.gemini;
-    const r=await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key='+gemKey,{
-      method:'POST',headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({contents:[{parts:[{text:fullPrompt}]}],generationConfig:{maxOutputTokens:2000}})
-    });
-    const d=await r.json();
-    if(d.error) throw new Error(d.error.message);
-    return clean(d.candidates?.[0]?.content?.parts?.[0]?.text||'');
+  const engine = activeEngine === 'openai' ? 'openai' : 'gemini';
+
+  const r = await fetch('/api/generate', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      prompt: fullPrompt,
+      engine
+    })
+  });
+
+  const data = await r.json();
+
+  if (!r.ok) {
+    throw new Error(data?.error || 'Request failed');
   }
+
+  return clean(data.text || '');
 }
 
 // ═══ AI HOOK SCORING ═══
