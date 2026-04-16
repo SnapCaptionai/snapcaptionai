@@ -1315,7 +1315,7 @@ async function ai(prompt){
   const vc=getVoiceContext();
   const fullPrompt=(vc?vc+'\n\n':'')+ANTI_GENERIC+'\n\n'+prompt;
   const key=OWNER_KEY||engineKeys.gemini||engineKeys.openai;
-  if(!key) throw new Error('Add your API key in Settings → AI Engine');
+  // no key check here anymore;
 
   if((activeEngine==='openai'&&engineKeys.openai)||(!OWNER_KEY&&!engineKeys.gemini&&engineKeys.openai)){
     const r=await fetch('https://api.openai.com/v1/chat/completions',{
@@ -1446,8 +1446,12 @@ HASHTAGS
     document.getElementById('quick-out').innerHTML=html;
     rec();
   }catch(e){
-    document.getElementById('quick-out').innerHTML=`<div class="res-card" style="color:#ff5c5c">❌ ${e.message}<br><br><small>${OWNER_KEY?'Check your OWNER_KEY is correct.':'Go to Settings → AI Engine and add your Gemini API key.'}</small></div>`;
-  }
+   document.getElementById('quick-out').innerHTML = `
+  <div class="res-card" style="color:#ff5c5c">
+    ❌ ${e.message}<br><br>
+    <small>Something went wrong. Please try again.</small>
+  </div>
+`;
   setBtn('quick-btn',false,'<span>⚡</span> Create Standout Content');
 }
 
@@ -2068,7 +2072,7 @@ function saveKey(engine){
   if(k){engineKeys[engine]=k;localStorage.setItem('sc2-key-'+engine,k);const b=document.getElementById('badge-'+engine);if(b){b.textContent='READY';b.classList.remove('off');}}
 }
 function selectEngine(engine){
-  if(!OWNER_KEY&&!engineKeys[engine]){alert('Add your '+engine+' API key first!');return;}
+  // removed key check - backend handles API key now }
   activeEngine=engine;localStorage.setItem('sc2-engine',engine);
   document.querySelectorAll('.eng-card').forEach(c=>c.classList.remove('active-eng'));
   document.getElementById('eng-'+engine)?.classList.add('active-eng');
@@ -2196,7 +2200,7 @@ function goToStripe(){
 
 // ═══ CLEAR DATA ═══
 function clearAllData(){
-  if(confirm('Clear all saved data? (API keys will NOT be deleted)')){
+  if(confirm('Clear all saved data?')){
     ['sc2-uses','sc2-usesdate','sc2-gen','sc2-streak','sc2-lastday','sc2-saved','sc2-creator','sc2-voice','sc2-profile','sc2-bank','sc2-onboarded','sc2-clients','sc2-watermark'].forEach(k=>localStorage.removeItem(k));
     location.reload();
   }
