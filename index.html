@@ -769,43 +769,67 @@ select option{background:var(--card2);}
   </div>
 </div>
 
-<!-- 30-DAY CALENDAR v2 -->
+<!-- WEEKLY CALENDAR -->
 <div class="screen" id="s-calendar">
   <div class="sp">
-    <div class="pt">30-Day Calendar</div>
-    <div class="ps">A 30-day content path built around YOUR business, voice, and sales goal. Not random ideas — a full sales sequence disguised as content.</div>
+    <div class="pt">Content Calendar</div>
+    <div class="ps">7 posts built around your goal. Copy and post. Come back next week for 7 more.</div>
+
+    <!-- PRO GATE -->
     <div id="cal-pro-gate" style="display:none;background:rgba(255,214,0,0.06);border:1px solid rgba(255,214,0,0.25);border-radius:14px;padding:16px;margin-bottom:14px;text-align:center;">
       <div style="font-size:1.4rem;margin-bottom:6px;">🔒</div>
       <div style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;color:var(--yellow);margin-bottom:6px;">Pro Feature</div>
-      <div style="font-size:0.78rem;color:var(--muted2);margin-bottom:12px;">Upgrade to Pro to unlock your personalized 30-day content sales path.</div>
+      <div style="font-size:0.78rem;color:var(--muted2);margin-bottom:12px;">Your weekly content calendar — 7 posts per week, built around your goal. Unlock with Pro.</div>
       <button class="btn-gen" onclick="openUpgrade()" style="padding:12px 24px;font-size:0.85rem;">Unlock Pro — $7.99/mo</button>
     </div>
+
+    <!-- SETUP -->
     <div id="cal-setup">
-      <div class="card" style="border-color:rgba(255,214,0,0.2);background:rgba(255,214,0,0.04);">
-        <div style="font-size:0.75rem;font-weight:700;color:var(--yellow);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:10px;">★ Pro Feature — Build Your Personalized Calendar</div>
+
+      <!-- GOAL SELECTOR -->
+      <div id="cal-goal-screen">
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:1.3rem;color:var(--text);margin-bottom:6px;">What is your goal right now?</div>
+        <div style="font-size:0.78rem;color:var(--muted2);margin-bottom:16px;">This shapes everything. Pick what feels true today.</div>
+        <div style="display:flex;flex-direction:column;gap:10px;">
+          <div class="cal-goal-card" onclick="selectCalGoal('visible')" data-goal="visible">
+            <div style="font-weight:700;color:var(--text);">Stay Visible</div>
+            <div style="font-size:0.72rem;color:var(--muted2);margin-top:2px;">I just want to post consistently and stay active</div>
+          </div>
+          <div class="cal-goal-card" onclick="selectCalGoal('brand')" data-goal="brand">
+            <div style="font-weight:700;color:var(--text);">Build My Brand</div>
+            <div style="font-size:0.72rem;color:var(--muted2);margin-top:2px;">I want people to know what I stand for</div>
+          </div>
+          <div class="cal-goal-card" onclick="selectCalGoal('audience')" data-goal="audience">
+            <div style="font-weight:700;color:var(--text);">Grow My Audience</div>
+            <div style="font-size:0.72rem;color:var(--muted2);margin-top:2px;">I want more followers, more reach, more engagement</div>
+          </div>
+          <div class="cal-goal-card" onclick="selectCalGoal('sales')" data-goal="sales">
+            <div style="font-weight:700;color:var(--text);">Make Sales</div>
+            <div style="font-size:0.72rem;color:var(--muted2);margin-top:2px;">I want my content to drive real revenue</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- DETAILS SCREEN -->
+      <div id="cal-details-screen" style="display:none;">
+        <div id="cal-goal-tag" style="display:inline-block;font-size:0.7rem;font-weight:700;padding:4px 12px;border-radius:8px;margin-bottom:14px;"></div>
         <div class="field">
-          <span class="sl">What is your name or brand?</span>
-          <input type="text" id="cal-brand" placeholder="e.g. Coach Tanya / FitLife Co." />
+          <span class="sl">Your name or brand</span>
+          <input type="text" id="cal-brand" placeholder="e.g. Shatica / Infinite Storefront" />
         </div>
         <div class="field">
-          <span class="sl">What do you sell or offer?</span>
-          <input type="text" id="cal-niche" placeholder="e.g. online fitness coaching, handmade soaps, real estate" />
+          <span class="sl">What do you post about?</span>
+          <input type="text" id="cal-topic" placeholder="e.g. handmade soaps, fitness coaching, real estate, daily life" />
         </div>
-        <div class="field">
-          <span class="sl">What is your main product or offer?</span>
-          <input type="text" id="cal-product" placeholder="e.g. My 90-day coaching program — $497" />
-        </div>
-        <div class="field">
-          <span class="sl">What result have you gotten for a customer?</span>
-          <input type="text" id="cal-result" placeholder="e.g. Helped client go from 0 to $5K/month in 60 days" />
-        </div>
-        <div class="field">
-          <span class="sl">What is your customer's biggest pain?</span>
-          <input type="text" id="cal-pain" placeholder="e.g. They don't know how to start, overwhelmed, no time" />
-        </div>
-        <div class="field">
-          <span class="sl">What objection do people give before buying?</span>
-          <input type="text" id="cal-objection" placeholder="e.g. Too expensive, not the right time, can do it myself" />
+        <div id="cal-sales-fields" style="display:none;">
+          <div class="field">
+            <span class="sl">What do you offer?</span>
+            <input type="text" id="cal-offer" placeholder="e.g. BTP balms, 90-day coaching, handmade products" />
+          </div>
+          <div class="field">
+            <span class="sl">Why do people hesitate before buying?</span>
+            <input type="text" id="cal-hesitation" placeholder="e.g. price, not sure it works, timing" />
+          </div>
         </div>
         <span class="sl">Platform</span>
         <div class="ppills" id="cal-prow">
@@ -814,33 +838,32 @@ select option{background:var(--card2);}
           <div class="ppill" onclick="pp(this)" data-v="Facebook">Facebook</div>
           <div class="ppill" onclick="pp(this)" data-v="LinkedIn">LinkedIn</div>
         </div>
-        <span class="sl">How often do you post?</span>
-        <div class="ppills" id="cal-freq">
-          <div class="ppill on" onclick="pp(this)" data-v="1">Daily</div>
-          <div class="ppill" onclick="pp(this)" data-v="3">3x/week</div>
-          <div class="ppill" onclick="pp(this)" data-v="5">5x/week</div>
+        <div style="display:flex;gap:8px;margin-top:16px;">
+          <button class="btn-sm" onclick="document.getElementById('cal-details-screen').style.display='none';document.getElementById('cal-goal-screen').style.display='block';" style="flex:1;">← Back</button>
+          <button class="btn-gen" id="cal-btn" onclick="buildWeek(1)" style="flex:3;margin-top:0;"><span>🗓️</span> Build My Week</button>
         </div>
-        <span class="sl">Your Sales Goal for This Month</span>
-        <div class="chips" id="cal-goal-chips">
-          <div class="chip on" onclick="tc(this)">Build Trust</div>
-          <div class="chip" onclick="tc(this)">Make Sales</div>
-          <div class="chip" onclick="tc(this)">Grow Audience</div>
-          <div class="chip" onclick="tc(this)">Launch Product</div>
-          <div class="chip" onclick="tc(this)">Get Clients</div>
-        </div>
-        <div style="margin-top:12px;padding:10px;background:rgba(0,212,255,0.06);border:1px solid rgba(0,212,255,0.15);border-radius:10px;font-size:0.75rem;color:var(--cyan);">
-          ✦ Your calendar follows a proven sales path: Days 1-5 build connection, 6-10 show authority, 8-10 re-engage early, 11-15 surface pain, 16-20 build desire, 21-25 handle objections, 26-30 sell with confidence.
-        </div>
-        <button class="btn-gen" id="cal-btn" onclick="genCalendar()" style="margin-top:12px;"><span>🗓️</span> Build My 30-Day Sales Path</button>
       </div>
+
+      <!-- PROGRESS -->
       <div id="cal-progress" style="display:none;" class="card">
-        <div style="font-size:0.8rem;color:var(--muted2);margin-bottom:8px;" id="cal-prog-text">Building Week 1...</div>
-        <div style="background:var(--card2);border-radius:4px;height:6px;overflow:hidden;"><div id="cal-prog-bar" style="height:100%;background:var(--grad);width:0%;transition:width 0.5s;border-radius:4px;"></div></div>
+        <div style="font-size:0.8rem;color:var(--muted2);margin-bottom:8px;" id="cal-prog-text">Building your week...</div>
+        <div style="background:var(--card2);border-radius:4px;height:6px;overflow:hidden;"><div id="cal-prog-bar" style="height:100%;background:var(--grad);width:0%;transition:width 0.8s;border-radius:4px;"></div></div>
       </div>
     </div>
+
+    <!-- CALENDAR OUTPUT -->
     <div id="cal-out"></div>
   </div>
 </div>
+
+<style>
+.cal-goal-card{background:var(--card);border:1px solid var(--border2);border-radius:14px;padding:14px 16px;cursor:pointer;transition:border-color 0.2s,background 0.2s;}
+.cal-goal-card:hover,.cal-goal-card.selected{border-color:var(--cyan);background:rgba(0,212,255,0.06);}
+.week-tile{background:var(--card);border:1px solid var(--border2);border-radius:14px;padding:12px 8px;cursor:pointer;text-align:center;transition:border-color 0.2s,transform 0.15s;min-height:80px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;}
+.week-tile:hover{transform:translateY(-2px);}
+.week-tile.active{border-color:var(--cyan);background:rgba(0,212,255,0.08);}
+.week-tile.used{border-color:var(--green);background:rgba(0,255,133,0.06);}
+</style>
 
 <!-- SAVED -->
 <div class="screen" id="s-saved">
@@ -2072,7 +2095,331 @@ HASHTAGS
   setBtn('li-btn',false,'<span>💼</span> Write LinkedIn Post');
 }
 
-// ═══ 30-DAY CALENDAR v2 ═══
+// ═══ WEEKLY CALENDAR ═══
+
+// Fallback posts — always something to show even if AI fails
+const CAL_FALLBACKS={
+  conversation:'A lot of people say they want change but what they really want is certainty before they move. That is not how growth works. Sometimes the next right step only shows up after you start.',
+  relatable:'You can be tired and still want more for your life. Both can be true. Being worn down does not mean your vision was fake. It may mean you need a better way to carry it.',
+  authority:'Most people do not need more information. They need a clearer next move. Simpler often works better than trying to do everything at once.',
+  engagement:'Be honest. What is one thing you keep saying you are going to do but still have not started?',
+  perspective:'You are not always stuck because you are lazy. Sometimes you are stuck because your brain is trying to protect you from looking foolish in public.',
+  story:'There was a time when I thought being busy meant I was making progress. It did not. I was full of motion and empty on results. That shift changed everything.',
+  identity:'You do not need to become somebody fake to move forward. You need to stop shrinking the version of you that already knows what it wants.'
+};
+
+// Week structure — 7 categories, always in this order
+const WEEK_TEMPLATE=[
+  {day:1,category:'conversation',label:'Start a Conversation',color:'#00a8e8'},
+  {day:2,category:'relatable',label:'Say Something Real',color:'#00a8e8'},
+  {day:3,category:'authority',label:'Prove Your Lane',color:'#00ff85'},
+  {day:4,category:'engagement',label:'Get People Talking',color:'#ffd600'},
+  {day:5,category:'perspective',label:'Shift Their Thinking',color:'#00ff85'},
+  {day:6,category:'story',label:'Tell Your Story',color:'#00a8e8'},
+  {day:7,category:'identity',label:'Make It Mean Something',color:'#ff2d78'}
+];
+
+// Calendar state
+let calGoal='';
+let calWeekNum=1;
+let calWeekPosts=[];
+let calSelectedDay=1;
+let calInput={};
+let calHistory=JSON.parse(localStorage.getItem('sc2-cal-history')||'[]');
+
+function selectCalGoal(goal){
+  calGoal=goal;
+  document.querySelectorAll('.cal-goal-card').forEach(c=>c.classList.remove('selected'));
+  const card=document.querySelector(`[data-goal="${goal}"]`);
+  if(card) card.classList.add('selected');
+
+  // Show tag
+  const tags={visible:'Stay Visible',brand:'Build My Brand',audience:'Grow My Audience',sales:'Make Sales'};
+  const colors={visible:'#00a8e8',brand:'#00ff85',audience:'#ffd600',sales:'#ff2d78'};
+  const tag=document.getElementById('cal-goal-tag');
+  if(tag){tag.textContent='Goal: '+tags[goal];tag.style.background=colors[goal]+'22';tag.style.color=colors[goal];tag.style.border='1px solid '+colors[goal]+'44';}
+
+  // Show/hide sales fields
+  const sf=document.getElementById('cal-sales-fields');
+  if(sf) sf.style.display=goal==='sales'?'block':'none';
+
+  // Show details screen
+  document.getElementById('cal-goal-screen').style.display='none';
+  document.getElementById('cal-details-screen').style.display='block';
+}
+
+function buildCalPrompt(template, weekNum){
+  const brand=document.getElementById('cal-brand')?.value.trim()||'';
+  const topic=document.getElementById('cal-topic')?.value.trim()||'life, growth, daily experiences';
+  const offer=document.getElementById('cal-offer')?.value.trim()||'';
+  const hesitation=document.getElementById('cal-hesitation')?.value.trim()||'';
+  const platform=gplat('cal-prow')||'social media';
+  const voice=voiceProfile?.tone||'direct, relatable, clear';
+  const goalContext={
+    visible:'The goal is to stay consistent and visible. Keep it human and real.',
+    brand:'The goal is to build a clear brand identity. Make it specific and ownable.',
+    audience:'The goal is to grow reach and engagement. Make it shareable and relatable.',
+    sales:`The goal is to drive sales of: ${offer||'their offer'}. ${hesitation?'Common hesitation: '+hesitation:''}. Weave value naturally — do not be pushy.`
+  };
+
+  return `Write one strong ${platform} post for ${brand||'a creator'}.
+
+Type: ${template.category}
+Intent: ${template.label}
+Topic: ${topic}
+Voice: ${voice}
+Week ${weekNum} — this is post ${template.day} of 7 for this week
+${goalContext[calGoal]||goalContext.visible}
+
+Rules:
+Return ONLY the finished post — no labels, no sections, no explanations
+Sound like a real human — not an AI
+Make it easy to copy and post immediately
+No hashtags unless they feel completely natural
+Keep it under 150 words unless the category needs more`;
+}
+
+async function buildWeek(weekNum){
+  if(!creatorMode){openUpgrade();return;}
+
+  calWeekNum=weekNum;
+  calWeekPosts=[];
+  calSelectedDay=1;
+
+  // Store input
+  calInput={
+    goal:calGoal,
+    brand:document.getElementById('cal-brand')?.value.trim()||'',
+    topic:document.getElementById('cal-topic')?.value.trim()||'',
+    offer:document.getElementById('cal-offer')?.value.trim()||'',
+    platform:gplat('cal-prow')||'Instagram'
+  };
+
+  // Show progress
+  document.getElementById('cal-setup').style.display='none';
+  document.getElementById('cal-progress').style.display='block';
+  document.getElementById('cal-out').innerHTML='';
+
+  const bar=document.getElementById('cal-prog-bar');
+  const pt=document.getElementById('cal-prog-text');
+
+  // Generate one post at a time
+  for(let i=0;i<WEEK_TEMPLATE.length;i++){
+    const t=WEEK_TEMPLATE[i];
+    pt.textContent=`Writing Day ${t.day} — ${t.label}...`;
+    bar.style.width=((i/7)*90)+'%';
+
+    try{
+      const prompt=buildCalPrompt(t, weekNum);
+      const txt=await ai(prompt);
+      calWeekPosts.push({...t,post:txt.trim()||CAL_FALLBACKS[t.category],used:false,weekNum});
+    }catch(e){
+      calWeekPosts.push({...t,post:CAL_FALLBACKS[t.category],used:false,weekNum});
+    }
+    rec();
+  }
+
+  bar.style.width='100%';
+  pt.textContent='✅ Your week is ready!';
+  setTimeout(()=>{
+    document.getElementById('cal-progress').style.display='none';
+    renderWeekCalendar();
+  },500);
+}
+
+function renderWeekCalendar(){
+  const goalLabels={visible:'Stay Visible',brand:'Build My Brand',audience:'Grow My Audience',sales:'Make Sales'};
+  const goalColors={visible:'#00a8e8',brand:'#00ff85',audience:'#ffd600',sales:'#ff2d78'};
+  const gc=goalColors[calGoal]||'var(--cyan)';
+  const gl=goalLabels[calGoal]||'';
+  const usedCount=calWeekPosts.filter(p=>p.used).length;
+  const momentum=usedCount===0?'Your week is ready'
+    :usedCount===1?'You showed up. That matters.'
+    :usedCount<4?`${usedCount} posts done. Keep going.`
+    :usedCount<7?`${usedCount} strong posts. Almost there.`
+    :'You crushed this week. 🔥';
+
+  let html=`
+  <!-- HEADER -->
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
+    <div>
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;color:var(--text);">Week ${calWeekNum}</div>
+      <div style="font-size:0.68rem;color:${gc};font-weight:700;">${gl}</div>
+    </div>
+    <div style="display:flex;gap:8px;">
+      <button onclick="showCalHistory()" style="padding:8px 12px;border-radius:10px;border:1px solid var(--border2);background:transparent;color:var(--muted2);font-family:'Plus Jakarta Sans',sans-serif;font-size:0.72rem;cursor:pointer;">📖 History</button>
+      <button onclick="resetCalendar()" style="padding:8px 12px;border-radius:10px;border:1px solid var(--border2);background:transparent;color:var(--muted2);font-family:'Plus Jakarta Sans',sans-serif;font-size:0.72rem;cursor:pointer;">⚙️ Redo</button>
+    </div>
+  </div>
+
+  <!-- MOMENTUM -->
+  <div style="margin-bottom:14px;">
+    <div style="font-size:0.82rem;font-weight:700;color:var(--green);margin-bottom:6px;">${momentum}</div>
+    <div style="background:var(--card2);border-radius:4px;height:4px;overflow:hidden;">
+      <div style="height:100%;background:linear-gradient(90deg,var(--cyan),var(--green));border-radius:4px;width:${((usedCount/7)*100).toFixed(0)}%;transition:width 0.6s;"></div>
+    </div>
+  </div>
+
+  <!-- 7 DAY TILES -->
+  <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-bottom:16px;">`;
+
+  calWeekPosts.forEach((p,i)=>{
+    const isActive=calSelectedDay===p.day;
+    html+=`<div class="week-tile ${p.used?'used':''} ${isActive?'active':''}" onclick="selectWeekDay(${p.day})" style="${isActive?'border-color:'+p.color+';background:'+p.color+'15;':''}">
+      <div style="font-size:0.72rem;font-weight:700;color:${p.used?'var(--green)':p.color};">${p.used?'✅':'Day '+p.day}</div>
+      <div style="font-size:0.5rem;color:${p.color}cc;text-align:center;line-height:1.3;">${p.label.split(' ').slice(0,2).join(' ')}</div>
+    </div>`;
+  });
+
+  html+=`</div>`;
+
+  // Selected day post
+  const sel=calWeekPosts.find(p=>p.day===calSelectedDay)||calWeekPosts[0];
+  if(sel){
+    const postId=st(sel.post);
+    html+=`<div class="res-card fade-in" style="border-left:3px solid ${sel.color};">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+        <div>
+          <span style="font-family:'Bebas Neue',sans-serif;font-size:1rem;color:${sel.color};">Day ${sel.day}</span>
+          <span style="font-size:0.62rem;background:${sel.color}18;border:1px solid ${sel.color}33;border-radius:6px;padding:2px 8px;margin-left:6px;color:${sel.color};font-weight:700;">${sel.label}</span>
+        </div>
+        ${sel.used?'<span style="font-size:0.7rem;color:var(--green);font-weight:700;">✅ Used</span>':''}
+      </div>
+      <div style="font-size:0.88rem;line-height:1.7;color:var(--text);white-space:pre-wrap;margin-bottom:14px;">${sel.post}</div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;">
+        <button onclick="calCopyPost(${sel.day-1})" style="flex:2;padding:12px;border-radius:10px;background:${sel.color};border:none;color:#0a0a0f;font-family:'Plus Jakarta Sans',sans-serif;font-size:0.85rem;font-weight:700;cursor:pointer;" id="cal-copy-btn-${sel.day}">📋 Copy and Post</button>
+        <button onclick="calRegenDay(${sel.day-1})" style="flex:1;padding:12px;border-radius:10px;background:transparent;border:1px solid ${sel.color}55;color:${sel.color};font-family:'Plus Jakarta Sans',sans-serif;font-size:0.8rem;cursor:pointer;">↺ Try Another</button>
+      </div>
+    </div>`;
+  }
+
+  // Next week + history buttons
+  html+=`<div style="display:flex;gap:8px;margin-top:12px;">
+    <button onclick="buildNextWeek()" style="flex:1;padding:14px;border-radius:12px;background:rgba(255,214,0,0.08);border:1px solid rgba(255,214,0,0.3);color:var(--yellow);font-family:'Plus Jakarta Sans',sans-serif;font-size:0.85rem;font-weight:700;cursor:pointer;">Next Week →</button>
+  </div>
+
+  <!-- HISTORY PANEL -->
+  <div id="cal-history-panel" style="display:none;margin-top:16px;"></div>`;
+
+  document.getElementById('cal-out').innerHTML=html;
+}
+
+function selectWeekDay(day){
+  calSelectedDay=day;
+  renderWeekCalendar();
+  const out=document.getElementById('cal-out');
+  if(out) out.scrollTop=300;
+}
+
+async function calCopyPost(idx){
+  const p=calWeekPosts[idx];if(!p)return;
+  navigator.clipboard.writeText(p.post).catch(()=>{});
+  calWeekPosts[idx].used=true;
+
+  // Save to history
+  calHistory.unshift({
+    post:p.post,
+    label:p.label,
+    category:p.category,
+    goal:calGoal,
+    week:calWeekNum,
+    day:p.day,
+    platform:calInput.platform||'',
+    date:new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})
+  });
+  // Keep last 90 posts
+  if(calHistory.length>90) calHistory=calHistory.slice(0,90);
+  localStorage.setItem('sc2-cal-history',JSON.stringify(calHistory));
+
+  const btn=document.getElementById('cal-copy-btn-'+p.day);
+  if(btn){btn.textContent='✅ Copied!';btn.style.background='var(--green)';}
+  setTimeout(()=>renderWeekCalendar(),1200);
+}
+
+async function calRegenDay(idx){
+  const p=calWeekPosts[idx];if(!p)return;
+  const btn=document.getElementById('cal-copy-btn-'+p.day);
+  if(btn){btn.textContent='Writing...';btn.disabled=true;}
+  try{
+    const prompt=buildCalPrompt(p, calWeekNum);
+    const txt=await ai(prompt);
+    calWeekPosts[idx].post=txt.trim()||CAL_FALLBACKS[p.category];
+  }catch(e){
+    calWeekPosts[idx].post=CAL_FALLBACKS[p.category];
+  }
+  renderWeekCalendar();
+}
+
+function buildNextWeek(){
+  // Save setup, rebuild with week+1
+  document.getElementById('cal-setup').style.display='block';
+  document.getElementById('cal-goal-screen').style.display='none';
+  document.getElementById('cal-details-screen').style.display='block';
+  document.getElementById('cal-out').innerHTML='';
+  buildWeek(calWeekNum+1);
+}
+
+function resetCalendar(){
+  calWeekNum=1;calWeekPosts=[];calGoal='';
+  document.getElementById('cal-setup').style.display='block';
+  document.getElementById('cal-goal-screen').style.display='block';
+  document.getElementById('cal-details-screen').style.display='none';
+  document.getElementById('cal-progress').style.display='none';
+  document.getElementById('cal-out').innerHTML='';
+  document.querySelectorAll('.cal-goal-card').forEach(c=>c.classList.remove('selected'));
+}
+
+function showCalHistory(){
+  const panel=document.getElementById('cal-history-panel');
+  if(!panel) return;
+  if(panel.style.display==='block'){panel.style.display='none';return;}
+
+  if(!calHistory.length){
+    panel.innerHTML=`<div class="card" style="text-align:center;color:var(--muted2);font-size:0.8rem;">No history yet. Copy posts to build your archive.</div>`;
+    panel.style.display='block';
+    return;
+  }
+
+  // Group by month
+  const byMonth={};
+  calHistory.forEach(h=>{
+    const m=h.date.split(' ').slice(0,2).join(' ');
+    if(!byMonth[m]) byMonth[m]=[];
+    byMonth[m].push(h);
+  });
+
+  let html=`<div style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;color:var(--text);margin-bottom:12px;">📖 Your Content History</div>`;
+  html+=`<div style="font-size:0.72rem;color:var(--muted2);margin-bottom:14px;">${calHistory.length} posts saved · Tap any post to copy it again</div>`;
+
+  Object.keys(byMonth).forEach(month=>{
+    html+=`<div style="font-size:0.68rem;font-weight:700;color:var(--cyan);letter-spacing:0.1em;text-transform:uppercase;margin:12px 0 8px;">${month}</div>`;
+    byMonth[month].forEach((h,i)=>{
+      const hid=st(h.post);
+      const goalColors={visible:'#00a8e8',brand:'#00ff85',audience:'#ffd600',sales:'#ff2d78'};
+      const gc=goalColors[h.goal]||'var(--cyan)';
+      html+=`<div class="res-card" style="margin-bottom:8px;border-left:3px solid ${gc};">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+          <span style="font-size:0.65rem;color:${gc};font-weight:700;">Week ${h.week} · Day ${h.day} · ${h.label}</span>
+          <span style="font-size:0.62rem;color:var(--muted2);">${h.date}</span>
+        </div>
+        <div style="font-size:0.78rem;color:var(--muted2);line-height:1.6;margin-bottom:8px;">${h.post.substring(0,120)}${h.post.length>120?'...':''}</div>
+        <button class="btn-sm" onclick="recopySaved('${hid}','${h.post.replace(/'/g,"\\'")}')">📋 Copy Again</button>
+      </div>`;
+    });
+  });
+
+  html+=`<button onclick="if(confirm('Clear all history?')){calHistory=[];localStorage.removeItem('sc2-cal-history');showCalHistory();}" style="width:100%;padding:10px;margin-top:8px;border-radius:10px;border:1px solid rgba(255,92,92,0.3);background:transparent;color:#ff5c5c;font-family:'Plus Jakarta Sans',sans-serif;font-size:0.75rem;cursor:pointer;">🗑️ Clear History</button>`;
+
+  panel.innerHTML=html;
+  panel.style.display='block';
+}
+
+function recopySaved(id, post){
+  navigator.clipboard.writeText(post).catch(()=>{});
+  const btn=event.target;
+  btn.textContent='✅ Copied!';
+  setTimeout(()=>btn.textContent='📋 Copy Again',1500);
+}
 const PHASE_CONFIG=[
   {days:[1,2,3,4,5],name:'Connection Phase',color:'var(--cyan)',desc:'Build real connection with your audience'},
   {days:[6,7,10],name:'Authority Phase',color:'var(--purple)',desc:'Show them why they should trust you'},
@@ -2083,315 +2430,6 @@ const PHASE_CONFIG=[
   {days:[26,27,28,29,30],name:'Conversion Phase',color:'var(--green)',desc:'Sell with confidence — they are ready'}
 ];
 function getPhase(dayNum){return PHASE_CONFIG.find(p=>p.days.includes(dayNum))||PHASE_CONFIG[0];}
-
-async function genCalendar(){
-  // 30-Day Calendar is a Pro-only feature
-  if(!creatorMode){
-    openUpgrade();
-    // Show a teaser so they know what they are unlocking
-    document.getElementById('cal-out').innerHTML=`
-      <div class="res-card" style="text-align:center;padding:24px;border-color:rgba(255,214,0,0.3);background:rgba(255,214,0,0.04);">
-        <div style="font-size:2rem;margin-bottom:10px;">🗓️</div>
-        <div style="font-family:'Bebas Neue',sans-serif;font-size:1.3rem;color:var(--yellow);margin-bottom:8px;">30-Day Conversion Calendar</div>
-        <div style="font-size:0.82rem;color:var(--muted2);line-height:1.7;margin-bottom:16px;">
-          A fully personalized 30-day sales funnel disguised as content.<br>
-          Hook → Authority → Pain → Desire → Objection → Conversion.<br>
-          Built around your business, your voice, your offer.
-        </div>
-        <div style="font-size:0.75rem;color:var(--yellow);font-weight:700;">Unlock with Pro — $7.99/mo</div>
-      </div>`;
-    return;
-  }
-  const niche=document.getElementById('cal-niche').value.trim()||'content creator';
-  const brand=document.getElementById('cal-brand').value.trim()||'Creator';
-  const plat=gplat('cal-prow');
-  const product=document.getElementById('cal-product').value.trim();
-  const result=document.getElementById('cal-result').value.trim();
-  const pain=document.getElementById('cal-pain').value.trim();
-  const objection=document.getElementById('cal-objection').value.trim();
-  const goal=gtones('cal-goal-chips');
-
-  document.getElementById('cal-btn').disabled=true;
-  document.getElementById('cal-btn').innerHTML='<div class="spin"></div> Building your path...';
-  document.getElementById('cal-progress').style.display='block';
-  document.getElementById('cal-out').innerHTML='';
-  calendarData=[];calStartDate=new Date();
-
-  const bar=document.getElementById('cal-prog-bar');
-  const pt=document.getElementById('cal-prog-text');
-
-  const dayStrategies=['',
-    'Share your origin story','Who you are beyond business','Behind the scenes of your work',
-    'Your biggest struggle and what you learned','Ask your audience a question',
-    'Share a specific result with real numbers','A how-to showing your expertise',
-    'Re-engage: call back something from week 1','Bust a common myth in your industry',
-    'A tool or method that genuinely helped you','Name the exact pain your audience feels',
-    'A story about having this problem yourself','Ask: Are you still doing X the old way?',
-    'Show the cost of staying stuck','This or That — old way vs new way',
-    'A transformation story — before and after','Paint a picture of their life when solved',
-    'What changed for you personally','Who do they become when this is solved?',
-    'What if I told you — reveal a possibility','Address the time objection head on',
-    'Address the money objection — reframe it','Address I can do it myself — validate then show why support helps',
-    'Address I am not ready — define what ready means','Story: someone who waited and what it cost',
-    'Make your offer clearly — who it is for','Share 3 real results. Specific. Believable.',
-    'Create urgency without being pushy','Answer the top 5 questions about working with you',
-    'Your most powerful call to action — full story, full offer'
-  ];
-
-  try{
-    for(let w=0;w<4;w++){
-      pt.textContent=`Building Week ${w+1} of 4...`;
-      bar.style.width=((w/4)*75)+'%';
-      const weekDays=Array.from({length:7},(_,i)=>w*7+i+1);
-      const dayGuides=weekDays.map(d=>{
-        const phase=getPhase(d);
-        return `Day ${d} [${phase.name}]: ${dayStrategies[d]||'Create content for this phase'}`;
-      }).join('\n');
-
-      const prompt=`Build 7 days of personalized ${plat} content for ${brand}, a ${niche}.
-Offer: ${product||'their services'} | Best result: ${result||'client transformation'} | Customer pain: ${pain||'getting results'} | Objection: ${objection||'not sure yet'} | Goal: ${goal}
-
-${dayGuides}
-
-For EACH day write EXACTLY:
-DAY[number]
-HOOK: [opener specific to this day's strategy — no clichés]
-CAPTION: [3-4 sentences — real talk, no filler]
-CTA: [call to action matching this phase]
-REEL: [30-second reel concept]
-STORY: [story slide idea]
----`;
-
-      const txt=await ai(prompt);
-      const blocks=txt.split(/---+/).filter(b=>b.trim()&&/DAY\d+/i.test(b));
-
-      for(let i=0;i<7;i++){
-        const dayNum=w*7+i+1;
-        const block=blocks[i]||'';
-        const lines=block.split('\n');
-        const gf=(k)=>{const l=lines.find(x=>x.toUpperCase().startsWith(k.toUpperCase()+':'));return l?l.substring(l.indexOf(':')+1).trim():'';};
-        const d=new Date(calStartDate);d.setDate(d.getDate()+dayNum-1);
-        const phase=getPhase(dayNum);
-        calendarData.push({
-          day:dayNum,week:w+1,phase:phase.name,phaseColor:phase.color,
-          platform:plat,hook:gf('HOOK'),caption:gf('CAPTION'),
-          cta:gf('CTA'),reelIdea:gf('REEL'),storyIdea:gf('STORY'),
-          done:false,date:d
-        });
-      }
-      rec();
-    }
-    bar.style.width='100%';
-    pt.textContent='✅ Your 30-day content path is ready!';
-    setTimeout(()=>{document.getElementById('cal-progress').style.display='none';renderCalendar();},600);
-  }catch(e){
-    document.getElementById('cal-out').innerHTML=`<div class="res-card" style="color:#ff5c5c">Error: ${e.message}</div>`;
-    document.getElementById('cal-progress').style.display='none';
-  }
-  document.getElementById('cal-btn').disabled=false;
-  document.getElementById('cal-btn').innerHTML='<span>🗓️</span> Regenerate Calendar';
-  document.getElementById('cal-setup').style.display='none';
-}
-
-const WC=['var(--pink)','var(--orange)','var(--yellow)','var(--green)'];
-// Intent labels — what each day MEANS in plain English
-const DAY_INTENT=[,'Start a conversation','Say something people feel','Prove you know your lane',
-  'Get people talking','Shift toward money','Show your story','Go behind the scenes',
-  'Build real connection','Bust a myth','Share what actually works','Name the real pain',
-  'Make them feel seen','Challenge the old way','Show the cost of staying stuck','This or that',
-  'Show a transformation','Paint a picture of their future','What changed for you','Who do they become',
-  'What if I told you','Handle the time objection','Handle the money objection','Handle the DIY objection',
-  'Handle the not ready objection','Story: what waiting cost','Make your offer clearly','Show real results',
-  'Create urgency naturally','Answer every question','Your most powerful CTA'];
-
-// Color meaning system
-const INTENT_COLOR={
-  'conversation':'#00a8e8',
-  'growth':'#00ff85',
-  'engagement':'#ffd600',
-  'sales':'#ff2d78'
-};
-function getDayColor(day){
-  if(day<=10) return INTENT_COLOR.conversation;
-  if(day<=20) return INTENT_COLOR.growth;
-  if(day<=25) return INTENT_COLOR.engagement;
-  return INTENT_COLOR.sales;
-}
-function getDayColorLabel(day){
-  if(day<=10) return 'Conversation';
-  if(day<=20) return 'Growth';
-  if(day<=25) return 'Engagement';
-  return 'Sales';
-}
-
-function renderCalendar(){
-  if(!calendarData.length) return;
-  const today=new Date();today.setHours(0,0,0,0);
-  const done=calendarData.filter(d=>d.done).length;
-  const missed=calendarData.filter(d=>{const dd=new Date(d.date);dd.setHours(0,0,0,0);return dd<today&&!d.done;});
-  const cur=calendarData.find(d=>{const dd=new Date(d.date);dd.setHours(0,0,0,0);return dd.getTime()===today.getTime();})||calendarData.find(d=>!d.done);
-  let html='';
-
-  // ── TODAY MODE ──────────────────────────────────────
-  if(cur){
-    const col=getDayColor(cur.day);
-    const intent=DAY_INTENT[cur.day]||'Keep going';
-    html+=`<div style="background:linear-gradient(135deg,${col}15,${col}05);border:1px solid ${col}44;border-radius:16px;padding:16px;margin-bottom:14px;">
-      <div style="font-size:0.65rem;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:${col};margin-bottom:4px;">TODAY</div>
-      <div style="font-family:'Bebas Neue',sans-serif;font-size:1.5rem;color:var(--text);line-height:1.1;margin-bottom:6px;">${intent}</div>
-      ${cur.hook?`<div style="font-size:0.82rem;color:var(--muted2);margin-bottom:12px;line-height:1.5;">"${cur.hook}"</div>`:''}
-      <div style="display:flex;gap:8px;">
-        <button onclick="justPostThis(${cur.day-1})" style="flex:2;padding:12px;border-radius:10px;background:${col};border:none;color:#0a0a0f;font-family:'Plus Jakarta Sans',sans-serif;font-size:0.85rem;font-weight:700;cursor:pointer;">Just Post This</button>
-        <button onclick="showDay(${cur.day-1})" style="flex:1;padding:12px;border-radius:10px;background:transparent;border:1px solid ${col}55;color:${col};font-family:'Plus Jakarta Sans',sans-serif;font-size:0.8rem;cursor:pointer;">See Full Post</button>
-      </div>
-    </div>`;
-  }
-
-  // ── IDENTITY MOMENTUM BAR ────────────────────────────
-  const momentumMsg=done===0?'Ready when you are':(done===1?'You showed up. That matters.':done<5?`${done} strong posts done. Keep going.`:done<15?`Building real momentum.`:done<25?`You are in the zone.`:'Almost there. Finish strong.');
-  html+=`<div class="card" style="margin-bottom:12px;">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
-      <span style="font-size:0.78rem;font-weight:700;color:var(--green);">${momentumMsg}</span>
-      <span style="font-size:0.7rem;color:var(--muted2);">${done} posted</span>
-    </div>
-    <div style="background:var(--card2);border-radius:4px;height:5px;overflow:hidden;">
-      <div style="height:100%;background:linear-gradient(90deg,var(--cyan),var(--green));border-radius:4px;width:${((done/30)*100).toFixed(0)}%;transition:width 0.6s;"></div>
-    </div>
-  </div>`;
-
-  // ── CATCH UP MODE ────────────────────────────────────
-  if(missed.length>=2){
-    html+=`<div style="background:rgba(255,214,0,0.06);border:1px solid rgba(255,214,0,0.25);border-radius:12px;padding:14px;margin-bottom:12px;display:flex;align-items:center;justify-content:space-between;gap:10px;">
-      <div style="font-size:0.8rem;color:var(--yellow);line-height:1.4;">Fell off? No guilt.<br><span style="color:var(--muted2);font-size:0.72rem;">Pick up right where you are.</span></div>
-      <button onclick="catchUpMode()" style="white-space:nowrap;padding:10px 14px;border-radius:10px;background:rgba(255,214,0,0.15);border:1px solid rgba(255,214,0,0.4);color:var(--yellow);font-family:'Plus Jakarta Sans',sans-serif;font-size:0.78rem;font-weight:700;cursor:pointer;">I fell off. Fix it. →</button>
-    </div>`;
-  }
-
-  // ── COLOR LEGEND ─────────────────────────────────────
-  html+=`<div style="display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap;">
-    <span style="font-size:0.65rem;color:#00a8e8;background:rgba(0,168,232,0.1);border:1px solid rgba(0,168,232,0.25);padding:3px 8px;border-radius:6px;">● Conversation</span>
-    <span style="font-size:0.65rem;color:#00ff85;background:rgba(0,255,133,0.1);border:1px solid rgba(0,255,133,0.25);padding:3px 8px;border-radius:6px;">● Growth</span>
-    <span style="font-size:0.65rem;color:#ffd600;background:rgba(255,214,0,0.1);border:1px solid rgba(255,214,0,0.25);padding:3px 8px;border-radius:6px;">● Engagement</span>
-    <span style="font-size:0.65rem;color:#ff2d78;background:rgba(255,45,120,0.1);border:1px solid rgba(255,45,120,0.25);padding:3px 8px;border-radius:6px;">● Sales</span>
-  </div>`;
-
-  // ── VIEW TOGGLE ──────────────────────────────────────
-  html+=`<div style="display:flex;gap:8px;margin-bottom:12px;">
-    <button onclick="setCalView('grid')" style="flex:1;padding:8px;border-radius:10px;border:1px solid rgba(255,45,120,0.3);background:rgba(255,45,120,0.1);color:var(--pink);font-family:'Plus Jakarta Sans',sans-serif;font-size:0.75rem;font-weight:700;cursor:pointer;">📅 Grid</button>
-    <button onclick="setCalView('list')" style="flex:1;padding:8px;border-radius:10px;border:1px solid var(--border2);background:transparent;color:var(--muted2);font-family:'Plus Jakarta Sans',sans-serif;font-size:0.75rem;font-weight:700;cursor:pointer;">📋 List</button>
-  </div>`;
-
-  if(calView==='grid') html+=renderGrid();
-  else calendarData.forEach(d=>html+=renderDayCard(d));
-
-  html+=`<div style="display:flex;gap:8px;margin-top:8px;">
-    <button onclick="copyAll30()" style="flex:1;padding:12px;border-radius:10px;border:1px solid var(--border2);background:transparent;color:var(--muted2);font-family:'Plus Jakarta Sans',sans-serif;font-size:0.8rem;cursor:pointer;">📋 Copy All 30</button>
-    <button onclick="document.getElementById('cal-setup').style.display='block'" style="flex:1;padding:12px;border-radius:10px;border:1px solid rgba(255,214,0,0.3);background:rgba(255,214,0,0.06);color:var(--yellow);font-family:'Plus Jakarta Sans',sans-serif;font-size:0.8rem;cursor:pointer;">🔄 New Calendar</button>
-  </div>`;
-
-  document.getElementById('cal-out').innerHTML=html;
-}
-
-function justPostThis(idx){
-  const d=calendarData[idx];if(!d)return;
-  const txt=`${d.hook}\n\n${d.caption}\n\n${d.cta}`;
-  navigator.clipboard.writeText(txt).catch(()=>{});
-  toggleDone(idx);
-  const btn=document.querySelector('[onclick="justPostThis('+idx+')"]');
-  if(btn){btn.textContent='✅ Copied & Marked Posted';btn.style.background='var(--green)';btn.style.color='#0a0a0f';}
-}
-
-function catchUpMode(){
-  const today=new Date();today.setHours(0,0,0,0);
-  const next=calendarData.find(d=>!d.done);
-  if(!next){alert('You are all caught up!');return;}
-  const detail=document.getElementById('day-detail');
-  if(detail){
-    detail.innerHTML=`<div style="background:rgba(255,214,0,0.06);border:1px solid rgba(255,214,0,0.25);border-radius:12px;padding:14px;margin-bottom:10px;">
-      <div style="font-size:0.75rem;font-weight:700;color:var(--yellow);margin-bottom:8px;">🔥 Your comeback post — Day ${next.day}</div>
-      ${renderDayCard(next)}
-    </div>`;
-    detail.scrollIntoView({behavior:'smooth',block:'start'});
-  }
-}
-function renderGrid(){
-  const today=new Date();today.setHours(0,0,0,0);
-  let html=`<div><div style="display:grid;grid-template-columns:repeat(7,1fr);gap:3px;margin-bottom:4px;">`;
-  ['S','M','T','W','T','F','S'].forEach(d=>html+=`<div style="text-align:center;font-size:0.6rem;font-weight:700;color:var(--muted);padding:3px;">${d}</div>`);
-  html+=`</div><div class="cal-grid">`;
-  const offset=calStartDate.getDay();
-  for(let i=0;i<offset;i++) html+=`<div></div>`;
-  calendarData.forEach(d=>{
-    const dd=new Date(d.date);dd.setHours(0,0,0,0);
-    const isPast=dd<today;
-    const isToday=dd.getTime()===today.getTime();
-    const col=d.done?'var(--green)':(isPast&&!d.done?'#ff5c5c':getDayColor(d.day));
-    const intent=DAY_INTENT[d.day]||'';
-    const shortIntent=intent.split(' ').slice(0,2).join(' ');
-    html+=`<div class="cal-day-cell ${d.done?'done':(isPast&&!d.done?'missed':(isToday?'today':''))}" onclick="showDay(${d.day-1})" style="border-color:${col}55;background:${col}0a;min-height:52px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;">
-      <div style="font-size:0.72rem;font-weight:700;color:${col};">${d.day}</div>
-      <div style="font-size:0.48rem;color:${col}cc;text-align:center;line-height:1.2;padding:0 2px;">${d.done?'✅':shortIntent}</div>
-    </div>`;
-  });
-  html+=`</div><div id="day-detail" style="margin-top:12px;"></div></div>`;
-  return html;
-}
-function showDay(idx){
-  const d=calendarData[idx];if(!d)return;
-  const panel=document.getElementById('day-detail');
-  if(panel){panel.innerHTML=renderDayCard(d);panel.scrollIntoView({behavior:'smooth',block:'start'});}
-}
-function renderDayCard(d){
-  const col=getDayColor(d.day);
-  const intent=DAY_INTENT[d.day]||d.phase;
-  const label=getDayColorLabel(d.day);
-  const cleanTxt=makeClean([d.hook,d.caption,d.cta]);
-  const fullId=st(cleanTxt);
-  const kitTxt=`HOOK:\n${d.hook}\n\nCAPTION:\n${d.caption}\n\nCTA:\n${d.cta}\n\nREEL IDEA:\n${d.reelIdea}\n\nSTORY IDEA:\n${d.storyIdea}`;
-  const kitId=st(kitTxt);
-  let html=`<div class="res-card fade-in" style="margin-bottom:10px;border-left:3px solid ${d.done?'var(--green)':col};">`;
-
-  // Day header
-  html+=`<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
-    <div>
-      <span style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;color:${col};">Day ${d.day}</span>
-      <span style="font-size:0.62rem;background:${col}18;border:1px solid ${col}33;border-radius:6px;padding:2px 8px;margin-left:8px;color:${col};font-weight:700;">${label}</span>
-    </div>
-    <button onclick="toggleDone(${d.day-1})" style="background:${d.done?'rgba(0,255,133,0.15)':'var(--card2)'};border:1px solid ${d.done?'rgba(0,255,133,0.4)':'var(--border2)'};border-radius:8px;padding:5px 10px;color:${d.done?'var(--green)':'var(--muted2)'};font-family:'Plus Jakarta Sans',sans-serif;font-size:0.72rem;font-weight:700;cursor:pointer;">${d.done?'✅ Posted':'Mark Posted'}</button>
-  </div>`;
-
-  // Intent label
-  html+=`<div style="font-size:0.78rem;font-weight:600;color:${col};margin-bottom:10px;line-height:1.3;">${intent}</div>`;
-
-  // The post
-  if(d.hook) html+=`<div class="res-section"><div class="res-section-lbl" style="color:var(--pink);">🎣 Hook</div><div class="res-section-text" style="font-weight:600;color:var(--text);">${d.hook}</div></div>`;
-  if(d.caption) html+=`<div class="res-section"><div class="res-section-lbl">✍️ Caption</div><div class="res-section-text">${d.caption.replace(/\n/g,'<br>')}</div></div>`;
-  if(d.cta) html+=`<div class="res-section"><div class="res-section-lbl" style="color:var(--orange);">📣 CTA</div><div class="res-section-text">${d.cta}</div></div>`;
-
-  // Reel + Story
-  if(d.reelIdea||d.storyIdea){
-    html+=`<div style="background:rgba(255,214,0,0.04);border:1px solid rgba(255,214,0,0.15);border-radius:10px;padding:10px;margin-top:8px;">
-      <div style="font-size:0.6rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--yellow);margin-bottom:6px;">★ CONTENT KIT</div>`;
-    if(d.reelIdea) html+=`<div style="font-size:0.78rem;color:var(--muted2);margin-bottom:4px;"><span style="color:var(--yellow);font-weight:600;">📹 Reel:</span> ${d.reelIdea}</div>`;
-    if(d.storyIdea) html+=`<div style="font-size:0.78rem;color:var(--muted2);"><span style="color:var(--orange);font-weight:600;">📖 Story:</span> ${d.storyIdea}</div>`;
-    html+=`</div>`;
-  }
-
-  // Actions — clean and simple
-  html+=`<div class="res-actions">
-    <button class="btn-sm" style="background:var(--grad);color:#fff;border:none;" onclick="justPostThis(${d.day-1})">📋 Copy Post</button>
-    <button class="btn-sm" onclick="doCopy(this,'${kitId}')">📋 Full Kit</button>
-    <button class="btn-sm" onclick="doSave('${fullId}','Day ${d.day}')">⭐ Save</button>
-  </div></div>`;
-  return html;
-}
-function toggleDone(idx){calendarData[idx].done=!calendarData[idx].done;renderCalendar();}
-function setCalView(v){calView=v;renderCalendar();}
-function copyAll30(){
-  const all=calendarData.map(d=>`DAY ${d.day} [${d.phase}]\n${d.hook}\n\n${d.caption}\n\n${d.cta}`).join('\n\n---\n\n');
-  navigator.clipboard.writeText(all).catch(()=>{});
-  alert('All 30 days copied!');
-}
 
 // ═══ SAVED ═══
 function rSaved(){
