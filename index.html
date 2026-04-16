@@ -2389,7 +2389,7 @@ async function checkCreatorCode(){
     const hashBuffer=await crypto.subtle.digest('SHA-256',data);
     const hashArray=Array.from(new Uint8Array(hashBuffer));
     const hashHex=hashArray.map(b=>b.toString(16).padStart(2,'0')).join('');
-    if(hashHex==='8fe90794b06e293ddaaa08189fce68706279ef299a0f505111db759b97c99ac9'){
+    if(hashHex==='e5e22916dff23e261bdd5826f845cb32e7e9bb75a822a19a9fe5267c138a946c'){
       creatorMode=true;localStorage.setItem('sc2-creator','true');
       if(status) status.innerHTML='<span style="color:var(--green)">✅ Creator Mode Unlocked!</span>';
       const sc=document.getElementById('set-creator');if(sc){sc.textContent='Unlocked ✅';sc.style.color='var(--green)';}
