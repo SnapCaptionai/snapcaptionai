@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SnapCaption – Delete My Data</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0a0a0f; color: #f0f0f8; line-height: 1.7; }
+  .header { background: linear-gradient(135deg, #ff2d78, #ff7a00); padding: 48px 24px 40px; text-align: center; color: #fff; }
+  .header h1 { font-size: 2rem; font-weight: 800; margin-bottom: 6px; }
+  .header p { font-size: 0.95rem; opacity: 0.85; }
+  .nav { background: #12121a; padding: 12px 24px; display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; border-bottom: 1px solid #2a2a3a; }
+  .nav a { color: #00d4ff; font-size: 0.78rem; text-decoration: none; font-weight: 600; padding: 4px 10px; border-radius: 6px; border: 1px solid rgba(0,212,255,0.25); }
+  .nav a:hover { background: rgba(0,212,255,0.1); }
+  .container { max-width: 760px; margin: 0 auto; padding: 40px 24px 80px; }
+  .option-card { background: #12121a; border: 1px solid #2a2a3a; border-radius: 14px; padding: 20px 24px; margin-bottom: 16px; }
+  .option-card h2 { font-size: 1rem; font-weight: 700; color: #00d4ff; margin-bottom: 8px; }
+  .option-card p { font-size: 0.88rem; color: #b0b0c0; margin-bottom: 0; }
+  .delete-btn { display: inline-block; margin-top: 12px; padding: 10px 20px; background: rgba(255,92,92,0.15); border: 1px solid rgba(255,92,92,0.4); border-radius: 10px; color: #ff5c5c; font-size: 0.85rem; font-weight: 700; text-decoration: none; cursor: pointer; }
+  .contact-box { background: #12121a; border: 2px solid #ff2d78; border-radius: 12px; padding: 20px 24px; margin-top: 32px; }
+  .contact-box h3 { color: #ff2d78; font-size: 1rem; font-weight: 700; margin-bottom: 8px; }
+  .contact-box a { color: #ff2d78; text-decoration: none; font-weight: 600; }
+  .footer { text-align: center; font-size: 0.8rem; color: #555; margin-top: 48px; padding-top: 24px; border-top: 1px solid #2a2a3a; }
+  .hero { text-align: center; padding: 24px 0 32px; }
+  .hero h2 { font-size: 1.4rem; font-weight: 800; margin-bottom: 8px; }
+  .hero p { color: #b0b0c0; font-size: 0.9rem; }
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>⚡ SnapCaption</h1>
+  <p>Delete My Data — Your rights, your control</p>
+</div>
+<div class="nav">
+  <a href="/privacy">Privacy Policy</a>
+  <a href="/terms">Terms of Service</a>
+  <a href="/refund">Refund Policy</a>
+  <a href="/delete">Delete My Data</a>
+</div>
+<div class="container">
+  <div class="hero">
+    <h2>Your data. Your rights. Full control.</h2>
+    <p>Three ways to delete your data — pick what works for you.</p>
+  </div>
+
+  <div class="option-card">
+    <h2>Option 1 — Delete instantly in the app</h2>
+    <p>Go to Settings → scroll to bottom → tap "Clear All Saved Data". Removes everything immediately. No email needed.</p>
+  </div>
+
+  <div class="option-card">
+    <h2>Option 2 — Uninstall the app</h2>
+    <p>Uninstalling SnapCaption removes all locally stored data permanently from your device.</p>
+  </div>
+
+  <div class="option-card">
+    <h2>Option 3 — Email a deletion request</h2>
+    <p>If you believe any data exists beyond your device — such as your email address in our Kit list — email us and we will respond within 5 business days.</p>
+    <a href="mailto:hellosnapcaptionai@gmail.com?subject=Data Deletion Request" class="delete-btn">🗑️ Send Deletion Request</a>
+  </div>
+
+  <div class="contact-box">
+    <h3>Contact Us</h3>
+    <p><a href="mailto:hellosnapcaptionai@gmail.com">hellosnapcaptionai@gmail.com</a><br>
+    <a href="https://snapcaptionai.com">snapcaptionai.com</a></p>
+  </div>
+  <div class="footer">© 2026 SnapCaption · Shatica R Miles · All rights reserved</div>
+</div>
+</body>
+</html>
