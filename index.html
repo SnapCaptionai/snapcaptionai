@@ -499,8 +499,8 @@ select option{background:var(--card2);}
       <div class="chip" onclick="tc(this)">Calm</div>
     </div>
     <div class="field" style="margin-top:10px;">
-      <span class="sl">🛍️ Product or Offer to Mention (optional)</span>
-      <input type="text" id="cap-product" placeholder="e.g. My 30-day coaching program, Garden to Skin soap..." />
+      <span class="sl">🛍️ What do you sell or offer? (optional but recommended)</span>
+      <input type="text" id="cap-product" placeholder="e.g. cakes, cookies & pies — sea moss gummies — coaching — handmade soaps" />
     </div>
     <div class="field">
       <span class="sl">🔗 Link to Include (optional)</span>
@@ -1345,7 +1345,11 @@ const ANTI_GENERIC = `CRITICAL RULES:
 - No corporate speak, buzzwords, or filler sentences
 - Write like a real human speaking to another real human
 - Vary sentence length — short punchy sentences mixed with longer ones
-- No repeated sentence patterns`;
+- No repeated sentence patterns
+- NEVER default to "content creation", "showing up online", or "content burnout" language unless the user's topic is specifically about content creation
+- If the user sells a product or service write about THAT product or service — not about being a creator
+- Happy Saturday, Good Morning, or casual greetings should feel warm and specific to the person's niche — not generic
+- A sea moss seller's Saturday post should feel different from a realtor's Saturday post`;
 
 // ═══ STATE ═══
 const FREE_LIMIT = 10;
@@ -1509,14 +1513,14 @@ function clean(text){
 // ═══ VOICE CONTEXT ═══
 function getVoiceContext(){
   let ctx='';
-  if(voiceProfile.tone) ctx+='Creator tone: '+voiceProfile.tone+'. ';
+  if(voiceProfile.tone) ctx+='Tone: '+voiceProfile.tone+'. ';
   if(voiceProfile.desc) ctx+='Voice style: '+voiceProfile.desc+'. ';
-  if(profile.name) ctx+='Creator name: '+profile.name+'. ';
-  if(profile.brand) ctx+='What they offer: '+profile.brand+'. ';
+  if(profile.name) ctx+='Person or brand name: '+profile.name+'. ';
+  if(profile.brand) ctx+='What they offer or sell: '+profile.brand+'. ';
   if(profile.niche) ctx+='Their audience: '+profile.niche+'. ';
   if(contentBank.result) ctx+='Best customer result: '+contentBank.result+'. ';
-  if(contentBank.pain) ctx+='Customer pain: '+contentBank.pain+'. ';
-  if(contentBank.objection) ctx+='Common objection: '+contentBank.objection+'. ';
+  if(contentBank.pain) ctx+='Customer pain point: '+contentBank.pain+'. ';
+  if(contentBank.objection) ctx+='Common objection they hear: '+contentBank.objection+'. ';
   return ctx;
 }
 
@@ -1691,8 +1695,18 @@ function wtpPick(field,el,val){
 async function genWTP(){
   if(!canGen()) return;
   document.getElementById('wtp-out').innerHTML='<div class="res-card" style="text-align:center;padding:20px"><div class="spin" style="margin:0 auto"></div><div style="margin-top:10px;font-size:0.8rem;color:var(--muted2)">Creating your post...</div></div>';
-  const prompt=`Create a social media post for a ${wtpState.creator||'creator'}.
+  const voiceCtx=getVoiceContext();
+  const businessType=wtpState.creator||'business owner or creator';
+  const prompt=`Create a social media post for a ${businessType}.
 Post type: ${wtpState.type} | Tone: ${wtpState.tone||'Real Talk'}
+${voiceCtx?'Voice context: '+voiceCtx:''}
+
+Important rules:
+- Write content that matches their actual business type — a baker writes about baking, a coach writes about coaching, a realtor writes about real estate
+- Do NOT default to "content creation" or "showing up online" unless they are specifically a content creator
+- Make it sound like a real human not a robot
+- Match the post type naturally to their business
+
 Format EXACTLY:
 HOOK
 [opener]
@@ -1701,7 +1715,7 @@ CAPTION
 CTA
 [call to action]
 HASHTAGS
-[10 hashtags]`;
+[10 relevant hashtags]`;
   try{
     const txt=await ai(prompt);
     const get=(key)=>{const m=txt.match(new RegExp(key+'[:\\s]*\\n([\\s\\S]*?)(?=\\n(?:HOOK|CAPTION|CTA|HASHTAGS)|$)','i'));return m?m[1].trim():'';};
@@ -1730,22 +1744,36 @@ function resetWTP(){
 async function genCaption(){
   if(!canGen()) return;
   const p=gplat('cap-prow');const tone=gtones('cap-tone');
-  const d=document.getElementById('cap-in').value.trim()||'a helpful tip for creators';
+  const d=document.getElementById('cap-in').value.trim()||'something on my mind today';
   const goal=document.getElementById('cap-goal').value;
   const ht=document.getElementById('cap-ht').value==='yes';
   setBtn('cap-btn',true,'<span>✍️</span> Build My Post');
   document.getElementById('cap-out').innerHTML='';
   const product=document.getElementById('cap-product')?.value.trim()||'';
   const link=document.getElementById('cap-link')?.value.trim()||'';
-  const prodNote=product?`\nNaturally weave in a mention of: "${product}"${link?' — link: '+link:''}. Sound like a friend recommending it, not an ad.`:'';
-  const prompt=`Write 3 complete ${p} post packages for: "${d}"
-Goal: ${goal} | Tone: ${tone}${prodNote}
+
+  // Build context — product leads if provided
+  const voiceCtx=getVoiceContext();
+  const productCtx=product?`This post is for someone who sells: ${product}${link?' — link: '+link:''}. The post should connect naturally to this product or the lifestyle around it without being a hard sell.`:'';
+
+  const prompt=`Write 3 complete ${p} post packages about: "${d}"
+${productCtx}
+${voiceCtx?'Voice context: '+voiceCtx:''}
+Goal: ${goal} | Tone: ${tone}
+
+Important rules:
+- Write about the TOPIC the user gave — do not invent a different topic
+- If a product is mentioned weave it in naturally — do not make the whole post about content creation unless that is the actual topic
+- Sound like a real human not an AI
+- No generic "content burnout" or "showing up online" language unless the user specifically asked about that
+- Match the energy of the topic — Happy Saturday should feel light and fun, not heavy
+
 For each write EXACTLY:
 ITEM[number]
-HOOK: [scroll-stopping opener]
-CAPTION: [3-5 sentence body]
-CTA: [call to action]
-${ht?'HASHTAGS: [8-10 hashtags]':''}
+HOOK: [scroll-stopping opener that matches the topic and tone]
+CAPTION: [3-5 sentences — real, specific, human]
+CTA: [call to action that fits this post naturally]
+${ht?'HASHTAGS: [8-10 relevant hashtags]':''}
 ---`;
   try{
     const txt=await ai(prompt);
@@ -1942,7 +1970,7 @@ TEXT OVERLAY IDEAS
 // ═══ HASHTAG GEN ═══
 async function genHashtags(){
   if(!canGen()) return;
-  const p=gplat('ht-prow');const d=document.getElementById('ht-in').value.trim()||'content creator tips';
+  const p=gplat('ht-prow');const d=document.getElementById('ht-in').value.trim()||'something I want my audience to know';
   const niche=document.getElementById('ht-niche').value;
   setBtn('ht-btn',true,'<span>#️⃣</span> Generate Hashtags');
   document.getElementById('ht-out').innerHTML='';
@@ -2014,7 +2042,7 @@ TWITTER
 // ═══ IDEAS ═══
 async function genIdeas(){
   if(!canGen()) return;
-  const niche=document.getElementById('id-niche').value.trim()||'content creator';
+  const niche=document.getElementById('id-niche').value.trim()||'my business';
   const plat=document.getElementById('id-plat').value;
   const fmt=document.getElementById('id-fmt').value;
   setBtn('id-btn',true,'<span>💡</span> Give Me 10 Ideas');
