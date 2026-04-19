@@ -556,6 +556,9 @@ select option{background:var(--card2);}
       </div>
     </div>
 
+  </div><!-- end .sp -->
+</div><!-- end s-home -->
+
 <!-- CAPTION GENERATOR -->
 <div class="screen" id="s-caption">
   <div class="sp">
@@ -2697,20 +2700,25 @@ function deleteSaved(i){saved.splice(i,1);sv();rSaved();rHome();}
 
 // ═══ SETTINGS ═══
 function initSettings(){
+  // Re-read from localStorage on every call to ensure fields are always fresh
+  profile = JSON.parse(localStorage.getItem('sc2-profile') || '{}');
+  voiceProfile = JSON.parse(localStorage.getItem('sc2-voice') || '{}');
+  contentBank = JSON.parse(localStorage.getItem('sc2-bank') || '{}');
+
   // Engine selection only — no API keys needed in browser
   ['gemini','openai'].forEach(e=>{
     const b=document.getElementById('badge-'+e);
     if(b){b.textContent='ACTIVE';b.style.color='var(--green)';}
   });
-  const vd=document.getElementById('voice-desc');if(vd&&voiceProfile.desc) vd.value=voiceProfile.desc;
-  if(voiceProfile.tone){document.querySelectorAll('#voice-tone-chips .chip').forEach(c=>{if(voiceProfile.tone.includes(c.textContent)) c.classList.add('on');});}
-  if(profile.name) document.getElementById('prof-name').value=profile.name;
-  if(profile.brand) document.getElementById('prof-brand').value=profile.brand;
-  if(profile.niche) document.getElementById('prof-niche').value=profile.niche;
-  if(contentBank.result) document.getElementById('bank-result').value=contentBank.result;
-  if(contentBank.pain) document.getElementById('bank-pain').value=contentBank.pain;
-  if(contentBank.objection) document.getElementById('bank-objection').value=contentBank.objection;
-  if(contentBank.belief) document.getElementById('bank-belief').value=contentBank.belief;
+  const vd=document.getElementById('voice-desc');if(vd) vd.value=voiceProfile.desc||'';
+  if(voiceProfile.tone){document.querySelectorAll('#voice-tone-chips .chip').forEach(c=>{c.classList.toggle('on',voiceProfile.tone.includes(c.textContent));});}
+  const pn=document.getElementById('prof-name');if(pn) pn.value=profile.name||'';
+  const pb=document.getElementById('prof-brand');if(pb) pb.value=profile.brand||'';
+  const pni=document.getElementById('prof-niche');if(pni) pni.value=profile.niche||'';
+  const br=document.getElementById('bank-result');if(br) br.value=contentBank.result||'';
+  const bp=document.getElementById('bank-pain');if(bp) bp.value=contentBank.pain||'';
+  const bo=document.getElementById('bank-objection');if(bo) bo.value=contentBank.objection||'';
+  const bb=document.getElementById('bank-belief');if(bb) bb.value=contentBank.belief||'';
   if(creatorMode){const sc=document.getElementById('set-creator');if(sc){sc.textContent='Unlocked ✅';sc.style.color='var(--green)';}}
   if(document.getElementById('watermark-toggle')) document.getElementById('watermark-toggle').checked=watermarkOn;
   // All engines active via server-side keys
@@ -2726,6 +2734,10 @@ function initSettings(){
   }
   document.querySelectorAll('.eng-card').forEach(c=>c.classList.remove('active-eng'));
   const ae=document.getElementById('eng-'+activeEngine);if(ae) ae.classList.add('active-eng');
+  // Stats
+  const sg=document.getElementById('set-gen');if(sg) sg.textContent=totalGen;
+  const ss=document.getElementById('set-streak');if(ss) ss.textContent=streak;
+  const sv2=document.getElementById('set-saved');if(sv2) sv2.textContent=saved.length;
 }
 function saveKey(engine){
   // Keys are now managed in Vercel environment variables, not in the browser
