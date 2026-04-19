@@ -2661,31 +2661,35 @@ async function checkCreatorCode(){
     if(hashHex==='e5e22916dff23e261bdd5826f845cb32e7e9bb75a822a19a9fe5267c138a946c'){
       creatorMode=true;localStorage.setItem('sc2-creator','true');
 
-      // Pre-load founder voice profile if not already set
-      if(!profile.name){
-        profile={
-          name:'Shatica Miles',
-          brand:'SnapCaption, WhoseTeaTV, Infinite Storefront',
-          niche:'midlife women, entrepreneurs, small business owners, people in reinvention'
-        };
-        localStorage.setItem('sc2-profile',JSON.stringify(profile));
-      }
-      if(!voiceProfile.desc){
-        voiceProfile={
-          tone:'Blunt,Raw,Emoji OK,Short',
-          desc:`Direct, lived, and confrontational in a useful way. I do not talk at people. I talk to the part of them they avoid. I do not motivate for the moment. I push for movement. I expose what people hide from themselves — fear of being seen trying, waiting for permission, performing instead of living. I speak from experience not theory. My tone carries weight because it sounds like I have been there and I know how this plays out. I challenge without tearing people down. I move from awareness to action — I do not stop at what is wrong, I push into what you do next. Simple language with strong meaning. No fluff. No filler. Short lines. Clear thoughts. Every sentence has a job. I am a pattern breaker not a motivator. I post about mindset, personal growth, reinvention, entrepreneurship, products I love, my family, restaurant reviews, Amazon and affiliate finds, and uplifting others. Platforms include Instagram, TikTok, Facebook, YouTube, Pinterest, LinkedIn.`
-        };
-        localStorage.setItem('sc2-voice',JSON.stringify(voiceProfile));
-      }
-      if(!contentBank.belief){
-        contentBank={
-          result:'Helped people see what was holding them back and actually move forward instead of staying stuck',
-          pain:'They know what they need to do but keep stalling, overthinking, and waiting for permission that is never coming',
-          objection:'I already know this, I am not ready yet, I do not have time',
-          belief:'You do not need more information. You need to stop performing readiness and start making moves. The gap between where you are and where you want to be is not knowledge. It is action.'
-        };
-        localStorage.setItem('sc2-bank',JSON.stringify(contentBank));
-      }
+      const PROFILE_VERSION = "v2";
+
+const savedVersion = localStorage.getItem('sc2-version');
+
+if (savedVersion !== PROFILE_VERSION) {
+
+  profile = {
+    name:'Shatica Miles',
+    brand:'SnapCaption, WhoseTeaTV, Infinite Storefront',
+    niche:'midlife women, entrepreneurs, small business owners, people in reinvention'
+  };
+
+  voiceProfile = {
+    tone:'Blunt,Raw,Emoji OK,Short',
+    desc:`Direct, lived, and confrontational in a useful way. I do not talk at people. I talk to the part of them they avoid. I do not motivate for the moment. I push for movement. I expose what people hide from themselves — fear of being seen trying, waiting for permission, performing instead of living. I speak from experience not theory. My tone carries weight because it sounds like I have been there and I know how this plays out. I challenge without tearing people down. I move from awareness to action — I do not stop at what is wrong, I push into what you do next. Simple language with strong meaning. No fluff. No filler. Short lines. Clear thoughts. Every sentence has a job. I am a pattern breaker not a motivator. I post about mindset, personal growth, reinvention, entrepreneurship, products I love, my family, restaurant reviews, Amazon and affiliate finds, and uplifting others. Platforms include Instagram, TikTok, Facebook, YouTube, Pinterest, LinkedIn.`
+  };
+
+  contentBank = {
+    result:'Helped people see what was holding them back and actually move forward instead of staying stuck',
+    pain:'They know what they need to do but keep stalling, overthinking, and waiting for permission that is never coming',
+    objection:'I already know this, I am not ready yet, I do not have time',
+    belief:'You do not need more information. You need to stop performing readiness and start making moves. The gap between where you are and where you want to be is not knowledge. It is action.'
+  };
+
+  localStorage.setItem('sc2-profile', JSON.stringify(profile));
+  localStorage.setItem('sc2-voice', JSON.stringify(voiceProfile));
+  localStorage.setItem('sc2-bank', JSON.stringify(contentBank));
+  localStorage.setItem('sc2-version', PROFILE_VERSION);
+}
 
       if(status) status.innerHTML='<span style="color:var(--green)">✅ Creator Mode Unlocked — Your voice is loaded!</span>';
       const sc=document.getElementById('set-creator');if(sc){sc.textContent='Unlocked ✅';sc.style.color='var(--green)';}
