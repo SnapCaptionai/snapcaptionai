@@ -277,6 +277,7 @@ select option{background:var(--card2);}
         <div class="ppill" onclick="pp(this)" data-v="Facebook">Facebook</div>
         <div class="ppill" onclick="pp(this)" data-v="LinkedIn">LinkedIn</div>
         <div class="ppill" onclick="pp(this)" data-v="YouTube">YouTube</div>
+      <div class="ppill" onclick="pp(this)" data-v="Pinterest">Pinterest</div>
       </div>
     </div>
     <div class="ob-field"><span class="ob-label">What tone fits you best?</span>
@@ -491,6 +492,7 @@ select option{background:var(--card2);}
       <div class="ppill" onclick="pp(this)" data-v="LinkedIn">LinkedIn</div>
       <div class="ppill" onclick="pp(this)" data-v="Twitter">Twitter</div>
       <div class="ppill" onclick="pp(this)" data-v="YouTube">YouTube</div>
+      <div class="ppill" onclick="pp(this)" data-v="Pinterest">Pinterest</div>
     </div>
     <div class="field">
       <span class="sl">Your Idea or Topic</span>
@@ -556,6 +558,7 @@ select option{background:var(--card2);}
       <div class="ppill" onclick="pp(this)" data-v="Facebook">Facebook</div>
       <div class="ppill" onclick="pp(this)" data-v="LinkedIn">LinkedIn</div>
       <div class="ppill" onclick="pp(this)" data-v="YouTube">YouTube</div>
+      <div class="ppill" onclick="pp(this)" data-v="Pinterest">Pinterest</div>
     </div>
     <div class="field">
       <span class="sl">Topic or Idea</span>
@@ -585,6 +588,7 @@ select option{background:var(--card2);}
       <div class="ppill on" onclick="pp(this)" data-v="TikTok">TikTok</div>
       <div class="ppill" onclick="pp(this)" data-v="Instagram Reels">Reels</div>
       <div class="ppill" onclick="pp(this)" data-v="YouTube">YouTube</div>
+      <div class="ppill" onclick="pp(this)" data-v="Pinterest">Pinterest</div>
       <div class="ppill" onclick="pp(this)" data-v="Facebook">Facebook</div>
     </div>
     <div class="field">
@@ -691,6 +695,7 @@ select option{background:var(--card2);}
       <div class="ppill" onclick="pp(this)" data-v="TikTok">TikTok</div>
       <div class="ppill" onclick="pp(this)" data-v="LinkedIn">LinkedIn</div>
       <div class="ppill" onclick="pp(this)" data-v="YouTube">YouTube</div>
+      <div class="ppill" onclick="pp(this)" data-v="Pinterest">Pinterest</div>
     </div>
     <div class="field">
       <span class="sl">Your Post Topic</span>
@@ -733,7 +738,7 @@ select option{background:var(--card2);}
         <span class="sl">Platform</span>
         <select id="id-plat">
           <option>Instagram</option><option>TikTok</option><option>Facebook</option>
-          <option>LinkedIn</option><option>YouTube</option>
+          <option>LinkedIn</option><option>YouTube</option><option>Pinterest</option>
         </select>
       </div>
       <div>
@@ -761,6 +766,7 @@ select option{background:var(--card2);}
       <div class="ppill" onclick="pp(this)" data-v="LinkedIn">LinkedIn</div>
       <div class="ppill" onclick="pp(this)" data-v="Facebook">Facebook</div>
       <div class="ppill" onclick="pp(this)" data-v="YouTube">YouTube</div>
+      <div class="ppill" onclick="pp(this)" data-v="Pinterest">Pinterest</div>
     </div>
     <div class="field">
       <span class="sl">Tell Me About You</span>
@@ -882,6 +888,8 @@ select option{background:var(--card2);}
           <div class="ppill" onclick="pp(this)" data-v="TikTok">TikTok</div>
           <div class="ppill" onclick="pp(this)" data-v="Facebook">Facebook</div>
           <div class="ppill" onclick="pp(this)" data-v="LinkedIn">LinkedIn</div>
+          <div class="ppill" onclick="pp(this)" data-v="YouTube">YouTube</div>
+          <div class="ppill" onclick="pp(this)" data-v="Pinterest">Pinterest</div>
         </div>
         <div style="display:flex;gap:8px;margin-top:16px;">
           <button class="btn-sm" onclick="document.getElementById('cal-details-screen').style.display='none';document.getElementById('cal-goal-screen').style.display='block';" style="flex:1;">← Back</button>
@@ -2652,9 +2660,36 @@ async function checkCreatorCode(){
     const hashHex=hashArray.map(b=>b.toString(16).padStart(2,'0')).join('');
     if(hashHex==='e5e22916dff23e261bdd5826f845cb32e7e9bb75a822a19a9fe5267c138a946c'){
       creatorMode=true;localStorage.setItem('sc2-creator','true');
-      if(status) status.innerHTML='<span style="color:var(--green)">✅ Creator Mode Unlocked!</span>';
+
+      // Pre-load founder voice profile if not already set
+      if(!profile.name){
+        profile={
+          name:'Shatica Miles',
+          brand:'SnapCaption, WhoseTeaTV, Infinite Storefront',
+          niche:'midlife women, entrepreneurs, small business owners, people in reinvention'
+        };
+        localStorage.setItem('sc2-profile',JSON.stringify(profile));
+      }
+      if(!voiceProfile.desc){
+        voiceProfile={
+          tone:'Blunt,Raw,Emoji OK,Short',
+          desc:`Direct, lived, and confrontational in a useful way. I do not talk at people. I talk to the part of them they avoid. I do not motivate for the moment. I push for movement. I expose what people hide from themselves — fear of being seen trying, waiting for permission, performing instead of living. I speak from experience not theory. My tone carries weight because it sounds like I have been there and I know how this plays out. I challenge without tearing people down. I move from awareness to action — I do not stop at what is wrong, I push into what you do next. Simple language with strong meaning. No fluff. No filler. Short lines. Clear thoughts. Every sentence has a job. I am a pattern breaker not a motivator. I post about mindset, personal growth, reinvention, entrepreneurship, products I love, my family, restaurant reviews, Amazon and affiliate finds, and uplifting others. Platforms include Instagram, TikTok, Facebook, YouTube, Pinterest, LinkedIn.`
+        };
+        localStorage.setItem('sc2-voice',JSON.stringify(voiceProfile));
+      }
+      if(!contentBank.belief){
+        contentBank={
+          result:'Helped people see what was holding them back and actually move forward instead of staying stuck',
+          pain:'They know what they need to do but keep stalling, overthinking, and waiting for permission that is never coming',
+          objection:'I already know this, I am not ready yet, I do not have time',
+          belief:'You do not need more information. You need to stop performing readiness and start making moves. The gap between where you are and where you want to be is not knowledge. It is action.'
+        };
+        localStorage.setItem('sc2-bank',JSON.stringify(contentBank));
+      }
+
+      if(status) status.innerHTML='<span style="color:var(--green)">✅ Creator Mode Unlocked — Your voice is loaded!</span>';
       const sc=document.getElementById('set-creator');if(sc){sc.textContent='Unlocked ✅';sc.style.color='var(--green)';}
-      rLim();
+      initSettings();rLim();
     }else{if(status) status.innerHTML='<span style="color:#ff5c5c">❌ Incorrect code</span>';}
   }catch(e){if(status) status.innerHTML='<span style="color:#ff5c5c">Error</span>';}
 }
