@@ -335,20 +335,33 @@ select option{background:var(--card2);}
 <div class="screen active" id="s-home">
   <div class="sp">
 
-    <!-- LEVEL 1: HERO — one person, one outcome, one action -->
-    <div style="padding:22px 18px 20px;background:linear-gradient(135deg,rgba(255,45,120,0.09),rgba(155,92,255,0.07));border:1px solid rgba(255,45,120,0.18);border-radius:18px;margin-bottom:14px;">
+    <!-- LEVEL 1: HERO -->
+    <div style="padding:18px 16px 16px;background:rgba(255,45,120,0.05);border:1px solid rgba(255,45,120,0.12);border-radius:16px;margin-bottom:12px;">
 
-      <div style="font-size:0.68rem;font-weight:700;letter-spacing:2px;color:var(--pink);margin-bottom:10px;">NOT AN AI WRITING TOOL</div>
+      <div style="font-size:0.62rem;font-weight:700;letter-spacing:2px;color:var(--muted2);margin-bottom:8px;">NOT AN AI WRITING TOOL</div>
 
-      <div style="font-family:'Bebas Neue',sans-serif;font-size:2.1rem;letter-spacing:0.03em;line-height:1.05;margin-bottom:10px;" id="h-greeting">A Voice Preservation<br><span style="background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">Engine.</span></div>
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:1.75rem;letter-spacing:0.03em;line-height:1.05;margin-bottom:8px;" id="h-greeting">A Voice Preservation<br><span style="background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">Engine.</span></div>
 
-      <div style="font-size:0.84rem;color:var(--muted2);line-height:1.6;margin-bottom:16px;">Most AI tools write for everyone.<br>That means they write for no one.<br><span style="color:var(--text);font-weight:600;">SnapCaption protects how you sound.</span></div>
+      <div style="font-size:0.78rem;color:var(--muted2);line-height:1.6;margin-bottom:14px;">Most AI writes for everyone. That means it writes for no one.<br><span style="color:var(--text);font-weight:600;">SnapCaption protects how you sound.</span></div>
 
       <!-- PRIMARY ACTION — the only one that matters -->
       <div style="background:rgba(0,0,0,0.2);border:1px solid rgba(255,255,255,0.07);border-radius:12px;padding:12px 14px;margin-bottom:14px;">
         <div style="font-size:0.72rem;color:var(--pink);font-weight:700;letter-spacing:1px;margin-bottom:8px;">WHAT ARE YOU SELLING TODAY?</div>
         <textarea id="quick-idea" rows="2" style="width:100%;background:transparent;border:none;outline:none;color:var(--text);font-size:0.88rem;resize:none;font-family:inherit;" placeholder="I just made a new batch of lavender soap..."></textarea>
-        <button class="btn-gen" id="quick-btn" onclick="quickCreate()" style="margin-top:8px;margin-bottom:0;width:100%;"><span>⚡</span> Get My Full Post — 10 Seconds</button>
+
+        <!-- LANE SELECTOR — only shows when creator mode is active -->
+        <div id="lane-selector" style="display:none;margin-top:10px;">
+          <div style="font-size:0.65rem;color:var(--muted2);font-weight:700;letter-spacing:1px;margin-bottom:6px;">WHO ARE YOU POSTING AS?</div>
+          <div style="display:flex;flex-wrap:wrap;gap:5px;">
+            <div class="lane-pill active" data-lane="whoseteaTV" onclick="selectLane(this)">📺 Whose Tea TV</div>
+            <div class="lane-pill" data-lane="infiniteStorefront" onclick="selectLane(this)">🛍️ Infinite Storefront</div>
+            <div class="lane-pill" data-lane="snapcaption" onclick="selectLane(this)">⚡ SnapCaption AI</div>
+            <div class="lane-pill" data-lane="personal" onclick="selectLane(this)">🙋 Personal</div>
+            <div class="lane-pill" data-lane="support" onclick="selectLane(this)">💛 Support Someone</div>
+          </div>
+        </div>
+
+        <button class="btn-gen" id="quick-btn" onclick="quickCreate()" style="margin-top:10px;margin-bottom:0;width:100%;"><span>⚡</span> Get My Full Post — 10 Seconds</button>
       </div>
 
       <div id="quick-out"></div>
@@ -380,19 +393,19 @@ select option{background:var(--card2);}
     </div>
 
     <!-- BEFORE AND AFTER PROOF -->
-    <div style="margin-bottom:14px;">
-      <div style="font-size:0.68rem;font-weight:700;letter-spacing:2px;color:var(--muted2);margin-bottom:10px;">THIS IS THE DIFFERENCE</div>
+    <div style="margin-bottom:12px;">
+      <div style="font-size:0.65rem;font-weight:700;letter-spacing:2px;color:var(--muted2);margin-bottom:8px;">THIS IS THE DIFFERENCE</div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
-        <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:12px;padding:12px;">
-          <div style="font-size:0.6rem;color:#666;font-weight:700;letter-spacing:1px;margin-bottom:6px;">WITHOUT VOICE PROFILE</div>
-          <div style="font-size:0.72rem;color:#888;line-height:1.5;font-style:italic;">Excited to share my new lavender soap with you! It is made with natural ingredients and perfect for sensitive skin. Check the link in bio to shop now!</div>
+        <div style="background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.06);border-radius:12px;padding:10px;">
+          <div style="font-size:0.58rem;color:#555;font-weight:700;letter-spacing:1px;margin-bottom:5px;">WITHOUT VOICE</div>
+          <div style="font-size:0.7rem;color:#777;line-height:1.5;">Just finished a long day and trying to get back on track. I know I should be doing more but I will start tomorrow. Trying to stay positive.</div>
         </div>
-        <div style="background:rgba(255,45,120,0.05);border:1px solid rgba(255,45,120,0.2);border-radius:12px;padding:12px;">
-          <div style="font-size:0.6rem;color:var(--pink);font-weight:700;letter-spacing:1px;margin-bottom:6px;">WITH YOUR VOICE</div>
-          <div style="font-size:0.72rem;color:var(--text);line-height:1.5;">You have been sleeping on lavender soap. Not because it smells good. Because it actually works while you sleep. New batch dropped. Link in bio.</div>
+        <div style="background:rgba(255,45,120,0.04);border:1px solid rgba(255,45,120,0.18);border-radius:12px;padding:10px;">
+          <div style="font-size:0.58rem;color:var(--pink);font-weight:700;letter-spacing:1px;margin-bottom:5px;">WITH YOUR VOICE</div>
+          <div style="font-size:0.7rem;color:var(--text);line-height:1.5;">You sat in that car ten minutes after work again. Told yourself you were tired. Then picked up your phone. You are not tired. You are avoiding starting.</div>
         </div>
       </div>
-      <div style="font-size:0.68rem;color:var(--muted);text-align:center;margin-top:6px;">Same product. Completely different voice. That is what this app does.</div>
+      <div style="font-size:0.65rem;color:var(--muted);text-align:center;margin-top:5px;">Same moment. Completely different voice.</div>
     </div>
 
     <!-- LEVEL 2: GUIDED OPTIONS — 4 max, outcome language -->
@@ -490,26 +503,11 @@ select option{background:var(--card2);}
       <div id="wtp-out"></div>
     </div>
 
-    <!-- PROOF -->
-    <div style="margin-bottom:14px;">
-      <div style="font-size:0.65rem;color:var(--green);font-weight:700;letter-spacing:1px;margin-bottom:10px;">REAL RESULTS FROM BETA TESTING</div>
-
-      <div style="background:rgba(0,255,133,0.04);border:1px solid rgba(0,255,133,0.1);border-radius:12px;padding:14px;margin-bottom:8px;">
-        <div style="font-size:0.78rem;color:var(--muted2);line-height:1.6;margin-bottom:8px;">Posted the first caption. I got 3x my normal engagement. I was skeptical. I am not anymore.</div>
-        <div style="font-size:0.65rem;color:var(--muted);">Beautician, Beta Tester</div>
-      </div>
-
-      <div style="background:rgba(155,92,255,0.04);border:1px solid rgba(155,92,255,0.12);border-radius:12px;padding:14px;margin-bottom:8px;">
-        <div style="font-size:0.65rem;color:var(--purple,#9b5cff);font-weight:700;letter-spacing:1px;margin-bottom:8px;">THE VOICE MEMORY WIN</div>
-        <div style="font-size:0.78rem;color:var(--muted2);line-height:1.6;margin-bottom:8px;">I was terrified this would make me sound like a robot. After feeding it my Voice Memory it spit out a script that sounded more like me than I do on a Monday morning. It kept my edge without me having to overthink it.</div>
-        <div style="font-size:0.65rem;color:var(--muted);">Service Provider, Beta Tester</div>
-      </div>
-
-      <div style="background:rgba(255,214,0,0.04);border:1px solid rgba(255,214,0,0.12);border-radius:12px;padding:14px;">
-        <div style="font-size:0.65rem;color:var(--yellow,#ffd600);font-weight:700;letter-spacing:1px;margin-bottom:8px;">REVENUE OVER LIKES</div>
-        <div style="font-size:0.78rem;color:var(--muted2);line-height:1.6;margin-bottom:8px;">Engagement is cool but sales are better. I used a Script output for a Facebook Live and had people clicking the link mid-stream because the transition was so smooth. This is not just a caption tool. It is a closer.</div>
-        <div style="font-size:0.65rem;color:var(--muted);">E-commerce Founder, Beta Tester</div>
-      </div>
+    <!-- PROOF — compact -->
+    <div style="background:rgba(0,255,133,0.04);border:1px solid rgba(0,255,133,0.1);border-radius:10px;padding:10px 12px;margin-bottom:12px;">
+      <div style="font-size:0.62rem;color:var(--green);font-weight:700;letter-spacing:1px;margin-bottom:6px;">BETA RESULTS</div>
+      <div id="proof-text" style="font-size:0.74rem;color:var(--muted2);line-height:1.5;"></div>
+      <div id="proof-by" style="font-size:0.62rem;color:var(--muted);margin-top:4px;"></div>
     </div>
 
     <!-- LEVEL 3: ALL TOOLS — collapsed by default -->
@@ -538,6 +536,10 @@ select option{background:var(--card2);}
           <span class="ttile-icon">💼</span><div class="ttile-name">LinkedIn Pro</div><div class="ttile-desc">B2B thought leadership</div>
           <div class="new-badge">NEW</div>
         </div>
+        <div class="ttile" onclick="go('comments')" style="--tg:linear-gradient(135deg,rgba(255,214,0,0.05),transparent)">
+          <span class="ttile-icon">💬</span><div class="ttile-name">Comment Gen</div><div class="ttile-desc">Engage without sounding fake</div>
+          <div class="new-badge">NEW</div>
+        </div>
         <div class="ttile" onclick="go('calendar')" style="--tg:linear-gradient(135deg,rgba(0,255,133,0.05),transparent)">
           <span class="ttile-icon">🗓️</span><div class="ttile-name">30-Day Calendar</div><div class="ttile-desc">Your sales path</div>
           <div class="new-badge" style="background:linear-gradient(135deg,var(--yellow),var(--orange));color:#000;">★ PRO</div>
@@ -564,6 +566,18 @@ select option{background:var(--card2);}
   <div class="sp">
     <div class="pt">Caption Gen</div>
     <div class="ps">Any platform. Any vibe. 3 options every time.</div>
+    <!-- LANE SELECTOR — creator mode only -->
+    <div class="tool-lane-bar" id="tlb-cap" style="display:none;margin-bottom:12px;">
+      <div style="font-size:0.62rem;color:var(--muted);font-weight:700;letter-spacing:1px;margin-bottom:5px;">POSTING AS</div>
+      <div style="display:flex;flex-wrap:wrap;gap:4px;">
+        <div class="lane-pill active" data-lane="whoseteaTV" onclick="selectLane(this)">📺 Whose Tea TV</div>
+        <div class="lane-pill" data-lane="infiniteStorefront" onclick="selectLane(this)">🛍️ Infinite Storefront</div>
+        <div class="lane-pill" data-lane="snapcaption" onclick="selectLane(this)">⚡ SnapCaption AI</div>
+        <div class="lane-pill" data-lane="personal" onclick="selectLane(this)">🙋 Personal</div>
+        <div class="lane-pill" data-lane="support" onclick="selectLane(this)">💛 Support</div>
+      </div>
+    </div>
+
     <span class="sl">Platform</span>
     <div class="ppills" id="cap-prow">
       <div class="ppill on" onclick="pp(this)" data-v="Instagram">Instagram</div>
@@ -576,27 +590,24 @@ select option{background:var(--card2);}
     </div>
     <div class="field">
       <span class="sl">Your Idea or Topic</span>
+      <div style="font-size:0.7rem;color:var(--muted2);margin-bottom:6px;line-height:1.5;">Examples: <em>just restocked my candles</em> · <em>3 years in business</em> · <em>client got a promotion after our coaching</em> · <em>happy Saturday</em> · <em>why I almost quit</em></div>
       <textarea id="cap-in" rows="3" placeholder="What do you want to post about? The more specific the better."></textarea>
     </div>
-    <div class="row2">
-      <div>
-        <span class="sl">Goal</span>
-        <select id="cap-goal">
-          <option value="engagement">Get Engagement</option>
-          <option value="sales">Drive Sales</option>
-          <option value="build trust">Build Trust</option>
-          <option value="grow followers">Grow Followers</option>
-          <option value="educate">Educate</option>
-          <option value="tell a story">Tell a Story</option>
-        </select>
-      </div>
-      <div>
-        <span class="sl">Hashtags?</span>
-        <select id="cap-ht">
-          <option value="yes">Yes, include them</option>
-          <option value="no">No hashtags</option>
-        </select>
-      </div>
+
+    <span class="sl">Goal</span>
+    <div class="ppills" id="cap-goal-pills" style="flex-wrap:wrap;">
+      <div class="ppill on" onclick="pp(this)" data-v="engagement">Get Engagement</div>
+      <div class="ppill" onclick="pp(this)" data-v="sales">Drive Sales</div>
+      <div class="ppill" onclick="pp(this)" data-v="build trust">Build Trust</div>
+      <div class="ppill" onclick="pp(this)" data-v="grow followers">Grow Followers</div>
+      <div class="ppill" onclick="pp(this)" data-v="educate">Educate</div>
+      <div class="ppill" onclick="pp(this)" data-v="tell a story">Tell a Story</div>
+    </div>
+
+    <span class="sl" style="margin-top:10px;">Hashtags?</span>
+    <div class="ppills" id="cap-ht-pills">
+      <div class="ppill on" onclick="pp(this)" data-v="yes">Yes, include them</div>
+      <div class="ppill" onclick="pp(this)" data-v="no">No hashtags</div>
     </div>
     <span class="sl">Tone</span>
     <div class="chips" id="cap-tone">
@@ -631,6 +642,18 @@ select option{background:var(--card2);}
   <div class="sp">
     <div class="pt">Hook Writer</div>
     <div class="ps">6 scroll-stopping hooks. AI scores each one on stop-power.</div>
+    <!-- LANE SELECTOR — creator mode only -->
+    <div class="tool-lane-bar" id="tlb-hook" style="display:none;margin-bottom:12px;">
+      <div style="font-size:0.62rem;color:var(--muted);font-weight:700;letter-spacing:1px;margin-bottom:5px;">POSTING AS</div>
+      <div style="display:flex;flex-wrap:wrap;gap:4px;">
+        <div class="lane-pill active" data-lane="whoseteaTV" onclick="selectLane(this)">📺 Whose Tea TV</div>
+        <div class="lane-pill" data-lane="infiniteStorefront" onclick="selectLane(this)">🛍️ Infinite Storefront</div>
+        <div class="lane-pill" data-lane="snapcaption" onclick="selectLane(this)">⚡ SnapCaption AI</div>
+        <div class="lane-pill" data-lane="personal" onclick="selectLane(this)">🙋 Personal</div>
+        <div class="lane-pill" data-lane="support" onclick="selectLane(this)">💛 Support</div>
+      </div>
+    </div>
+
     <span class="sl">Platform</span>
     <div class="ppills" id="hook-prow">
       <div class="ppill on" onclick="pp(this)" data-v="Instagram">Instagram</div>
@@ -663,6 +686,19 @@ select option{background:var(--card2);}
   <div class="sp">
     <div class="pt">Script Writer</div>
     <div class="ps">Full word-for-word video scripts that sound like you.</div>
+    <!-- LANE SELECTOR — creator mode only -->
+    <div class="tool-lane-bar" id="tlb-scr" style="display:none;margin-bottom:12px;">
+      <div style="font-size:0.62rem;color:var(--muted);font-weight:700;letter-spacing:1px;margin-bottom:5px;">POSTING AS</div>
+      <div style="display:flex;flex-wrap:wrap;gap:4px;">
+        <div class="lane-pill active" data-lane="whoseteaTV" onclick="selectLane(this)">📺 Whose Tea TV</div>
+        <div class="lane-pill" data-lane="infiniteStorefront" onclick="selectLane(this)">🛍️ Infinite Storefront</div>
+        <div class="lane-pill" data-lane="snapcaption" onclick="selectLane(this)">⚡ SnapCaption AI</div>
+        <div class="lane-pill" data-lane="personal" onclick="selectLane(this)">🙋 Personal</div>
+        <div class="lane-pill" data-lane="support" onclick="selectLane(this)">💛 Support</div>
+      </div>
+    </div>
+
+
     <span class="sl">Platform</span>
     <div class="ppills" id="scr-prow">
       <div class="ppill on" onclick="pp(this)" data-v="TikTok">TikTok</div>
@@ -671,46 +707,51 @@ select option{background:var(--card2);}
       <div class="ppill" onclick="pp(this)" data-v="Pinterest">Pinterest</div>
       <div class="ppill" onclick="pp(this)" data-v="Facebook">Facebook</div>
     </div>
+
     <div class="field">
-      <span class="sl">Topic or Hook Idea</span>
-      <textarea id="scr-in" rows="3" placeholder="What is the video about?"></textarea>
-    </div>
-    <div class="row2">
-      <div>
-        <span class="sl">Length</span>
-        <select id="scr-len">
-          <option value="30-second">30 seconds</option>
-          <option value="60-second" selected>60 seconds</option>
-          <option value="3-minute">3 minutes</option>
-          <option value="5-minute">5 minutes</option>
-          <option value="10-minute">10 minutes</option>
-          <option value="15-minute">15 minutes</option>
-          <option value="20-minute">20 minutes</option>
-          <option value="30-minute">30 minutes</option>
-        </select>
+      <span class="sl">What is this video about?</span>
+      <div style="font-size:0.7rem;color:var(--muted2);margin-bottom:6px;line-height:1.5;">
+        Examples:<br>
+        • <em>Why I quit my 9-5 after 12 years to start over</em><br>
+        • <em>3 things I wish I knew before launching my business</em><br>
+        • <em>How I made $800 from one Instagram post using this product</em><br>
+        • <em>The real reason your content is not getting views</em><br>
+        • <em>My morning routine as a mom who runs a business from home</em>
       </div>
-      <div>
-        <span class="sl">Style</span>
-        <select id="scr-style">
-          <option value="Talking Head">Talking Head</option>
-          <option value="Story Time">Story Time</option>
-          <option value="Tutorial / How-To">Tutorial</option>
-          <option value="Realization Series">Realization Series</option>
-          <option value="Myth Busting">Myth Busting</option>
-          <option value="Deep Dive / Long Form">Deep Dive</option>
-          <option value="Interview Style">Interview Style</option>
-          <option value="Motivational Talk">Motivational Talk</option>
-        </select>
-      </div>
+      <textarea id="scr-in" rows="3" placeholder="Type your idea here — be specific, it gives better results"></textarea>
     </div>
-    <div class="field">
-      <span class="sl">Product / Service to Mention (optional)</span>
-      <input type="text" id="scr-product" placeholder="e.g. My online course, coaching program..." />
+
+    <span class="sl">Video Length</span>
+    <div class="ppills" id="scr-len-pills" style="flex-wrap:wrap;">
+      <div class="ppill on" onclick="pp(this)" data-v="30-second">30 sec</div>
+      <div class="ppill" onclick="pp(this)" data-v="60-second">60 sec</div>
+      <div class="ppill" onclick="pp(this)" data-v="3-minute">3 min</div>
+      <div class="ppill" onclick="pp(this)" data-v="5-minute">5 min</div>
+      <div class="ppill" onclick="pp(this)" data-v="10-minute">10 min</div>
+      <div class="ppill" onclick="pp(this)" data-v="15-minute">15 min</div>
+      <div class="ppill" onclick="pp(this)" data-v="30-minute">30 min</div>
+    </div>
+
+    <span class="sl" style="margin-top:12px;">Style</span>
+    <div class="ppills" id="scr-style-pills" style="flex-wrap:wrap;">
+      <div class="ppill on" onclick="pp(this)" data-v="Talking Head">Talking Head</div>
+      <div class="ppill" onclick="pp(this)" data-v="Story Time">Story Time</div>
+      <div class="ppill" onclick="pp(this)" data-v="Tutorial / How-To">Tutorial</div>
+      <div class="ppill" onclick="pp(this)" data-v="Realization Series">Realization</div>
+      <div class="ppill" onclick="pp(this)" data-v="Myth Busting">Myth Busting</div>
+      <div class="ppill" onclick="pp(this)" data-v="Deep Dive / Long Form">Deep Dive</div>
+      <div class="ppill" onclick="pp(this)" data-v="Motivational Talk">Motivational</div>
+    </div>
+
+    <div class="field" style="margin-top:12px;">
+      <span class="sl">Product or Service to Mention (optional)</span>
+      <input type="text" id="scr-product" placeholder="e.g. My coaching program, handmade candles, online course" />
     </div>
     <div class="field">
       <span class="sl">Link (optional)</span>
       <input type="text" id="scr-link" placeholder="e.g. linkinbio.com/yourname" />
     </div>
+
     <span class="sl">Tone</span>
     <div class="chips" id="scr-tone">
       <div class="chip on" onclick="tc(this)">Real Talk</div>
@@ -719,10 +760,10 @@ select option{background:var(--card2);}
       <div class="chip" onclick="tc(this)">Storytelling</div>
       <div class="chip" onclick="tc(this)">Conversational</div>
       <div class="chip" onclick="tc(this)">Deep</div>
-      <div class="chip" onclick="tc(this)">Inspiring</div>
       <div class="chip" onclick="tc(this)">Energetic</div>
       <div class="chip" onclick="tc(this)">Calm</div>
     </div>
+
     <button class="btn-gen" id="scr-btn" onclick="genScript()" style="margin-top:12px;"><span>🎬</span> Write My Script</button>
     <div id="scr-out"></div>
   </div>
@@ -733,6 +774,18 @@ select option{background:var(--card2);}
   <div class="sp">
     <div class="pt">Shorts / Reels</div>
     <div class="ps">Fast, viral-ready 60-second scripts built for mobile.</div>
+    <!-- LANE SELECTOR — creator mode only -->
+    <div class="tool-lane-bar" id="tlb-short" style="display:none;margin-bottom:12px;">
+      <div style="font-size:0.62rem;color:var(--muted);font-weight:700;letter-spacing:1px;margin-bottom:5px;">POSTING AS</div>
+      <div style="display:flex;flex-wrap:wrap;gap:4px;">
+        <div class="lane-pill active" data-lane="whoseteaTV" onclick="selectLane(this)">📺 Whose Tea TV</div>
+        <div class="lane-pill" data-lane="infiniteStorefront" onclick="selectLane(this)">🛍️ Infinite Storefront</div>
+        <div class="lane-pill" data-lane="snapcaption" onclick="selectLane(this)">⚡ SnapCaption AI</div>
+        <div class="lane-pill" data-lane="personal" onclick="selectLane(this)">🙋 Personal</div>
+        <div class="lane-pill" data-lane="support" onclick="selectLane(this)">💛 Support</div>
+      </div>
+    </div>
+
     <div class="field">
       <span class="sl">Topic or Idea</span>
       <textarea id="sho-in" rows="3" placeholder="What is the short about?"></textarea>
@@ -769,6 +822,18 @@ select option{background:var(--card2);}
   <div class="sp">
     <div class="pt">Hashtag Gen</div>
     <div class="ps">Strategic sets — broad, targeted, and niche.</div>
+    <!-- LANE SELECTOR — creator mode only -->
+    <div class="tool-lane-bar" id="tlb-hash" style="display:none;margin-bottom:12px;">
+      <div style="font-size:0.62rem;color:var(--muted);font-weight:700;letter-spacing:1px;margin-bottom:5px;">POSTING AS</div>
+      <div style="display:flex;flex-wrap:wrap;gap:4px;">
+        <div class="lane-pill active" data-lane="whoseteaTV" onclick="selectLane(this)">📺 Whose Tea TV</div>
+        <div class="lane-pill" data-lane="infiniteStorefront" onclick="selectLane(this)">🛍️ Infinite Storefront</div>
+        <div class="lane-pill" data-lane="snapcaption" onclick="selectLane(this)">⚡ SnapCaption AI</div>
+        <div class="lane-pill" data-lane="personal" onclick="selectLane(this)">🙋 Personal</div>
+        <div class="lane-pill" data-lane="support" onclick="selectLane(this)">💛 Support</div>
+      </div>
+    </div>
+
     <span class="sl">Platform</span>
     <div class="ppills" id="ht-prow">
       <div class="ppill on" onclick="pp(this)" data-v="Instagram">Instagram</div>
@@ -795,6 +860,18 @@ select option{background:var(--card2);}
   <div class="sp">
     <div class="pt">Repurpose</div>
     <div class="ps">One piece of content. Six platform-native versions.</div>
+    <!-- LANE SELECTOR — creator mode only -->
+    <div class="tool-lane-bar" id="tlb-rep" style="display:none;margin-bottom:12px;">
+      <div style="font-size:0.62rem;color:var(--muted);font-weight:700;letter-spacing:1px;margin-bottom:5px;">POSTING AS</div>
+      <div style="display:flex;flex-wrap:wrap;gap:4px;">
+        <div class="lane-pill active" data-lane="whoseteaTV" onclick="selectLane(this)">📺 Whose Tea TV</div>
+        <div class="lane-pill" data-lane="infiniteStorefront" onclick="selectLane(this)">🛍️ Infinite Storefront</div>
+        <div class="lane-pill" data-lane="snapcaption" onclick="selectLane(this)">⚡ SnapCaption AI</div>
+        <div class="lane-pill" data-lane="personal" onclick="selectLane(this)">🙋 Personal</div>
+        <div class="lane-pill" data-lane="support" onclick="selectLane(this)">💛 Support</div>
+      </div>
+    </div>
+
     <div class="field">
       <span class="sl">Paste Your Original Content</span>
       <textarea id="rep-in" rows="5" placeholder="Paste a caption, script, or idea here..."></textarea>
@@ -809,6 +886,18 @@ select option{background:var(--card2);}
   <div class="sp">
     <div class="pt">Content Ideas</div>
     <div class="ps">10 specific, scroll-stopping ideas in seconds.</div>
+    <!-- LANE SELECTOR — creator mode only -->
+    <div class="tool-lane-bar" id="tlb-ideas" style="display:none;margin-bottom:12px;">
+      <div style="font-size:0.62rem;color:var(--muted);font-weight:700;letter-spacing:1px;margin-bottom:5px;">POSTING AS</div>
+      <div style="display:flex;flex-wrap:wrap;gap:4px;">
+        <div class="lane-pill active" data-lane="whoseteaTV" onclick="selectLane(this)">📺 Whose Tea TV</div>
+        <div class="lane-pill" data-lane="infiniteStorefront" onclick="selectLane(this)">🛍️ Infinite Storefront</div>
+        <div class="lane-pill" data-lane="snapcaption" onclick="selectLane(this)">⚡ SnapCaption AI</div>
+        <div class="lane-pill" data-lane="personal" onclick="selectLane(this)">🙋 Personal</div>
+        <div class="lane-pill" data-lane="support" onclick="selectLane(this)">💛 Support</div>
+      </div>
+    </div>
+
     <div class="field">
       <span class="sl">Your Niche or Business</span>
       <input type="text" id="id-niche" placeholder="e.g. handmade soaps, fitness coaching" />
@@ -839,6 +928,18 @@ select option{background:var(--card2);}
   <div class="sp">
     <div class="pt">Bio Writer</div>
     <div class="ps">3 profile bios that make people want to follow.</div>
+    <!-- LANE SELECTOR — creator mode only -->
+    <div class="tool-lane-bar" id="tlb-bio" style="display:none;margin-bottom:12px;">
+      <div style="font-size:0.62rem;color:var(--muted);font-weight:700;letter-spacing:1px;margin-bottom:5px;">POSTING AS</div>
+      <div style="display:flex;flex-wrap:wrap;gap:4px;">
+        <div class="lane-pill active" data-lane="whoseteaTV" onclick="selectLane(this)">📺 Whose Tea TV</div>
+        <div class="lane-pill" data-lane="infiniteStorefront" onclick="selectLane(this)">🛍️ Infinite Storefront</div>
+        <div class="lane-pill" data-lane="snapcaption" onclick="selectLane(this)">⚡ SnapCaption AI</div>
+        <div class="lane-pill" data-lane="personal" onclick="selectLane(this)">🙋 Personal</div>
+        <div class="lane-pill" data-lane="support" onclick="selectLane(this)">💛 Support</div>
+      </div>
+    </div>
+
     <span class="sl">Platform</span>
     <div class="ppills" id="bio-prow">
       <div class="ppill on" onclick="pp(this)" data-v="Instagram">Instagram</div>
@@ -870,6 +971,18 @@ select option{background:var(--card2);}
   <div class="sp">
     <div class="pt">LinkedIn Pro</div>
     <div class="ps">Thought leadership posts that build authority and win contracts.</div>
+    <!-- LANE SELECTOR — creator mode only -->
+    <div class="tool-lane-bar" id="tlb-lin" style="display:none;margin-bottom:12px;">
+      <div style="font-size:0.62rem;color:var(--muted);font-weight:700;letter-spacing:1px;margin-bottom:5px;">POSTING AS</div>
+      <div style="display:flex;flex-wrap:wrap;gap:4px;">
+        <div class="lane-pill active" data-lane="whoseteaTV" onclick="selectLane(this)">📺 Whose Tea TV</div>
+        <div class="lane-pill" data-lane="infiniteStorefront" onclick="selectLane(this)">🛍️ Infinite Storefront</div>
+        <div class="lane-pill" data-lane="snapcaption" onclick="selectLane(this)">⚡ SnapCaption AI</div>
+        <div class="lane-pill" data-lane="personal" onclick="selectLane(this)">🙋 Personal</div>
+        <div class="lane-pill" data-lane="support" onclick="selectLane(this)">💛 Support</div>
+      </div>
+    </div>
+
     <div id="li-pro-gate" style="display:none;background:rgba(0,119,181,0.06);border:1px solid rgba(0,119,181,0.25);border-radius:14px;padding:16px;margin-bottom:14px;text-align:center;">
       <div style="font-size:1.4rem;margin-bottom:6px;">🔒</div>
       <div style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;color:var(--cyan);margin-bottom:6px;">Pro Feature</div>
@@ -995,6 +1108,8 @@ select option{background:var(--card2);}
 </div>
 
 <style>
+.lane-pill{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:20px;padding:5px 11px;font-size:0.7rem;font-weight:600;color:var(--muted2);cursor:pointer;transition:all 0.2s;}
+.lane-pill.active{background:rgba(255,45,120,0.15);border-color:rgba(255,45,120,0.5);color:var(--pink);}
 .cal-goal-card{background:var(--card);border:1px solid var(--border2);border-radius:14px;padding:14px 16px;cursor:pointer;transition:border-color 0.2s,background 0.2s;}
 .cal-goal-card:hover,.cal-goal-card.selected{border-color:var(--cyan);background:rgba(0,212,255,0.06);}
 .week-tile{background:var(--card);border:1px solid var(--border2);border-radius:14px;padding:12px 8px;cursor:pointer;text-align:center;transition:border-color 0.2s,transform 0.15s;min-height:80px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;}
@@ -1004,6 +1119,57 @@ select option{background:var(--card2);}
 </style>
 
 <!-- SAVED -->
+<!-- COMMENT GENERATOR -->
+<div class="screen" id="s-comments">
+  <div class="sp">
+    <div class="pt">Comment Generator</div>
+    <div class="ps">Engage on other posts without sounding fake or forced.</div>
+
+    <!-- LANE BAR -->
+    <div class="tool-lane-bar" id="tlb-comments" style="display:none;margin-bottom:12px;">
+      <div style="font-size:0.62rem;color:var(--muted);font-weight:700;letter-spacing:1px;margin-bottom:5px;">POSTING AS</div>
+      <div style="display:flex;flex-wrap:wrap;gap:4px;">
+        <div class="lane-pill active" data-lane="whoseteaTV" onclick="selectLane(this)">📺 Whose Tea TV</div>
+        <div class="lane-pill" data-lane="infiniteStorefront" onclick="selectLane(this)">🛍️ Infinite Storefront</div>
+        <div class="lane-pill" data-lane="snapcaption" onclick="selectLane(this)">⚡ SnapCaption AI</div>
+        <div class="lane-pill" data-lane="personal" onclick="selectLane(this)">🙋 Personal</div>
+        <div class="lane-pill" data-lane="support" onclick="selectLane(this)">💛 Support</div>
+      </div>
+    </div>
+
+    <span class="sl">What are you using this for?</span>
+    <div class="ppills" id="cmt-use-pills" style="flex-wrap:wrap;margin-bottom:12px;">
+      <div class="ppill on" onclick="pp(this)" data-v="engaging on someone else's post">💬 Engage on a Post</div>
+      <div class="ppill" onclick="pp(this)" data-v="starting a real conversation">🔥 Start a Conversation</div>
+      <div class="ppill" onclick="pp(this)" data-v="supporting someone genuinely">💛 Support Someone</div>
+    </div>
+
+    <div class="field">
+      <span class="sl">Paste the post you are commenting on</span>
+      <div style="font-size:0.7rem;color:var(--muted2);margin-bottom:6px;line-height:1.5;">Examples:<br>
+        • <em>Someone shared a win about hitting 10k followers</em><br>
+        • <em>A post about struggling with consistency</em><br>
+        • <em>A product launch announcement</em><br>
+        • <em>Someone venting about burnout</em>
+      </div>
+      <textarea id="cmt-post" rows="4" placeholder="Paste or summarize the post here..."></textarea>
+    </div>
+
+    <span class="sl">Comment Style</span>
+    <div class="chips" id="cmt-style">
+      <div class="chip on" onclick="tc(this)">Thoughtful</div>
+      <div class="chip" onclick="tc(this)">Supportive</div>
+      <div class="chip" onclick="tc(this)">Bold</div>
+      <div class="chip" onclick="tc(this)">Curious</div>
+      <div class="chip" onclick="tc(this)">Funny</div>
+      <div class="chip" onclick="tc(this)">Real Talk</div>
+    </div>
+
+    <button class="btn-gen" id="cmt-btn" onclick="genComments()" style="margin-top:12px;"><span>💬</span> Write My Comments</button>
+    <div id="cmt-out"></div>
+  </div>
+</div>
+
 <div class="screen" id="s-saved">
   <div class="sp">
     <div class="pt">Saved Content</div>
@@ -1423,21 +1589,39 @@ const TS = {}; let TC = 0;
 function st(text){ const id='t'+(++TC); TS[id]=text; return id; }
 
 // ═══ ANTI-GENERIC RULES ═══
-const ANTI_GENERIC = `CRITICAL RULES — READ EVERY ONE:
-- Never start with "In today's world", "Are you tired of", "Imagine if", "Picture this", "As a..."
-- Never use fake inspiration: "You've got this!", "Believe in yourself", "Chase your dreams"
-- No corporate speak, buzzwords, hashtag sentences, or filler
-- No preamble — never start your response with an explanation of what you are about to write
-- Write like a real human talking to a real human — raw, direct, specific
+const MASTER_PROMPT = `You are SnapCaptionAI, a fast, creator-first content assistant.
+Your job is to generate clean, usable, human-sounding content with ZERO fluff.
+You do not over-explain. You do not sound like AI. You write like a real person typing on their phone.
+Speed, clarity, and usability matter more than sounding impressive.
+
+GLOBAL RULES:
+1. NEVER return one long block when multiple outputs are requested
+2. ALWAYS follow the exact number of outputs requested
+3. Keep language natural, slightly imperfect, and human
+4. DO NOT use filler, clichés, or motivational fluff
+5. DO NOT explain what you are doing
+6. DO NOT label things unless instructed
+7. OUTPUT ONLY the result — no intro, no outro, no preamble
+
+BANNED PHRASES AND PATTERNS:
+- Never start with: "In today's world", "Are you tired of", "Imagine if", "Picture this", "As a..."
+- Never use: "You've got this!", "Believe in yourself", "Chase your dreams", "Level up", "Game changer", "Crush it", "Hustle", "The secret to", "Show up"
+- No corporate speak, buzzwords, or filler sentences
+- No preamble — never open with an explanation of what you are about to write
+- Never default to "content creation", "showing up online", "posting consistently" unless the user specifically asked for that topic
+- Do not start two outputs with the same word
+
+VOICE RULES:
+- Write like a real human talking to another real human — raw, direct, specific
 - Short punchy sentences mixed with longer ones — never all the same length
-- NEVER default to "content creation", "showing up online", "posting consistently", or "content burnout" language unless the user explicitly asked for that topic
 - If the user sells a product or service write about THAT — not about being a creator
-- Every post must feel specific — if someone reads it they should know exactly what business this is for
-- No phrases like "the secret to", "level up", "game changer", "crush it", "hustle"
+- Every post must feel specific enough that the reader knows exactly what business this is for
+- A candle maker sounds different from a realtor. A baker sounds different from a coach. Make it obvious
+- If platform is provided, match the native tone of that platform — LinkedIn is different from TikTok is different from Facebook
 - Avoid starting sentences with "I" three times in a row
-- Avoid ending with a generic CTA like "drop a comment below!" — make the CTA specific to the post
-- A candle maker sounds different from a realtor. A baker sounds different from a coach. Make it obvious who is writing
-- If you get a casual prompt like "Good morning" or "Happy Saturday" — make it warm, specific to their niche, and feel like something a real person would actually post`;
+- Avoid generic CTAs — make every CTA specific to the post`;
+
+const ANTI_GENERIC = MASTER_PROMPT;
 
 // ═══ STATE ═══
 const FREE_LIMIT = 10;
@@ -1553,9 +1737,25 @@ function rLim(){
   if(bar) bar.style.width=(rem/FREE_LIMIT*100)+'%';
   if(txt) txt.textContent=rem+' of '+FREE_LIMIT+' left today';
 }
+// Rotating proof strip
+const PROOFS=[
+  {t:'Posted the first caption. Got 3x my normal engagement. I was skeptical. I am not anymore.',b:'Beautician, Beta Tester'},
+  {t:'It spit out a script that sounded more like me than I do on a Monday morning.',b:'Service Provider, Beta Tester'},
+  {t:'I used a Script for a Facebook Live and had people clicking the link mid-stream. This is a closer.',b:'E-commerce Founder, Beta Tester'}
+];
+let proofIdx=0;
+function rotateProof(){
+  const pt=document.getElementById('proof-text');
+  const pb=document.getElementById('proof-by');
+  if(!pt||!pb) return;
+  pt.textContent=PROOFS[proofIdx].t;
+  pb.textContent=PROOFS[proofIdx].b;
+  proofIdx=(proofIdx+1)%PROOFS.length;
+}
+rotateProof();
+setInterval(rotateProof,5000);
 rHome(); rLim();
-
-// ═══ NAVIGATION ═══
+if(creatorMode) setTimeout(initLaneSelector,100);
 function go(id){
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
   document.querySelectorAll('.bni').forEach(b=>b.classList.remove('active'));
@@ -1565,7 +1765,7 @@ function go(id){
   if(nav) nav.classList.add('active');
   if(id==='saved') rSaved();
   if(id==='settings') initSettings();
-  if(id==='home'){rHome();rLim();}
+  if(id==='home'){rHome();rLim();initLaneSelector();}
   if(id==='calendar'){
     const gate=document.getElementById('cal-pro-gate');
     const setup=document.getElementById('cal-setup');
@@ -1605,21 +1805,58 @@ function clean(text){
 function getVoiceContext(){
   let ctx='';
   if(voiceProfile.tone) ctx+='Tone: '+voiceProfile.tone+'. ';
-  if(voiceProfile.desc) ctx+='Voice style: '+voiceProfile.desc+'. ';
-  if(profile.name) ctx+='Person or brand name: '+profile.name+'. ';
-  if(profile.brand) ctx+='What they offer or sell: '+profile.brand+'. ';
-  if(profile.niche) ctx+='Their audience: '+profile.niche+'. ';
-  if(contentBank.result) ctx+='Best customer result: '+contentBank.result+'. ';
-  if(contentBank.pain) ctx+='Customer pain point: '+contentBank.pain+'. ';
-  if(contentBank.objection) ctx+='Common objection they hear: '+contentBank.objection+'. ';
+  if(voiceProfile.desc) ctx+=voiceProfile.desc+' ';
+  if(profile.name) ctx+='Name: '+profile.name+'. ';
+  if(profile.brand) ctx+='Brands: '+profile.brand+'. ';
+  if(profile.niche) ctx+='Audience: '+profile.niche+'. ';
+  if(contentBank.result) ctx+='Best result: '+contentBank.result+'. ';
+  if(contentBank.pain) ctx+='Customer pain: '+contentBank.pain+'. ';
+  if(contentBank.objection) ctx+='Common objection: '+contentBank.objection+'. ';
+  if(contentBank.belief) ctx+='Core belief: '+contentBank.belief+'. ';
+
+  // Inject active lane if creator mode is on
+  if(creatorMode){
+    const activeLane=localStorage.getItem('sc2-active-lane')||'whoseteaTV';
+    const laneMap={
+      whoseteaTV:'ACTIVE LANE: Whose Tea TV — mindset, midlife, personal growth, truth-telling. Direct, reflective, sometimes confronting. Focus on real behaviors not inspiration.',
+      infiniteStorefront:'ACTIVE LANE: Infinite Storefront — handmade products, skin care, behind the scenes, real usage. Simple, grounded, everyday life. No over-selling. Show how it fits into life.',
+      snapcaption:'ACTIVE LANE: SnapCaption AI — creator tool, content strategy, efficiency, real creator struggles. Practical, sharp, no fluff. Focus on making content easier and faster.',
+      personal:'ACTIVE LANE: Personal Life — family, daily moments, lived experience, lessons. Natural, conversational, specific moments. Feels like a real post not a lesson.',
+      support:'ACTIVE LANE: Community Support — highlighting others, promoting businesses, giving flowers. Supportive but real. No hype language. Keep it genuine.'
+    };
+    if(laneMap[activeLane]) ctx+='\n\n'+laneMap[activeLane];
+  }
+
   return ctx;
+}
+
+// ═══ LANE SELECTOR ═══
+function selectLane(el){
+  const lane=el.dataset.lane;
+  localStorage.setItem('sc2-active-lane',lane);
+  // Update ALL lane pills everywhere
+  document.querySelectorAll('.lane-pill').forEach(p=>p.classList.toggle('active',p.dataset.lane===lane));
+}
+
+function initLaneSelector(){
+  if(!creatorMode) return;
+  const saved=localStorage.getItem('sc2-active-lane')||'whoseteaTV';
+  // Show all lane bars
+  document.querySelectorAll('#lane-selector,[class^="tool-lane-bar"],[id^="tlb-"]').forEach(el=>{
+    el.style.display='block';
+  });
+  // Set active pill everywhere
+  document.querySelectorAll('.lane-pill').forEach(p=>{
+    p.classList.toggle('active',p.dataset.lane===saved);
+  });
 }
 
 // ═══ AI ENGINE — all calls go through Vercel backend ═══
 // Keys live in Vercel env vars: GEMINI_API_KEY and/or OPENAI_API_KEY
-async function ai(prompt){
-  const vc=getVoiceContext();
-  const fullPrompt=(vc?vc+'\n\n':'')+ANTI_GENERIC+'\n\n'+prompt;
+async function ai(prompt, skipVoice=false){
+  const vc=skipVoice?'':getVoiceContext();
+  // Master prompt is the system layer — voice context is the identity layer — prompt is the task
+  const fullPrompt=MASTER_PROMPT+'\n\n'+(vc?'VOICE PROFILE — apply throughout:\n'+vc+'\n\n':'')+prompt;
   try{
     const r=await fetch('/api/generate',{
       method:'POST',
@@ -1767,33 +2004,65 @@ async function quickCreate(){
   setBtn('quick-btn',true,'<span>⚡</span> Create Standout Content');
   document.getElementById('quick-out').innerHTML='';
   const topic=idea||'a powerful message for my audience today';
-  const prompt=`Create a social media post package for: "${topic}"
-Format EXACTLY:
+  const voiceCtx=getVoiceContext();
+
+  const prompt=`${MASTER_PROMPT}
+
+${voiceCtx?'VOICE PROFILE — write every output in this person\'s specific voice:\n'+voiceCtx+'\n':''}
+
+MODE: CAPTION
+Input: "${topic}"
+
+Return exactly 3 captions of medium length (3-5 sentences each).
+Each must sound completely different from the others.
+Do not start two captions with the same word.
+If platform is provided match that platform tone.
+
+Then return:
 HOOK
-[1-2 scroll-stopping lines]
-CAPTION
-[3-5 sentence body — real, no filler]
+[one scroll-stopping opening line for the best caption above]
 CTA
-[one strong call to action]
+[one strong call to action specific to this topic]
 HASHTAGS
-[10 hashtags]`;
+[10 relevant hashtags]
+
+Format EXACTLY:
+CAPTION 1
+[caption]
+
+CAPTION 2
+[caption]
+
+CAPTION 3
+[caption]
+
+HOOK
+[hook]
+
+CTA
+[cta]
+
+HASHTAGS
+[hashtags]`;
+
   try{
     const txt=await ai(prompt);
-    const get=(key)=>{const m=txt.match(new RegExp(key+'[:\\s]*\\n([\\s\\S]*?)(?=\\n(?:HOOK|CAPTION|CTA|HASHTAGS)|$)','i'));return m?m[1].trim():'';};
-    const hook=get('HOOK');const cap=get('CAPTION');const cta=get('CTA');const ht=cleanHashtags(get('HASHTAGS'));
-    const cleanTxt=makeClean([hook,cap,cta,ht]);
-    const fullId=st(cleanTxt);
-    const hookId=st(hook);const capId=st(cap);const ctaId=st(cta);const htId=st(ht);
-    let html=`<div class="res-card fade-in" style="margin-top:12px"><div class="res-tag">✦ Your Standout Post</div>`;
-    if(hook) html+=`<div class="res-section"><div class="res-section-lbl" style="color:var(--pink)">🎣 Hook</div><div class="res-section-text" style="font-weight:600;color:var(--text)">${hook.replace(/\n/g,'<br>')}<button class="btn-sm" style="margin-top:6px;display:block;" onclick="doCopy(this,'${hookId}')">📋 Copy Hook</button></div></div>`;
-    if(cap) html+=`<div class="res-section"><div class="res-section-lbl">✍️ Caption</div><div class="res-section-text">${cap.replace(/\n/g,'<br>')}<button class="btn-sm" style="margin-top:6px;display:block;" onclick="doCopy(this,'${capId}')">📋 Copy Caption</button></div></div>`;
-    if(cta) html+=`<div class="res-section"><div class="res-section-lbl" style="color:var(--orange)">📣 CTA</div><div class="res-section-text">${cta}<button class="btn-sm" style="margin-top:6px;display:block;" onclick="doCopy(this,'${ctaId}')">📋 Copy CTA</button></div></div>`;
-    if(ht) html+=`<div class="res-section"><div class="res-section-lbl" style="color:var(--cyan)">#️⃣ Hashtags</div><div class="res-section-text" style="color:var(--cyan)">${ht}<button class="btn-sm" style="margin-top:6px;display:block;" onclick="doCopy(this,'${htId}')">📋 Copy Hashtags</button></div></div>`;
+    const getCap=(n)=>{const m=txt.match(new RegExp(`CAPTION\\s*${n}[:\\s]*\\n([\\s\\S]*?)(?=\\nCAPTION|\\nHOOK|\\nCTA|\\nHASHTAGS|$)`,'i'));return m?m[1].trim():'';};
+    const get=(key)=>{const m=txt.match(new RegExp(key+'[:\\s]*\\n([\\s\\S]*?)(?=\\nCAPTION|\\nHOOK|\\nCTA|\\nHASHTAGS|$)','i'));return m?m[1].trim():'';};
+    const c1=getCap(1);const c2=getCap(2);const c3=getCap(3);
+    const hook=get('HOOK');const cta=get('CTA');const ht=cleanHashtags(get('HASHTAGS'));
+    let html=`<div class="res-card fade-in" style="margin-top:12px"><div class="res-tag">✦ Your Content Pack</div>`;
+    if(hook) html+=`<div class="res-section"><div class="res-section-lbl" style="color:var(--pink)">🎣 Hook</div><div class="res-section-text" style="font-weight:600;color:var(--text)">${hook.replace(/\n/g,'<br>')}<button class="btn-sm" style="margin-top:6px;display:block;" onclick="doCopy(this,'${st(hook)}')">📋 Copy</button></div></div>`;
+    [[c1,'Caption 1'],[c2,'Caption 2'],[c3,'Caption 3']].forEach(([cap,lbl])=>{
+      if(cap){const id=st(cap);html+=`<div class="res-section"><div class="res-section-lbl">✍️ ${lbl}</div><div class="res-section-text">${cap.replace(/\n/g,'<br>')}<button class="btn-sm" style="margin-top:6px;display:block;" onclick="doCopy(this,'${id}')">📋 Copy</button></div></div>`;}
+    });
+    if(cta) html+=`<div class="res-section"><div class="res-section-lbl" style="color:var(--orange)">📣 CTA</div><div class="res-section-text">${cta}<button class="btn-sm" style="margin-top:6px;display:block;" onclick="doCopy(this,'${st(cta)}')">📋 Copy</button></div></div>`;
+    if(ht) html+=`<div class="res-section"><div class="res-section-lbl" style="color:var(--cyan)">#️⃣ Hashtags</div><div class="res-section-text" style="color:var(--cyan)">${ht}<button class="btn-sm" style="margin-top:6px;display:block;" onclick="doCopy(this,'${st(ht)}')">📋 Copy</button></div></div>`;
+    const fullPack=makeClean([hook,c1,c2,c3,cta,ht]);
     html+=`<div class="res-actions" style="border-top:1px solid var(--border);padding-top:10px;margin-top:6px;">
-      <button class="btn-sm" style="background:var(--grad);color:#fff;border:none;" onclick="doCopy(this,'${fullId}')">📋 Copy Full Post</button>
-      <button class="btn-sm" onclick="doSave('${fullId}','Quick Post')">⭐ Save</button>
+      <button class="btn-sm" style="background:var(--grad);color:#fff;border:none;" onclick="doCopy(this,'${st(fullPack)}')">📋 Copy All</button>
+      <button class="btn-sm" onclick="doSave('${st(fullPack)}','Quick Post')">⭐ Save</button>
     </div>`;
-    html+=refineHTML(fullId);
     html+='</div>';
     document.getElementById('quick-out').innerHTML=html;
     rec();
@@ -1801,6 +2070,77 @@ HASHTAGS
     document.getElementById('quick-out').innerHTML=`<div class="res-card" style="color:#ff5c5c">❌ ${e.message}<br><br><small>Make sure your Vercel deployment has GEMINI_API_KEY set in environment variables.</small></div>`;
   }
   setBtn('quick-btn',false,'<span>⚡</span> Create Standout Content');
+}
+
+// ═══ COMMENT GENERATOR ═══
+async function genComments(){
+  if(!canGen()) return;
+  const post=document.getElementById('cmt-post').value.trim();
+  if(!post){alert('Paste the post you are commenting on first.');return;}
+  const usePill=document.querySelector('#cmt-use-pills .ppill.on');
+  const use=usePill?usePill.dataset.v:'engaging on someone else\'s post';
+  const style=gtones('cmt-style')||'Thoughtful';
+  const voiceCtx=getVoiceContext();
+  setBtn('cmt-btn',true,'<span>💬</span> Write My Comments');
+  document.getElementById('cmt-out').innerHTML='';
+
+  const prompt=`MODE: COMMENTS
+Purpose: ${use}
+Style: ${style}
+${voiceCtx?'Voice profile:\n'+voiceCtx:''}
+
+Post being commented on:
+"${post}"
+
+Return exactly 10 comments:
+- 3 thoughtful comments (add real perspective, not just agreement)
+- 3 short supportive comments (warm, specific, not generic)
+- 2 curiosity-based questions (make them want to respond)
+- 2 bold personality comments (take a real stance)
+
+RULES:
+- Each comment must be under 2 sentences
+- Do not start two comments with the same word
+- Do not restate what the original post said
+- Do not sound spammy or fake
+- No generic "This is so inspiring!" or "Love this!"
+- Sound like a real person who actually read the post
+- Label each group with: THOUGHTFUL / SUPPORTIVE / QUESTIONS / BOLD
+
+Output only the comments. No preamble.`;
+
+  try{
+    const txt=await ai(prompt);
+    const sections=['THOUGHTFUL','SUPPORTIVE','QUESTIONS','BOLD'];
+    const colors={THOUGHTFUL:'var(--cyan)',SUPPORTIVE:'var(--green)',QUESTIONS:'var(--orange)',BOLD:'var(--pink)'};
+    let html='';
+    sections.forEach(sec=>{
+      const m=txt.match(new RegExp(sec+'[:\\s]*\\n([\\s\\S]*?)(?=\\n(?:THOUGHTFUL|SUPPORTIVE|QUESTIONS|BOLD)|$)','i'));
+      if(m&&m[1].trim()){
+        const items=m[1].trim().split(/\n[-•\d.]+\s*/).filter(x=>x.trim());
+        items.forEach(item=>{
+          if(!item.trim()) return;
+          const id=st(item.trim());
+          html+=`<div class="res-card fade-in"><div class="res-tag" style="color:${colors[sec]}">${sec}</div><div class="res-body">${item.trim()}</div><div class="res-actions"><button class="btn-sm" style="background:var(--grad);color:#fff;border:none;" onclick="doCopy(this,'${id}')">📋 Copy</button><button class="btn-sm" onclick="doSave('${id}','Comment')">⭐ Save</button></div></div>`;
+        });
+      }
+    });
+    if(!html) html=`<div class="res-card"><div class="res-body">${txt.replace(/\n/g,'<br>')}</div></div>`;
+    document.getElementById('cmt-out').innerHTML=html;rec();
+  }catch(e){document.getElementById('cmt-out').innerHTML=`<div class="res-card" style="color:#ff5c5c">Error: ${e.message}</div>`;}
+  setBtn('cmt-btn',false,'<span>💬</span> Write My Comments');
+}
+
+// Repurpose a caption directly from results
+function repurposeCaption(textId){
+  const text=storage[textId]||'';
+  if(!text) return;
+  document.getElementById('rep-in').value=text;
+  go('repurpose');
+  setTimeout(()=>{
+    const r=document.getElementById('rep-in');
+    if(r){r.scrollIntoView({behavior:'smooth'});}
+  },300);
 }
 
 // ═══ WTP ═══
@@ -1955,8 +2295,10 @@ async function genCaption(){
   if(!canGen()) return;
   const p=gplat('cap-prow');const tone=gtones('cap-tone');
   const d=document.getElementById('cap-in').value.trim()||'something on my mind today';
-  const goal=document.getElementById('cap-goal').value;
-  const ht=document.getElementById('cap-ht').value==='yes';
+  const goalPill=document.querySelector('#cap-goal-pills .ppill.on');
+  const htPill=document.querySelector('#cap-ht-pills .ppill.on');
+  const goal=goalPill?goalPill.dataset.v:'engagement';
+  const ht=htPill?htPill.dataset.v==='yes':true;
   setBtn('cap-btn',true,'<span>✍️</span> Build My Post');
   document.getElementById('cap-out').innerHTML='';
   const product=document.getElementById('cap-product')?.value.trim()||'';
@@ -2014,6 +2356,7 @@ ${ht?'HASHTAGS: [8-10 relevant hashtags]':''}
         <button class="btn-sm" onclick="doCopy(this,'${capId}')">📋 Caption Only</button>
         <button class="btn-sm" onclick="doCopy(this,'${htId}')">📋 Hashtags</button>
         <button class="btn-sm" onclick="doSave('${fullId}','${p}')">⭐ Save</button>
+        <button class="btn-sm" style="background:rgba(255,214,0,0.1);border-color:rgba(255,214,0,0.3);color:var(--yellow);" onclick="repurposeCaption('${fullId}')">🔁 Repurpose</button>
       </div>`;
       html+=refineHTML(fullId)+'</div>';
     });
@@ -2087,8 +2430,11 @@ async function genScript(){
   if(!canGen()) return;
   const p=gplat('scr-prow');const tone=gtones('scr-tone');
   const topic=document.getElementById('scr-in').value.trim()||'a message about building your dream';
-  const len=document.getElementById('scr-len').value;
-  const style=document.getElementById('scr-style').value;
+  // Read from pills (new) with fallback to select (old)
+  const lenPill=document.querySelector('#scr-len-pills .ppill.on');
+  const stylePill=document.querySelector('#scr-style-pills .ppill.on');
+  const len=lenPill?lenPill.dataset.v:'60-second';
+  const style=stylePill?stylePill.dataset.v:'Talking Head';
   const product=document.getElementById('scr-product').value.trim();
   const link=document.getElementById('scr-link').value.trim();
   setBtn('scr-btn',true,'<span>🎬</span> Write My Script');
@@ -2216,21 +2562,32 @@ async function genRepurpose(){
   if(!d){alert('Paste some content first!');return;}
   setBtn('rep-btn',true,'<span>🔁</span> Multiply My Content');
   document.getElementById('rep-out').innerHTML='';
-  const prompt=`Repurpose this content for 6 platforms. Keep core message, make each native to that platform.
-Original: "${d}"
+  const prompt=`MODE: REPURPOSE
+
+Original content: "${d}"
+
+Transform this into platform-native versions. Do not repeat the original wording. Make each piece feel like it was written for that platform from scratch.
+
+- Facebook: warm, conversational, slightly longer, personal
+- Instagram: punchy, visual language, strong hook first line
+- TikTok: raw, fast, spoken-word style, starts mid-thought
+- YouTube: authoritative, slightly longer, sets up value clearly
+- LinkedIn: professional but human, insight-driven, no fluff
+- Twitter/X: sharp, one strong idea, under 280 characters
+
 Format EXACTLY:
 FACEBOOK
-[Facebook version]
+[version]
 INSTAGRAM
-[Instagram version]
+[version]
 TIKTOK
-[TikTok version]
+[version]
 YOUTUBE
-[YouTube version]
+[version]
 LINKEDIN
-[LinkedIn version]
+[version]
 TWITTER
-[Twitter/X version]`;
+[version]`;
   try{
     const txt=await ai(prompt);
     const platforms=['FACEBOOK','INSTAGRAM','TIKTOK','YOUTUBE','LINKEDIN','TWITTER'];
@@ -2248,6 +2605,8 @@ TWITTER
   }catch(e){document.getElementById('rep-out').innerHTML=`<div class="res-card" style="color:#ff5c5c">Error: ${e.message}</div>`;}
   setBtn('rep-btn',false,'<span>🔁</span> Multiply My Content');
 }
+
+
 
 // ═══ IDEAS ═══
 async function genIdeas(){
@@ -2818,33 +3177,61 @@ async function checkCreatorCode(){
     if(hashHex==='e5e22916dff23e261bdd5826f845cb32e7e9bb75a822a19a9fe5267c138a946c'){
       creatorMode=true;localStorage.setItem('sc2-creator','true');
 
-      // Pre-load founder voice profile if not already set
-      if(!profile.name){
-        profile={
-          name:'Shatica Miles',
-          brand:'SnapCaption, WhoseTeaTV, Infinite Storefront',
-          niche:'midlife women, entrepreneurs, small business owners, people in reinvention'
-        };
-        localStorage.setItem('sc2-profile',JSON.stringify(profile));
-      }
-      if(!voiceProfile.desc){
-        voiceProfile={
-          tone:'Blunt,Raw,Emoji OK,Short',
-          desc:`Direct, lived, and confrontational in a useful way. I do not talk at people. I talk to the part of them they avoid. I do not motivate for the moment. I push for movement. I expose what people hide from themselves — fear of being seen trying, waiting for permission, performing instead of living. I speak from experience not theory. My tone carries weight because it sounds like I have been there and I know how this plays out. I challenge without tearing people down. I move from awareness to action — I do not stop at what is wrong, I push into what you do next. Simple language with strong meaning. No fluff. No filler. Short lines. Clear thoughts. Every sentence has a job. I am a pattern breaker not a motivator. I post about mindset, personal growth, reinvention, entrepreneurship, products I love, my family, restaurant reviews, Amazon and affiliate finds, and uplifting others. Platforms include Instagram, TikTok, Facebook, YouTube, Pinterest, LinkedIn.`
-        };
-        localStorage.setItem('sc2-voice',JSON.stringify(voiceProfile));
-      }
-      if(!contentBank.belief){
-        contentBank={
-          result:'Helped people see what was holding them back and actually move forward instead of staying stuck',
-          pain:'They know what they need to do but keep stalling, overthinking, and waiting for permission that is never coming',
-          objection:'I already know this, I am not ready yet, I do not have time',
-          belief:'You do not need more information. You need to stop performing readiness and start making moves. The gap between where you are and where you want to be is not knowledge. It is action.'
-        };
-        localStorage.setItem('sc2-bank',JSON.stringify(contentBank));
-      }
+      // Always overwrite with full updated Shatica profile
+      profile={
+        name:'Shatica Miles',
+        brand:'SnapCaption AI, WhoseTeaTV, Infinite Storefront',
+        niche:'midlife women, entrepreneurs, small business owners, people in reinvention, family, community'
+      };
+      localStorage.setItem('sc2-profile',JSON.stringify(profile));
 
-      if(status) status.innerHTML='<span style="color:var(--green)">✅ Creator Mode Unlocked — Your voice is loaded!</span>';
+      voiceProfile={
+        tone:'Direct,Raw,Short,Emoji OK',
+        desc:`You are writing for Shatica Miles. She is not one brand. She moves between multiple lanes and you must respect the lane selected.
+
+CREATOR IDENTITY:
+Name: Shatica Miles
+Voice: Direct, lived, grounded, observant
+Style: Sounds like real life, not polished writing
+Tone: Clear, honest, sometimes blunt but never fake
+Goal: Make people feel seen, then make them move
+
+She speaks from experience, not theory. She does not over-explain. She does not perform motivation. She shows people what they are doing in real life and lets that land.
+
+CONTENT LANES — before writing, identify the active lane:
+
+WHOSE TEA TV: Mindset, midlife, personal growth, truth-telling. Voice is direct, reflective, sometimes confronting. Focus on real behaviors not inspiration.
+
+INFINITE STOREFRONT: Handmade products, skin care, behind the scenes, real usage. Voice is simple, grounded, everyday life. No over-selling. Show how it fits into life.
+
+SNAPCAPTION AI: Creator tool, content strategy, efficiency, real creator struggles. Voice is practical, sharp, no fluff. Focus on making content easier and faster.
+
+PERSONAL LIFE: Family, daily moments, lived experience, lessons. Voice is natural, conversational, specific moments. Feels like a real post not a lesson.
+
+COMMUNITY SUPPORT: Highlighting others, promoting businesses, giving flowers. Voice is supportive but real. No hype language. Keep it genuine.
+
+VOICE RULES:
+Write like a real person typing on their phone. Use natural phrasing. Do not sound scripted. Do not sound like a coach or brand voice. Avoid generic motivation, over-explaining, corporate language, long build-ups. Lean into real moments, specific behaviors, simple clear statements, emotional honesty without being dramatic.
+
+Shatica can talk about life and business in the same post. She can promote while still sounding real. She can shift from personal to practical naturally. Do not force separation. Let it flow if it fits.
+
+FINAL CHECK: Before finishing ask — does this sound like a real person living this? Or does it sound like AI trying to sound deep? If it sounds like AI, rewrite it simpler.`
+      };
+      localStorage.setItem('sc2-voice',JSON.stringify(voiceProfile));
+
+      contentBank={
+        result:'Helped people see what was holding them back and actually move forward instead of staying stuck',
+        pain:'They know what they need to do but keep stalling, overthinking, and waiting for permission that is never coming',
+        objection:'I already know this, I am not ready yet, I do not have time',
+        belief:'You do not need more information. You need to stop performing readiness and start making moves. The gap between where you are and where you want to be is not knowledge. It is action.'
+      };
+      localStorage.setItem('sc2-bank',JSON.stringify(contentBank));
+
+      // Show lane selector on home screen
+      const ls=document.getElementById('lane-selector');
+      if(ls) ls.style.display='block';
+
+      if(status) status.innerHTML='<span style="color:var(--green)">✅ Creator Mode Unlocked — Shatica voice loaded!</span>';
       const sc=document.getElementById('set-creator');if(sc){sc.textContent='Unlocked ✅';sc.style.color='var(--green)';}
       initSettings();rLim();
     }else{if(status) status.innerHTML='<span style="color:#ff5c5c">❌ Incorrect code</span>';}
