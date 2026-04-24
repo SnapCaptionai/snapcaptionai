@@ -347,7 +347,7 @@ select option{background:var(--card2);}
       <!-- PRIMARY ACTION — the only one that matters -->
       <div style="background:rgba(0,0,0,0.2);border:1px solid rgba(255,255,255,0.07);border-radius:12px;padding:12px 14px;margin-bottom:14px;">
         <div style="font-size:0.72rem;color:var(--pink);font-weight:700;letter-spacing:1px;margin-bottom:8px;">WHAT ARE YOU SELLING TODAY?</div>
-        <textarea id="quick-idea" rows="2" style="width:100%;background:transparent;border:none;outline:none;color:var(--text);font-size:0.88rem;resize:none;font-family:inherit;" placeholder="I just made a new batch of lavender soap..."></textarea>
+        <textarea id="quick-idea" rows="2" style="width:100%;background:transparent;border:none;outline:none;color:var(--text);font-size:0.88rem;resize:none;font-family:inherit;" placeholder="I just made a fresh batch of chocolate chip cookies..."></textarea>
 
         <!-- LANE SELECTOR — only shows when creator mode is active -->
         <div id="lane-selector" style="display:none;margin-top:10px;">
@@ -2016,41 +2016,32 @@ Input: "${topic}"
 Return exactly 3 captions of medium length (3-5 sentences each).
 Each must sound completely different from the others.
 Do not start two captions with the same word.
-If platform is provided match that platform tone.
 
-Then return:
-HOOK
-[one scroll-stopping opening line for the best caption above]
-CTA
-[one strong call to action specific to this topic]
-HASHTAGS
-[10 relevant hashtags]
+Use this EXACT format — no exceptions:
 
-Format EXACTLY:
-CAPTION 1
+===C1===
 [caption]
 
-CAPTION 2
+===C2===
 [caption]
 
-CAPTION 3
+===C3===
 [caption]
 
-HOOK
-[hook]
+===HOOK===
+[one scroll-stopping opening line]
 
-CTA
-[cta]
+===CTA===
+[one strong call to action]
 
-HASHTAGS
-[hashtags]`;
+===HASHTAGS===
+[10 relevant hashtags]`;
 
   try{
     const txt=await ai(prompt);
-    const getCap=(n)=>{const m=txt.match(new RegExp(`CAPTION\\s*${n}[:\\s]*\\n([\\s\\S]*?)(?=\\nCAPTION|\\nHOOK|\\nCTA|\\nHASHTAGS|$)`,'i'));return m?m[1].trim():'';};
-    const get=(key)=>{const m=txt.match(new RegExp(key+'[:\\s]*\\n([\\s\\S]*?)(?=\\nCAPTION|\\nHOOK|\\nCTA|\\nHASHTAGS|$)','i'));return m?m[1].trim():'';};
-    const c1=getCap(1);const c2=getCap(2);const c3=getCap(3);
-    const hook=get('HOOK');const cta=get('CTA');const ht=cleanHashtags(get('HASHTAGS'));
+    const getSec=(key)=>{const m=txt.match(new RegExp(`===\\s*${key}\\s*===\\s*\\n([\\s\\S]*?)(?=\\n===|$)`,'i'));return m?m[1].trim():'';};
+    const c1=getSec('C1');const c2=getSec('C2');const c3=getSec('C3');
+    const hook=getSec('HOOK');const cta=getSec('CTA');const ht=cleanHashtags(getSec('HASHTAGS'));
     let html=`<div class="res-card fade-in" style="margin-top:12px"><div class="res-tag">✦ Your Content Pack</div>`;
     if(hook) html+=`<div class="res-section"><div class="res-section-lbl" style="color:var(--pink)">🎣 Hook</div><div class="res-section-text" style="font-weight:600;color:var(--text)">${hook.replace(/\n/g,'<br>')}<button class="btn-sm" style="margin-top:6px;display:block;" onclick="doCopy(this,'${st(hook)}')">📋 Copy</button></div></div>`;
     [[c1,'Caption 1'],[c2,'Caption 2'],[c3,'Caption 3']].forEach(([cap,lbl])=>{
@@ -2308,41 +2299,58 @@ async function genCaption(){
   const voiceCtx=getVoiceContext();
   const productCtx=product?`This post is for someone who sells: ${product}${link?' — link: '+link:''}. The post should connect naturally to this product or the lifestyle around it without being a hard sell.`:'';
 
-  const prompt=`Write 3 complete ${p} post packages about: "${d}"
+  const prompt=`Write 3 complete ${p} post options about: "${d}"
 ${productCtx}
-${voiceCtx?'Voice context: '+voiceCtx:''}
+${voiceCtx?'Voice context:\n'+voiceCtx:''}
 Goal: ${goal} | Tone: ${tone}
 
-Important rules:
-- Write about the TOPIC the user gave — do not invent a different topic
-- If a product is mentioned weave it in naturally — do not make the whole post about content creation unless that is the actual topic
-- Sound like a real human not an AI
-- No generic "content burnout" or "showing up online" language unless the user specifically asked about that
-- Match the energy of the topic — Happy Saturday should feel light and fun, not heavy
+RULES:
+- Each option must feel completely different from the others
+- Do not start two options with the same word
+- Write about the topic given — do not invent a different topic
+- Sound like a real human, not AI
+- No generic motivation language unless the user asked for it
 
-For each write EXACTLY:
-ITEM[number]
-HOOK: [scroll-stopping opener that matches the topic and tone]
-CAPTION: [3-5 sentences — real, specific, human]
-CTA: [call to action that fits this post naturally]
-${ht?'HASHTAGS: [8-10 relevant hashtags]':''}
----`;
+You MUST use this EXACT format with === as separators. No exceptions:
+
+===OPTION1===
+HOOK: [opener]
+CAPTION: [3-5 sentences]
+CTA: [call to action]
+${ht?'HASHTAGS: [8-10 hashtags]':''}
+
+===OPTION2===
+HOOK: [opener]
+CAPTION: [3-5 sentences]
+CTA: [call to action]
+${ht?'HASHTAGS: [8-10 hashtags]':''}
+
+===OPTION3===
+HOOK: [opener]
+CAPTION: [3-5 sentences]
+CTA: [call to action]
+${ht?'HASHTAGS: [8-10 hashtags]':''}`;
+
   try{
     const txt=await ai(prompt);
-    const blocks=txt.split(/---+/).filter(b=>b.trim()&&b.match(/ITEM\d+/i));
+
+    // Split on ===OPTION markers — much more reliable
+    const blocks=txt.split(/===OPTION\d+===/i).filter(b=>b.trim());
+
+    // Fallback: try old ITEM split if new format not used
+    const finalBlocks=blocks.length>=2?blocks:txt.split(/---+/).filter(b=>b.trim()&&b.match(/HOOK/i));
+
     let html='';
-    (blocks.length?blocks:[txt]).slice(0,3).forEach((block,i)=>{
+    (finalBlocks.length?finalBlocks:[txt]).slice(0,3).forEach((block,i)=>{
       const lines=block.split('\n');
-      // Single-line fields
       const gf=(key)=>{const l=lines.find(x=>x.toUpperCase().startsWith(key.toUpperCase()+':'));return l?l.substring(l.indexOf(':')+1).trim():'';};
-      // Multi-line field — grabs everything after the label until next label or end
       const gml=(key)=>{
-        const m=block.match(new RegExp(key+'[:\\s]*\\n?([\\s\\S]*?)(?=\\n(?:HOOK|CAPTION|CTA|HASHTAGS|ITEM|---|$)|$)','i'));
+        const m=block.match(new RegExp(key+'[:\\s]*\\n?([\\s\\S]*?)(?=\\n(?:HOOK|CAPTION|CTA|HASHTAGS|===|$)|$)','i'));
         if(m&&m[1].trim()) return m[1].trim();
-        // fallback: same line after colon
         return gf(key);
       };
-      const hook=gf('HOOK');const cap=gf('CAPTION');const cta=gf('CTA');const htags=cleanHashtags(gml('HASHTAGS'));
+      const hook=gf('HOOK');const cap=gml('CAPTION');const cta=gf('CTA');const htags=cleanHashtags(gml('HASHTAGS'));
+      if(!hook&&!cap) return; // skip empty blocks
       const cleanTxt=makeClean([hook,cap,cta,htags]);
       const fullId=st(cleanTxt);const hookId=st(hook);const capId=st(cap);const ctaId=st(cta);const htId=st(htags);
       html+=`<div class="res-card fade-in"><div class="res-tag">✦ Option ${i+1} · ${p}</div>`;
@@ -2378,23 +2386,34 @@ async function genHooks(){
   const prodNote=product?' Subtly hint at: "'+product+'"'+(link?' ('+link+')':'')+'.':'';
   const prompt=`Write 6 scroll-stopping ${p} hooks for: "${d}" ${prodNote}
 Style: ${style}
-Each must stop the scroll. No clichés. Each distinct.
-Format EXACTLY:
-HOOK1
-[hook]
-HOOK2
-[hook]
-HOOK3
-[hook]
-HOOK4
-[hook]
-HOOK5
-[hook]
-HOOK6
-[hook]`;
+Each must be completely different from the others. No clichés. No two starting with the same word.
+
+Use this EXACT format:
+
+===H1===
+[hook text]
+
+===H2===
+[hook text]
+
+===H3===
+[hook text]
+
+===H4===
+[hook text]
+
+===H5===
+[hook text]
+
+===H6===
+[hook text]`;
   try{
     const txt=await ai(prompt);
-    const hooks=txt.split(/HOOK\d+\n/).filter(h=>h.trim()).slice(0,6);
+    // Try === separator first, fall back to HOOK\d
+    let hooks=txt.split(/===H\d+===/i).filter(h=>h.trim());
+    if(hooks.length<2) hooks=txt.split(/HOOK\d+\n/).filter(h=>h.trim());
+    if(hooks.length<2) hooks=txt.split(/\n\n+/).filter(h=>h.trim()&&h.length>10);
+    hooks=hooks.slice(0,6);
     let html='';
     for(let i=0;i<Math.min(hooks.length||1,6);i++){
       const h=(hooks[i]||txt).trim();
